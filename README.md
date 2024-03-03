@@ -1,5 +1,3 @@
-# ena-me-project
-
 ## How to Git
 ## Getting Started
 ```
