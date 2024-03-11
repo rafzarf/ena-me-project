@@ -31,7 +31,7 @@ $this->section('content');
                     <div class="col px-0">
                         <div
                             class="ms-md-auto pe-md-3 d-flex align-items-center justify-content-end ms-sm-auto me-lg-0 me-sm-3">
-                            <form action="" id="searchbar" method="POST">
+                            <form action="" id="searchbar" method="GET">
                                 <div class="input-group">
                                     <input type="text" id="searchbox" class="form-control" placeholder="Type here..."
                                         name="keyword">
@@ -44,15 +44,18 @@ $this->section('content');
                     </div>
                     <div class="col">
                         <div class="dropdown h-100 w-0">
-                            <button class="h-100 my-auto dropdown-toggle btn btn-info" type="button"
+                            <button class="h-100 my-auto dropdown-toggle btn btn-info ps-3 pe-2" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                Show <?= $entries ?> Entries
+                                Show <?= $entries ?> Data
                                 <span class="ms-2 me-0 pe-0"><i class='bx bxs-chevron-down'></i></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="text-dark dropdown-item" href="/Spk?page=1&entries=5">5</a></li>
-                                <li><a class="text-dark dropdown-item" href="/Spk?page=1&entries=10">10</a></li>
-                                <li><a class="text-dark dropdown-item" href="/Spk?page=1&entries=15">15</a></li>
+                                <li><a class="text-dark text-center dropdown-item" href="/Spk?page=1&entries=5">5 Data /
+                                        Halaman</a></li>
+                                <li><a class="text-dark text-center dropdown-item" href="/Spk?page=1&entries=10">10 Data
+                                        / Halaman</a></li>
+                                <li><a class="text-dark text-center dropdown-item" href="/Spk?page=1&entries=15">15 Data
+                                        / Halaman</a></li>
                             </ul>
                         </div>
                     </div>
@@ -96,31 +99,116 @@ $this->section('content');
                         <td data-label="Pengorder" class="text-dark text-center"><?= $dataSPK['pengorder'];?></td>
                         <td data-label="Batas Waktu" class="text-dark text-center"><?= $dataSPK['tgl_selesai'];?></td>
                         <td data-label="Validasi" class="text-dark text-center">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#validation_modal"
-                                data-href="/Spk/validateSPK/<?= $dataSPK['id_spk'];?>">
-                                <?php if(!isset($dataSPK['gbr_kerja'])) { ?>
-                                <span class="badge badge-sm bg-gradient-secondary">BELUM ADA</span>
-                                <?php } else { ?>
-                                <span class="badge badge-sm bg-gradient-success">TERVALIDASI</span>
-                                <?php } ?>
+                            <a class="btn-valid-status" href="#" data-bs-toggle="modal"
+                                data-bs-target="#validation_modal"
+                                data-href="/Spk/validateSPK/<?= $dataSPK['id_spk'];?>" data-valid="<?php 
+                            if(isset($dataSPK['gbr_kerja'])) { 
+                                echo $dataSPK['gbr_kerja'];
+                            } else {
+                                echo "";
+                            }?>">
+                                <span class="status_validate badge badge-sm"></span>
                             </a>
                         </td>
                         <td data-label="Aksi" class="text-dark text-center">
-                            <a href="#" class="btn btn-edit btn-info" data-idspk="<?=$dataSPK['id_spk']?>"
-                                data-nospk="<?=$dataSPK['no_spk']?>" data-pengorder="<?= $dataSPK['pengorder']?>"
-                                data-tglsel="<?= $dataSPK['tgl_selesai']?>"
-                                data-tglserah="<?= $dataSPK['tgl_penyerahan']?>"
-                                data-namaprod="<?= $dataSPK['nama_produk']?>" data-jml="<?= $dataSPK['jml_pesanan']?>"
-                                data-penawaran="<?= $dataSPK['no_penawar']?>" data-order="<?= $dataSPK['no_order']?>"
-                                data-upm="<?= $dataSPK['tgl_upm']?>" data-href="/Spk/editSPK/">Info</a>
-                            <a href="/order" class="btn btn-info">
-                                Order</a>
-                            <a href="/proses" class="btn btn-warning">
-                                Proses</a>
-                            <a href="#" data-href="/Spk/deleteSPK/<?=$dataSPK['id_spk']?>" data-bs-toggle="modal"
-                                data-bs-target="#confirm-delete" class="p-2 btn btn-danger">
-                                <i class='fs-4 bx bxs-trash'></i></a>
-
+                            <div class="btn-group dropstart">
+                                <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" data-boundary="window">
+                                    Pilih Aksi
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right p-1">
+                                    <li class="mb-0">
+                                        <a href="#" class="btn-edit dropdown-item" data-idspk="<?=$dataSPK['id_spk']?>"
+                                            data-nospk="<?=$dataSPK['no_spk']?>"
+                                            data-pengorder="<?= $dataSPK['pengorder']?>"
+                                            data-tglsel="<?= $dataSPK['tgl_selesai']?>"
+                                            data-tglserah="<?= $dataSPK['tgl_penyerahan']?>"
+                                            data-namaprod="<?= $dataSPK['nama_produk']?>"
+                                            data-jml="<?= $dataSPK['jml_pesanan']?>"
+                                            data-penawaran="<?= $dataSPK['no_penawar']?>"
+                                            data-order="<?= $dataSPK['no_order']?>" data-upm="<?= $dataSPK['tgl_upm']?>"
+                                            data-href="/Spk/editSPK/">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 text-center bx bxs-info-circle 
+                                            btn bg-gradient-info px-2 py-1'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Info
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Tampilkan info
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mb-0">
+                                        <a href="/order" class="dropdown-item">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i
+                                                        class='fs-4 bx bxs-cart-alt btn bg-gradient-info px-2 py-1 text-center'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Order
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Order Logistik
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mb-0">
+                                        <a href="/proses" class="dropdown-item">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 bx bxs-pie-chart-alt-2 text-center 
+                                                    btn bg-gradient-warning py-1 px-2'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Proses
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Tampilkan Proses
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mb-0">
+                                        <a href="#" data-href="/Spk/deleteSPK/<?=$dataSPK['id_spk']?>"
+                                            data-bs-toggle="modal" data-bs-target="#confirm-delete"
+                                            class="dropdown-item">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 bx bxs-trash px-2 py-1 btn bg-gradient-danger'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Hapus
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Hapus Data
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     <?php $no++;}?>
@@ -328,18 +416,33 @@ $this->section('content');
 
                 <div class="modal-body">
                     <p class="text-sm">Validasi diperlukan untuk melakukan ACC pada Project,
-                        silahkan lampirkan link gambar kerja</p>
+                        silahkan lampirkan link gambar kerja. Link dapat berupa link google drive.</p>
                     <div class="mb-1">
                         <label for="" class="text-uppercase form-label">Link Gambar Kerja</label>
-                        <input type="text" class="form-control" id="" name="validation">
+                        <!-- <input type="text" class="form-control" id="" name="validation"> -->
+                        <div class="input-group">
+                            <input type="text" id="validation_input" class="form-control"
+                                placeholder="Masukkan Link Gambar Kerja Disini" name="validation">
+                            <a target="_blank" href="" type="button" class="arrowicon px-3 py-auto btn m-0"><i
+                                    class='text-white fs-4 bx bx-right-arrow-alt'></i>
+                            </a>
+                        </div>
                         <p class="debug-url-valid"></p>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                    <button type="submit" name="submit" class="btn btn-info btn-valid">Simpan</button>
-                    <!-- <a class="btn btn-info btn-valid">Simpan</a> -->
+                    <div class="row w-100">
+                        <div class="col text-start">
+                            <button type="button" class="btn btn-warning btn-edit-valid">Edit</button>
+                        </div>
+                        <div class="col text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                            <button type="submit" name="submit" class="btn btn-info btn-valid">Simpan</button>
+                            <!-- <a class="btn btn-info btn-valid">Simpan</a> -->
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </form>
@@ -355,6 +458,8 @@ $this->section('content');
 <script src="/assets/js/myfunction.js"></script>
 
 <script>
+    // Creating response and call Sweet alert 
+
     const input_response = $('.data-input');
     const edit_response = $('.data-edit');
     const valid_response = $('.data-valid');
@@ -365,8 +470,22 @@ $this->section('content');
     response(delete_response, "Data Berhasil Dihapus", "Data Gagal Dihapus");
     response(valid_response, "Validasi Berhasil Ditambahkan", "Validasi Gagal Ditambahkan");
 
-    //modal delete
+    /*Beberapa fungsi harus masuk document ready function 
+    karena beberapa akan / baru bisa bekerja ketika halaman
+    sudah selesai melakukan proses load , tapi untuk fungsi yang
+    bisa tanpa ready function silahkan taro diluar saja, ingat pakai sesuai 
+    kaidah dan fungsinya
+    
+    debugging url silahkan di uncomment jika ingin melihat url yang digunakan
+    untuk memanggil method dari controller*/
+
     $(document).ready(function () {
+
+        /*saat modal akan tampil (event show pada modal berarti saat modal hendak popup)
+        jika shown adalah modal saat sudah popup. lakukan fungsi dibawah ini.
+        
+        modal delete*/
+
         $('#confirm-delete').on('show.bs.modal', function (e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 
@@ -375,24 +494,48 @@ $this->section('content');
             //     '</strong>');
         });
 
+        //modal validation
         $('#validation_modal').on('show.bs.modal', function (e) {
             $(this).find('#validate-form').attr('action', $(e.relatedTarget).data('href'));
-
+            if ($(e.relatedTarget).data('valid')) {
+                $(".arrowicon").css('display', 'inline-block').attr('href', $(e.relatedTarget).data(
+                    'valid'));
+                $(".btn-edit-valid").css('display', 'inline-block');
+                $('#validation_input').val($(e.relatedTarget).data('valid')).prop('disabled', true)
+                    .addClass('border-tb-none');
+            } else {
+                $(".arrowicon").css('display', 'none');
+                $(".btn-edit-valid").css('display', 'none');
+                $('#validation_input').val($(e.relatedTarget).data('valid')).prop('disabled', false)
+                    .removeClass('border-tb-none');
+            }
             //debugging url
             // $('.debug-url-valid').html('Delete URL: <strong>' + $(this).find('#validate-form').attr(
             //         'action') +
             //     '</strong>');
         });
 
+        //button edit pada modal edit dan validasi
         $(".btn-edit-allow").click(function () {
             $('#edit-form').find(':input(:disabled)').prop('disabled', false);
         });
+
+        $(".btn-edit-valid").click(function () {
+            $('#validate-form').find(':input(:disabled)').prop('disabled', false);
+        });
+
+        /*event hide pada modal adalah saat modal hendak hilang sepenuhnya
+        jika hidden saat sudah hilang sepenuhnya.*/
+        arguments
 
         $('#modal_info').on('hide.bs.modal', function (e) {
             $('#edit-form .modal-body').find(':input:not(:disabled)').prop('disabled', true);
         });
 
-        //PASSING DATA FROM FRONTEND TO MODAL , SO CAN BE SENDED TO BACKEND
+        /*passing data from front to backend, kelemahannya kelihatan di inspect Element
+        dan dapat dirubah dari situ, untuk lebih aman dan efektif harus memakai AJAX
+        tapi kesampingkan AJAX dulu, yang penting beres dulu aja, ini masih cara kasar*/
+
         $('.btn-edit').on('click', function () {
 
             // get data from button edit
@@ -423,9 +566,25 @@ $this->section('content');
             // Call Modal Edit
             $('#modal_info').modal('show');
         });
+
+        $(".btn-valid-status").each(function () {
+            let arrlength = $(this).data('valid').length;
+            if(arrlength > 0) {
+                $(this).find(".status_validate").html("TERVALIDASI").addClass('bg-gradient-success');
+                
+            } else {
+                $(this).find(".status_validate").html("BELUM ADA").addClass('bg-gradient-secondary');
+            }
+        });
+        
     });
 
-    //MULTI STEP INPUT MODAL
+    /*ini fungsi buat modal input sama edit yang input formnya banyak bgt 
+    karena jelek kalau manjang dan perlu scroll scroll, jadi kita buat Multi step 
+    aja, silahkan di amati struktur htmlnya sama fungsi js dibawah ini
+    
+    MULTI STEP INPUT MODAL*/
+
     let currentInputTab = {
         nilai: 0
     };
