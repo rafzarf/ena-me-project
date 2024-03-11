@@ -4410,6 +4410,7 @@ fieldset:disabled .btn {
 .dropdown-item:focus {
   color: var(--bs-dropdown-link-hover-color);
   background-color: var(--bs-dropdown-link-hover-bg);
+  /* border-radius:var(--bs-dropdown-border-radius)!important; */
 }
 
 .dropdown-item.active,
@@ -27292,21 +27293,25 @@ table .sticky-top {
   background-color: var(--bs-card-bg) !important;
 }
 
-.searchicon {
+.searchicon,
+.arrowicon {
   position: relative !important;
   border: 1px solid #d2d6da !important;
   box-shadow: 0 0px 0px 0px transparent, 0 0px 0px 0px transparent !important;
-  background-color: var(--bs-secondary);
+  background-color: var(--bs-info);
 }
 
-.searchicon:hover i{
-  color: var(--bs-secondary) !important;
+.searchicon:hover i,
+.arrowicon:hover i{
+  color: var(--bs-info) !important;
 }
 
-#searchbox {
+#searchbox,
+.border-tb-none {
       border-top-right-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
 }
+
 
 .mytooltip {
   --bs-tooltip-bg : var(--bs-info);
@@ -27320,3 +27325,15 @@ table .sticky-top {
   text-align: start !important;
   font-weight: 700 !important;
 }
+
+.dropstart .dropdown-menu {
+  --bs-dropdown-min-width: 13rem !important;
+}
+
+.dropstart .dropdown-menu .dropdown-item{
+  padding-left: 20px !important;
+  padding-right: 0px !important;
+  padding-top: var(--bs-dropdown-item-padding-y) !important;
+  padding-bottom: 0px !important;
+}
+

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2024 at 11:04 AM
+-- Generation Time: Mar 11, 2024 at 03:46 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.5
 
@@ -110,11 +110,11 @@ CREATE TABLE `spk` (
 --
 
 INSERT INTO `spk` (`id_spk`, `pengorder`, `tgl_selesai`, `tgl_penyerahan`, `nama_produk`, `jml_pesanan`, `gbr_kerja`, `tgl_upm`, `no_penawar`, `no_order`, `no_spk`) VALUES
-(51, 'Rachmat Syaiful Mujab', '2024-03-16', '2024-03-08', 'Gearbox', 15, NULL, '2024-03-30', 'Q24.0050', '0050/PTR/II/2024', 'PM240050'),
+(51, 'Rachmat Syaiful M', '2024-03-16', '2024-03-08', 'Gearbox', 15, 'https://boxicons.com/?query=pi', '2024-03-30', 'Q24.0050', '0050/PTR/II/2024', 'PM240050'),
 (52, 'Thomas Shelby', '2024-03-22', '2024-03-08', 'Shaft', 89, NULL, '2024-03-30', 'Q24.0051', '0051/PTR/II/2024', 'PM240051'),
 (53, 'Uzumaki Agung Tirtayasa', '2024-03-23', '2024-03-08', 'Jubah', 68, NULL, '2024-04-05', 'Q24.0052', '0052/PTR/II/2024', 'PM240052'),
 (58, 'ipman', '2024-03-18', '2024-03-13', 'Gearbox', 1, NULL, '2024-03-27', 'Q24.0053', '0053/PTR/II/2024', 'PM240053'),
-(59, 'Yang chen', '2024-03-28', '2024-03-13', 'pesawat', 22, NULL, '2024-03-18', 'Q24.0058', '0058/PTR/II/2024', 'PM240058'),
+(59, 'Yang chen', '2024-03-28', '2024-03-13', 'pesawat', 22, 'https://samehadaku.show/undead-unluck-episode-22/', '2024-03-18', 'Q24.0058', '0058/PTR/II/2024', 'PM240058'),
 (60, 'korra', '2024-03-30', '2024-03-20', 'panah', 1, NULL, '2024-04-02', 'Q24.0059', '0059/PTR/II/2024', 'PM240059'),
 (61, 'kol', '2024-03-18', '2024-02-26', 'panah', 1, NULL, '2024-03-26', 'Q24.0060', '0060/PTR/II/2024', 'PM240060'),
 (62, 'adasdas', '2024-03-23', '2024-03-13', 'Gearbox', 3, NULL, '2024-03-30', 'Q24.0061', '0061/PTR/II/2024', 'PM240061'),

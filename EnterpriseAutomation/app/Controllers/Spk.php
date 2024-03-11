@@ -15,7 +15,7 @@ class Spk extends BaseController
 
 
     public function index() {
-        $keyword = $this->request->getPost('keyword') ? $this->request->getPost('keyword') : "";
+        $keyword = $this->request->getVar('keyword') ? $this->request->getVar('keyword') : "";
         $currentPage = $this->request->getVar('page') ? $this->request->getVar('page') : 1;
         $perPage = $this->request->getVar('entries') ? $this->request->getVar('entries') : 5;
 
