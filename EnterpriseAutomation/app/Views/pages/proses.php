@@ -2,7 +2,6 @@
 
 $this->section('content');
 
-
 ?>
 <div class="fab-container">
     <div class="fab shadow">
@@ -35,7 +34,7 @@ $this->section('content');
                     </div>
                     <div class="d-flex">
                         <h3 class="text-dark lh-1 ms-3 my-auto poppins-bold">Proses<br>
-                            <span class="text-sm lh-1 poppins-regular text-dark text-start"> No.SPK : PM2004.01
+                            <span class="text-sm lh-1 poppins-regular text-dark text-start"> No.SPK : <?= $getSPK[0]->no_spk ?>
                             </span>
                         </h3>
                     </div>

@@ -10,9 +10,6 @@ $this->section('content');
 ?>
 
 <!-- PASSING FLASH DATA FOR SWEETALERT2 -->
-<div data-flash="<?= session()->getFlashdata('input_msg') ?>" class="data-input d-none"> </div>
-<div data-flash="<?= session()->getFlashdata('del_msg') ?>" class="data-delete d-none"> </div>
-<div data-flash="<?= session()->getFlashdata('edit_msg') ?>" class="data-edit d-none"> </div>
 <div data-flash="<?= session()->getFlashdata('validate_msg') ?>" class="data-valid d-none"> </div>
 
 <div class="card mt-4">
@@ -60,7 +57,6 @@ $this->section('content');
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -116,7 +112,7 @@ $this->section('content');
                                     aria-expanded="false" data-boundary="window">
                                     Pilih Aksi
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-right p-1">
+                                <ul class="dropdown-menu dropdown-menu-right p-1 position-fixed">
                                     <li class="mb-0">
                                         <a href="#" class="btn-edit dropdown-item" data-idspk="<?=$dataSPK['id_spk']?>"
                                             data-nospk="<?=$dataSPK['no_spk']?>"
@@ -167,7 +163,7 @@ $this->section('content');
                                         </a>
                                     </li>
                                     <li class="mb-0">
-                                        <a href="/proses" class="dropdown-item">
+                                        <a href="/proses/<?=$dataSPK['id_spk']?>" class="dropdown-item">
                                             <div class="row mt-2">
                                                 <div class="col-auto">
                                                     <i class='fs-4 bx bxs-pie-chart-alt-2 text-center 
@@ -231,7 +227,7 @@ $this->section('content');
 <!-- Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" id="tambahSPK" action="/Spk/createSPK">
+        <form method="post" id="create-form" action="/Spk/createSPK">
             <div class="modal-content">
                 <div class="bg-polman modal-header">
                     <h5 class="text-white poppins-bold modal-title" id="exampleModalLabel">Tambah SPK</h5>
@@ -334,7 +330,6 @@ $this->section('content');
                     <h5 class="modal-title text-white poppins-bold" id="">Info SPK</h5>
                 </div>
                 <div class="modal-body">
-
                     <div class="tab_edit">
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Pengorder</label>
@@ -424,7 +419,7 @@ $this->section('content');
                             <input type="text" id="validation_input" class="form-control"
                                 placeholder="Masukkan Link Gambar Kerja Disini" name="validation">
                             <a target="_blank" href="" type="button" class="arrowicon px-3 py-auto btn m-0"><i
-                                    class='text-white fs-4 bx bx-right-arrow-alt'></i>
+                                    class='text-white fs-5 bx bx-right-arrow-alt'></i>
                             </a>
                         </div>
                         <p class="debug-url-valid"></p>
@@ -449,25 +444,18 @@ $this->section('content');
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-    integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"
-    integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
-<script src="/assets/js/myfunction.js"></script>
+<!-- call generic js file -->
+
+<?php 
+
+include "footerjs.php"
+
+
+?>
 
 <script>
     // Creating response and call Sweet alert 
-
-    const input_response = $('.data-input');
-    const edit_response = $('.data-edit');
     const valid_response = $('.data-valid');
-    const delete_response = $('.data-delete');
-
-    response(input_response, "Data Berhasil Ditambahkan", "Data Gagal Ditambahkan");
-    response(edit_response, "Data Berhasil Diedit", "Data Gagal Diedit");
-    response(delete_response, "Data Berhasil Dihapus", "Data Gagal Dihapus");
     response(valid_response, "Validasi Berhasil Ditambahkan", "Validasi Gagal Ditambahkan");
 
     /*Beberapa fungsi harus masuk document ready function 
@@ -480,19 +468,6 @@ $this->section('content');
     untuk memanggil method dari controller*/
 
     $(document).ready(function () {
-
-        /*saat modal akan tampil (event show pada modal berarti saat modal hendak popup)
-        jika shown adalah modal saat sudah popup. lakukan fungsi dibawah ini.
-        
-        modal delete*/
-
-        $('#confirm-delete').on('show.bs.modal', function (e) {
-            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-
-            //debugging url
-            // $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') +
-            //     '</strong>');
-        });
 
         //modal validation
         $('#validation_modal').on('show.bs.modal', function (e) {
@@ -516,21 +491,10 @@ $this->section('content');
         });
 
         //button edit pada modal edit dan validasi
-        $(".btn-edit-allow").click(function () {
-            $('#edit-form').find(':input(:disabled)').prop('disabled', false);
-        });
-
         $(".btn-edit-valid").click(function () {
             $('#validate-form').find(':input(:disabled)').prop('disabled', false);
         });
 
-        /*event hide pada modal adalah saat modal hendak hilang sepenuhnya
-        jika hidden saat sudah hilang sepenuhnya.*/
-        arguments
-
-        $('#modal_info').on('hide.bs.modal', function (e) {
-            $('#edit-form .modal-body').find(':input:not(:disabled)').prop('disabled', true);
-        });
 
         /*passing data from front to backend, kelemahannya kelihatan di inspect Element
         dan dapat dirubah dari situ, untuk lebih aman dan efektif harus memakai AJAX
@@ -569,65 +533,15 @@ $this->section('content');
 
         $(".btn-valid-status").each(function () {
             let arrlength = $(this).data('valid').length;
-            if(arrlength > 0) {
+            if (arrlength > 0) {
                 $(this).find(".status_validate").html("TERVALIDASI").addClass('bg-gradient-success');
-                
+
             } else {
                 $(this).find(".status_validate").html("BELUM ADA").addClass('bg-gradient-secondary');
             }
         });
-        
-    });
 
-    /*ini fungsi buat modal input sama edit yang input formnya banyak bgt 
-    karena jelek kalau manjang dan perlu scroll scroll, jadi kita buat Multi step 
-    aja, silahkan di amati struktur htmlnya sama fungsi js dibawah ini
-    
-    MULTI STEP INPUT MODAL*/
-
-    let currentInputTab = {
-        nilai: 0
-    };
-
-    const tabInput = $(".tab")
-    const tabInputLength = tabInput.length - 1;
-    const prevBtnInput = $("#prevBtn");
-    const nextBtnInput = $("#nextBtn");
-    const forminput = $("#tambahSPK");
-    const modalinput = "#createModal";
-
-    showTab(currentInputTab, tabInput, tabInputLength, prevBtnInput, nextBtnInput);
-
-    $('body').on('click', "#nextBtn", function () {
-        nextPrev(1, tabInput, tabInputLength, currentInputTab, forminput, modalinput, prevBtnInput,
-            nextBtnInput);
-    });
-
-    $('body').on('click', "#prevBtn", function () {
-        nextPrev(-1, tabInput, tabInputLength, currentInputTab, forminput, modalinput, prevBtnInput,
-            nextBtnInput);
-    });
-
-    //MULTI STEP EDIT MODAL
-    let currentEditTab = {
-        nilai: 0
-    };
-
-    const tabEdit = $(".tab_edit")
-    const tabEditLength = tabEdit.length - 1;
-    const prevBtnEdit = $("#prevBtn_edit");
-    const nextBtnEdit = $("#nextBtn_edit");
-    const formEdit = $("#edit-form");
-    const modalEdit = "#modal_info";
-
-    showTab(currentEditTab, tabEdit, tabEditLength, prevBtnEdit, nextBtnEdit);
-
-    $('body').on('click', "#nextBtn_edit", function () {
-        nextPrev(1, tabEdit, tabEditLength, currentEditTab, formEdit, modalEdit, prevBtnEdit, nextBtnEdit);
-    });
-
-    $('body').on('click', "#prevBtn_edit", function () {
-        nextPrev(-1, tabEdit, tabEditLength, currentEditTab, formEdit, modalEdit, prevBtnEdit, nextBtnEdit);
     });
 </script>
+
 <?=$this->endSection();?>
