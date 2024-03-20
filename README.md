@@ -69,7 +69,7 @@ To run the ena-me-project, perform the following steps:
     sudo /opt/lampp/lampp start
     ```
 
-4. In the project foler, run the project using CodeIgniter's CLI tool:
+4. In the project folder, run the project using CodeIgniter's CLI tool inside the `~/opt/lampp/htdocs/ena-me-project/EnterpriseAutoamtion`:
     ```
     php spark serve
     ```
