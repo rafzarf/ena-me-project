@@ -7,3 +7,4 @@ use CodeIgniter\Router\RouteCollection;
  */
 // $routes->get('/', 'Dashboard::index');
 $routes->get('/', 'Dashboard::index');
+$routes->get('proses/(:any)', 'proses::index/$1');

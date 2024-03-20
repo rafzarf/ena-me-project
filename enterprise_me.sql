@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2024 at 03:46 AM
+-- Generation Time: Mar 19, 2024 at 03:03 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.5
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `form_order_logistik` (
   `id_orderlog` int(11) NOT NULL,
   `id_worker` int(11) NOT NULL,
+  `no_order` varchar(255) NOT NULL,
   `no_barang` int(11) NOT NULL,
   `no_gambar` varchar(255) NOT NULL,
   `tgl_penerima` datetime NOT NULL,
@@ -51,6 +52,11 @@ CREATE TABLE `form_proses` (
   `id_stoklogistik` int(11) NOT NULL,
   `id_orderlog` int(11) NOT NULL,
   `id_mesin` int(11) NOT NULL,
+  `id_spk` int(11) NOT NULL,
+  `no_order` varchar(255) NOT NULL,
+  `tgl_pembuatan` date NOT NULL,
+  `nama_pembuat` varchar(100) NOT NULL,
+  `kuantitas` int(11) NOT NULL,
   `durasi_waktu` int(11) NOT NULL,
   `komponen` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -118,8 +124,7 @@ INSERT INTO `spk` (`id_spk`, `pengorder`, `tgl_selesai`, `tgl_penyerahan`, `nama
 (60, 'korra', '2024-03-30', '2024-03-20', 'panah', 1, NULL, '2024-04-02', 'Q24.0059', '0059/PTR/II/2024', 'PM240059'),
 (61, 'kol', '2024-03-18', '2024-02-26', 'panah', 1, NULL, '2024-03-26', 'Q24.0060', '0060/PTR/II/2024', 'PM240060'),
 (62, 'adasdas', '2024-03-23', '2024-03-13', 'Gearbox', 3, NULL, '2024-03-30', 'Q24.0061', '0061/PTR/II/2024', 'PM240061'),
-(63, 'yuji', '2024-03-20', '2024-03-12', 'Gearbox', 121, NULL, '2024-03-28', 'Q24.0062', '0062/PTR/II/2024', 'PM240062'),
-(64, 'mizan', '2024-03-30', '2024-03-19', 'Xiaomi', 12, NULL, '2024-03-28', 'Q24.0063', '0063/PTR/II/2024', 'PM240063');
+(63, 'yuji', '2024-03-20', '2024-03-12', 'Gearbox', 121, NULL, '2024-03-28', 'Q24.0062', '0062/PTR/II/2024', 'PM240062');
 
 -- --------------------------------------------------------
 
@@ -129,9 +134,22 @@ INSERT INTO `spk` (`id_spk`, `pengorder`, `tgl_selesai`, `tgl_penyerahan`, `nama
 
 CREATE TABLE `stok_gudang` (
   `id_stoklogistik` int(11) NOT NULL,
+  `no_spk` varchar(255) NOT NULL,
+  `nama_penerima` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `batas_waktu` date NOT NULL,
+  `nama_barang` varchar(255) NOT NULL,
   `tempat_simpan` varchar(255) NOT NULL,
   `jml_komponen` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `stok_gudang`
+--
+
+INSERT INTO `stok_gudang` (`id_stoklogistik`, `no_spk`, `nama_penerima`, `status`, `batas_waktu`, `nama_barang`, `tempat_simpan`, `jml_komponen`) VALUES
+(2, 'PM240050', 'Rachmat Syaiful Mujab', 'Tersedia', '2024-03-21', 'Arduino', 'Rak B', 1),
+(4, 'PM240050', 'rafza', 'Tidak Tersedia', '2024-03-27', 'Raspberry Pi', 'Rak A', 13);
 
 -- --------------------------------------------------------
 
@@ -157,7 +175,8 @@ CREATE TABLE `worker` (
 ALTER TABLE `form_order_logistik`
   ADD PRIMARY KEY (`id_orderlog`),
   ADD KEY `id_spk` (`id_spk`),
-  ADD KEY `id_worker` (`id_worker`);
+  ADD KEY `id_worker` (`id_worker`),
+  ADD KEY `no_order` (`no_order`);
 
 --
 -- Indexes for table `form_proses`
@@ -166,7 +185,9 @@ ALTER TABLE `form_proses`
   ADD PRIMARY KEY (`id_proses_start`),
   ADD KEY `form_proses_ibfk_1` (`id_mesin`),
   ADD KEY `form_proses_ibfk_2` (`id_orderlog`),
-  ADD KEY `form_proses_ibfk_3` (`id_stoklogistik`);
+  ADD KEY `form_proses_ibfk_3` (`id_stoklogistik`),
+  ADD KEY `id_spk` (`id_spk`),
+  ADD KEY `no_order` (`no_order`);
 
 --
 -- Indexes for table `mesin`
@@ -189,13 +210,16 @@ ALTER TABLE `pengerjaan`
 --
 ALTER TABLE `spk`
   ADD PRIMARY KEY (`id_spk`),
-  ADD UNIQUE KEY `no_spk` (`no_spk`);
+  ADD UNIQUE KEY `no_spk` (`no_spk`),
+  ADD UNIQUE KEY `no_order` (`no_order`) USING BTREE,
+  ADD UNIQUE KEY `no_penawar` (`no_penawar`);
 
 --
 -- Indexes for table `stok_gudang`
 --
 ALTER TABLE `stok_gudang`
-  ADD PRIMARY KEY (`id_stoklogistik`);
+  ADD PRIMARY KEY (`id_stoklogistik`),
+  ADD KEY `no_spk` (`no_spk`);
 
 --
 -- Indexes for table `worker`
@@ -217,7 +241,7 @@ ALTER TABLE `form_order_logistik`
 -- AUTO_INCREMENT for table `form_proses`
 --
 ALTER TABLE `form_proses`
-  MODIFY `id_proses_start` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_proses_start` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mesin`
@@ -235,13 +259,13 @@ ALTER TABLE `pengerjaan`
 -- AUTO_INCREMENT for table `spk`
 --
 ALTER TABLE `spk`
-  MODIFY `id_spk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_spk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `stok_gudang`
 --
 ALTER TABLE `stok_gudang`
-  MODIFY `id_stoklogistik` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_stoklogistik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `worker`
@@ -258,7 +282,8 @@ ALTER TABLE `worker`
 --
 ALTER TABLE `form_order_logistik`
   ADD CONSTRAINT `form_order_logistik_ibfk_1` FOREIGN KEY (`id_spk`) REFERENCES `spk` (`id_spk`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `form_order_logistik_ibfk_2` FOREIGN KEY (`id_worker`) REFERENCES `worker` (`id_worker`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `form_order_logistik_ibfk_2` FOREIGN KEY (`id_worker`) REFERENCES `worker` (`id_worker`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `form_order_logistik_ibfk_3` FOREIGN KEY (`no_order`) REFERENCES `spk` (`no_order`);
 
 --
 -- Constraints for table `form_proses`
@@ -266,7 +291,9 @@ ALTER TABLE `form_order_logistik`
 ALTER TABLE `form_proses`
   ADD CONSTRAINT `form_proses_ibfk_1` FOREIGN KEY (`id_mesin`) REFERENCES `mesin` (`id_mesin`) ON DELETE NO ACTION,
   ADD CONSTRAINT `form_proses_ibfk_2` FOREIGN KEY (`id_orderlog`) REFERENCES `form_order_logistik` (`id_orderlog`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `form_proses_ibfk_3` FOREIGN KEY (`id_stoklogistik`) REFERENCES `stok_gudang` (`id_stoklogistik`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `form_proses_ibfk_3` FOREIGN KEY (`id_stoklogistik`) REFERENCES `stok_gudang` (`id_stoklogistik`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `form_proses_ibfk_4` FOREIGN KEY (`id_spk`) REFERENCES `spk` (`id_spk`),
+  ADD CONSTRAINT `form_proses_ibfk_5` FOREIGN KEY (`no_order`) REFERENCES `spk` (`no_order`);
 
 --
 -- Constraints for table `pengerjaan`
@@ -276,6 +303,12 @@ ALTER TABLE `pengerjaan`
   ADD CONSTRAINT `pengerjaan_ibfk_2` FOREIGN KEY (`id_prosesstart`) REFERENCES `form_proses` (`id_proses_start`) ON DELETE NO ACTION,
   ADD CONSTRAINT `pengerjaan_ibfk_3` FOREIGN KEY (`id_spk`) REFERENCES `spk` (`id_spk`) ON DELETE NO ACTION,
   ADD CONSTRAINT `pengerjaan_ibfk_4` FOREIGN KEY (`id_worker`) REFERENCES `worker` (`id_worker`) ON DELETE NO ACTION;
+
+--
+-- Constraints for table `stok_gudang`
+--
+ALTER TABLE `stok_gudang`
+  ADD CONSTRAINT `stok_gudang_ibfk_1` FOREIGN KEY (`no_spk`) REFERENCES `spk` (`no_spk`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

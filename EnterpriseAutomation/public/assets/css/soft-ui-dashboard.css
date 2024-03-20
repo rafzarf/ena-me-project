@@ -2937,9 +2937,9 @@ textarea.form-control-lg {
 }
 
 .form-select:focus {
-  border-color: #e293d3;
+  border-color: var(--bs-info);
   outline: 0;
-  box-shadow: 0 0 0 2px #e9aede;
+  box-shadow: 0 0 0 2px var(--bs-info);
 }
 
 .form-select[multiple],
