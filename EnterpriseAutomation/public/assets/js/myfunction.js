@@ -16,7 +16,7 @@ function popup_green(title) {
             popup: 'colored-toast'
         },
         showConfirmButton: false,
-        timer: 2000,
+        timer: 3000,
         timerProgressBar: true
     })
 }
@@ -32,7 +32,7 @@ function popup_yellow(title) {
             popup: 'colored-toast'
         },
         showConfirmButton: false,
-        timer: 2000,
+        timer: 3000,
         timerProgressBar: true
     })
 
@@ -49,22 +49,24 @@ function popup_red(title) {
             popup: 'colored-toast'
         },
         showConfirmButton: false,
-        timer: 2000,
+        timer: 3000,
         timerProgressBar: true
     });
 }
 
 function response(dataflash, successText, errorText) {
-    dataflash.data('flash') == "success" ? popup_green(successText) :
-        dataflash.data('flash') == "error" ? popup_red(errorText) : null;
+    setTimeout(() => {
+        dataflash.data('flash') == "success" ? popup_green(successText) :
+            dataflash.data('flash') == "error" ? popup_red(errorText) : null;
+    }, 3000);
 }
 
-function showTab(currentTab,tabElement,tabLength,prevBtnElement,nextBtnElement) {
-    tabElement.eq(currentTab.nilai).css("display" , "block" );
+function showTab(currentTab, tabElement, tabLength, prevBtnElement, nextBtnElement) {
+    tabElement.eq(currentTab.nilai).css("display", "block");
     if (currentTab.nilai == 0) {
-        prevBtnElement.css("display" , "none");
+        prevBtnElement.css("display", "none");
     } else {
-        prevBtnElement.css("display" , "inline");
+        prevBtnElement.css("display", "inline");
     }
     if (currentTab.nilai == tabLength) {
         nextBtnElement.html("Submit");
@@ -73,11 +75,11 @@ function showTab(currentTab,tabElement,tabLength,prevBtnElement,nextBtnElement) 
     }
 }
 
-function nextPrev(adderVal,tabElement,tabLength,currentTab,formElement,ModalElement,prevBtnElement,nextBtnElement) {
+function nextPrev(adderVal, tabElement, tabLength, currentTab, formElement, ModalElement, prevBtnElement, nextBtnElement) {
 
-    if (adderVal == 1 && !validateForm(tabElement,currentTab)) return false;
+    if (adderVal == 1 && !validateForm(tabElement, currentTab)) return false;
     // Hide the current tab:
-    tabElement.eq(currentTab.nilai).css("display" , "none");
+    tabElement.eq(currentTab.nilai).css("display", "none");
     // Increase or decrease the current tab by 1:
     currentTab.nilai = currentTab.nilai + adderVal;
 
@@ -87,12 +89,12 @@ function nextPrev(adderVal,tabElement,tabLength,currentTab,formElement,ModalElem
         $(ModalElement).modal("hide");
         return false;
     }
-    showTab(currentTab,tabElement,tabLength,prevBtnElement,nextBtnElement);
+    showTab(currentTab, tabElement, tabLength, prevBtnElement, nextBtnElement);
 }
 
-function validateForm(tabElement,currentTab) {
+function validateForm(tabElement, currentTab) {
     // This function deals with validation of the form fields
-    var y , i , valid = true;
+    var y, i, valid = true;
     y = tabElement.eq(currentTab.nilai).find("input");
     // A loop that checks every input field in the current tab:
     for (i = 0; i < y.length; i++) {
@@ -105,5 +107,15 @@ function validateForm(tabElement,currentTab) {
             popup_yellow('Input Ini Wajib Diisi');
         }
     }
-    return valid; 
+    return valid;
 }
+
+//ripple effect button
+[].map.call(document.querySelectorAll('[anim="ripple"]'), el=> {
+    el.addEventListener('click',e => {
+        e = e.touches ? e.touches[0] : e;
+        const r = el.getBoundingClientRect(), d = Math.sqrt(Math.pow(r.width,2)+Math.pow(r.height,2)) * 2;
+        el.style.cssText = `--s: 0; --o: 1;`;  el.offsetTop; 
+        el.style.cssText = `--t: 1; --o: 0; --d: ${d}; --x:${e.clientX - r.left}; --y:${e.clientY - r.top};`
+    })
+})

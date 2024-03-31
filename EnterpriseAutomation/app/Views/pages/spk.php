@@ -16,18 +16,18 @@ $this->section('content');
 <div data-flash="<?= session()->getFlashdata('validate_msg') ?>" class="data-valid d-none"> </div>
 
 <div class="card mt-4">
-    <div class="card-header pe-0">
-        <div class="row">
-            <div class="col col-10 col-lg mb-lg-0 mb-3">
+    <div class="card-header pb-1 pe-0">
+        <div class="row w-100">
+            <div class="col mb-lg-0 mb-3">
                 <div class="w-100 d-flex my-auto text-start">
-                    <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md"><i
+                    <!-- <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md"><i
                             class='fs-4 bx bxs-briefcase-alt-2'></i>
-                    </div>
-                    <h4 class="d-flex ms-3 mt-2 poppins-bold mb-0 text-dark">Data SPK</h4>
+                    </div> -->
+                    <h5 class="d-flex ms-1 mt-2 mb-0 text-dark">Tabel Data SPK</h5>
                 </div>
             </div>
-            <div class="col pe-0 d-flex  justify-content-lg-end justify-content-center">
-                <div class="row">
+            <div class="col col-lg-auto pe-0 d-flex justify-content-lg-end justify-content-center">
+                <div class="row w-100">
                     <div class="col px-0">
                         <div
                             class="ms-md-auto pe-md-3 d-flex align-items-center justify-content-end ms-sm-auto me-lg-0 me-sm-3">
@@ -35,27 +35,42 @@ $this->section('content');
                                 <div class="input-group">
                                     <input type="text" id="searchbox" class="form-control" placeholder="Type here..."
                                         name="keyword">
-                                    <button type="submit" class="searchicon px-3 py-auto btn m-0"><i
+                                    <button anim="ripple" type="submit" class="searchicon px-3 py-auto btn m-0"><i
                                             class='text-white fs-6 bx bx-search'></i>
                                     </button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="dropdown h-100 w-0">
-                            <button class="h-100 my-auto dropdown-toggle btn btn-info ps-3 pe-2" type="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Show <?= $entries ?> Data
-                                <span class="ms-2 me-0 pe-0"><i class='bx bxs-chevron-down'></i></span>
+                    <div class="option-dropdown col-auto ps-0 pe-lg-0 me-lg-4">
+                        <div class="btn-group dropstart">
+                            <button class="pt-2 ps-lg-0 ps-2 pe-0 btn btn-mesin" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" data-bs-auto-close="outside">
+                                <i class="text-dark fs-3 bx bx-dots-vertical-rounded"></i>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="text-dark text-center dropdown-item" href="/Spk?page=1&entries=5">5 Data /
-                                        Halaman</a></li>
-                                <li><a class="text-dark text-center dropdown-item" href="/Spk?page=1&entries=10">10 Data
-                                        / Halaman</a></li>
-                                <li><a class="text-dark text-center dropdown-item" href="/Spk?page=1&entries=15">15 Data
-                                        / Halaman</a></li>
+                                <li class="py-1 text-center mb-0">
+                                    <div class="btn-group dropstart">
+                                        <a type="button" class="ps-0 text-dark text-center dropdown-item"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class='me-2 text-xxs bx bxs-left-arrow'></i>Data Per Halaman
+                                        </a>
+                                        <ul class="dropdown-menu sub-menu">
+                                            <li><a class="text-dark text-center dropdown-item" href="?entries=5">5
+                                                </a></li>
+                                            <li><a class="text-dark text-center dropdown-item" href="?entries=10">10
+                                                </a>
+                                            </li>
+                                            <li><a class="text-dark text-center dropdown-item" href="?entries=15">15
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="py-1 mb-0">
+                                    <a class="multiple-dlt-btn ps-0 text-dark text-center dropdown-item" href="#">
+                                        Multiple Delete Selection</a></li>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -65,32 +80,45 @@ $this->section('content');
         </div>
     </div>
     <div class="card-body pt-0 mt-0">
-        <div class="table-responsive p-0">
-            <table class="table align-items-center">
-                <thead>
+        <div class="table-responsive overflow-y-hidden p-0">
+            <table class="table table-hover mb-0 align-items-center">
+                <thead class="text-xs">
                     <tr>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">No.
+                        <th class="check-th d-none text-uppercase text-center text-dark font-weight-bolder opacity-10">
                         </th>
-                        <th
-                            class="sticky-left text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">No.
+                        </th>
+                        <th class="sticky-left text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             No.SPK</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             No.Penawaran</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             No.Order</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             Pengorder</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             Batas Waktu</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             Validasi</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">Aksi
+                        <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
+
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-sm">
                     <?php $no = 1 + ($entries * ($current_page - 1)); foreach($getSPK as $dataSPK){?>
                     <tr>
+                        <td data-label="Select Data" class="text-dark text-center check-td d-none">
+                            <div class="checkbox-wrapper-46">
+                                <input class="shadow inp-cbx" id="cbx-46-<?=$dataSPK['id_spk']?>" type="checkbox"
+                                    value="<?=$dataSPK['id_spk']?>">
+                                <label class="cbx" for="cbx-46-<?=$dataSPK['id_spk']?>"><span>
+                                        <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                        </svg></span><span class="ps-0"></span>
+                                </label>
+                            </div>
+                        </td>
                         <td data-label="No" class="text-dark text-center"><?= $no;?></td>
                         <td data-label="No.SPK" class="sticky-left text-dark text-center"><?= $dataSPK['no_spk'];?>
                         </td>
@@ -99,7 +127,7 @@ $this->section('content');
                         <td data-label="Pengorder" class="text-dark text-center"><?= $dataSPK['pengorder'];?></td>
                         <td data-label="Batas Waktu" class="text-dark text-center"><?= $dataSPK['tgl_selesai'];?></td>
                         <td data-label="Validasi" class="text-dark text-center">
-                            <a class="btn-valid-status" href="#" data-bs-toggle="modal"
+                            <a anim="ripple" class="btn-valid-status" href="#" data-bs-toggle="modal"
                                 data-bs-target="#validation_modal"
                                 data-href="/Spk/validateSPK/<?= $dataSPK['id_spk'];?>" data-valid="<?php 
                             if(isset($dataSPK['gbr_kerja'])) { 
@@ -110,11 +138,11 @@ $this->section('content');
                                 <span class="status_validate badge badge-sm"></span>
                             </a>
                         </td>
-                        <td data-label="Aksi" class="text-dark text-center">
+                        <td data-label="Option" class="text-dark text-center">
                             <div class="btn-group dropstart">
-                                <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                <button class="btn btn-mesin mb-0" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false" data-boundary="window">
-                                    Pilih Aksi
+                                    <i class="fs-5 bx text-dark bx-dots-vertical-rounded"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right p-1">
                                     <li class="mb-0">
@@ -147,7 +175,7 @@ $this->section('content');
                                         </a>
                                     </li>
                                     <li class="mb-0">
-                                        <a href="/order" class="dropdown-item">
+                                        <a href="/order/<?=$dataSPK['id_spk']?>" class="dropdown-item">
                                             <div class="row mt-2">
                                                 <div class="col-auto">
                                                     <i
@@ -221,10 +249,17 @@ $this->section('content');
     </div>
 </div>
 
-<div class="fixed-plugin">
+<div class="fixed-plugin fixed-create ">
     <a data-bs-toggle="modal" data-bs-target="#createModal"
-        class=" fixed-plugin-button text-white position-fixed px-3 py-2">
+        class=" fixed-plugin-button bg-gradient-polman text-white position-fixed px-3 py-2">
         <i class='fs-4 bx bx-plus py-2'></i>
+    </a>
+</div>
+
+<div class="fixed-plugin fixed-delete d-none">
+    <a href="#" data-href="/Spk/bulkDelSPK/"
+        class="fixed-plugin-button bg-gradient-danger text-white position-fixed px-3 py-2">
+        <i class='fs-4 bx bxs-trash-alt py-2'></i>
     </a>
 </div>
 
@@ -234,7 +269,7 @@ $this->section('content');
         <form method="post" id="tambahSPK" action="/Spk/createSPK">
             <div class="modal-content">
                 <div class="bg-polman modal-header">
-                    <h5 class="text-white poppins-bold modal-title" id="exampleModalLabel">Tambah SPK</h5>
+                    <h5 class="text-white fw-bolder modal-title" id="exampleModalLabel">Tambah SPK</h5>
                     <!-- <button type="button" class="text-white opacity-10 btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button> -->
                 </div>
@@ -295,8 +330,8 @@ $this->section('content');
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
-                    <button type="button" class="btn btn-info" id="nextBtn">Next</button>
+                    <button anim="ripple" type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
+                    <button anim="ripple" type="button" class="btn btn-info" id="nextBtn">Next</button>
                     <!-- <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button> -->
                     <!-- <button type="submit" id="submitInput" name="submit" class="btn btn-info">Tambah</button> -->
                 </div>
@@ -310,7 +345,7 @@ $this->section('content');
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-polman">
-                <h5 class="modal-title text-white poppins-bold" id="myModalLabel">Konfirmasi Hapus Data</h5>
+                <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Konfirmasi Hapus Data</h5>
             </div>
 
             <div class="modal-body">
@@ -319,8 +354,8 @@ $this->section('content');
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                <a class="btn btn-danger btn-ok">Hapus</a>
+                <button anim="ripple" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <a anim="ripple" class="btn btn-danger btn-ok">Hapus</a>
             </div>
         </div>
     </div>
@@ -331,7 +366,7 @@ $this->section('content');
         <form method="POST" id="edit-form" action="/Spk/editSPK">
             <div class="modal-content">
                 <div class="modal-header bg-polman">
-                    <h5 class="modal-title text-white poppins-bold" id="">Info SPK</h5>
+                    <h5 class="modal-title text-white fw-bolder" id="">Info SPK</h5>
                 </div>
                 <div class="modal-body">
 
@@ -393,11 +428,12 @@ $this->section('content');
                 <div class="modal-footer">
                     <div class="row w-100">
                         <div class="col text-start">
-                            <button type="button" class="btn btn-warning btn-edit-allow">Edit</button>
+                            <button anim="ripple" type="button" class="btn btn-warning btn-edit-allow">Edit</button>
                         </div>
                         <div class="col text-end">
-                            <button type="button" class="btn btn-secondary" id="prevBtn_edit">Previous</button>
-                            <button type="button" class="btn btn-info" id="nextBtn_edit">Next</button>
+                            <button anim="ripple" type="button" class="btn btn-secondary"
+                                id="prevBtn_edit">Previous</button>
+                            <button anim="ripple" type="button" class="btn btn-info" id="nextBtn_edit">Next</button>
                         </div>
                     </div>
                 </div>
@@ -411,7 +447,7 @@ $this->section('content');
         <form method="POST" id="validate-form" action="/Spk/validateSPK">
             <div class="modal-content">
                 <div class="modal-header bg-polman">
-                    <h5 class="modal-title text-white poppins-bold" id="myModalLabel">Validasi</h5>
+                    <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Validasi</h5>
                 </div>
 
                 <div class="modal-body">
@@ -423,8 +459,14 @@ $this->section('content');
                         <div class="input-group">
                             <input type="text" id="validation_input" class="form-control"
                                 placeholder="Masukkan Link Gambar Kerja Disini" name="validation">
+<<<<<<< Updated upstream
                             <a target="_blank" href="" type="button" class="arrowicon px-3 py-auto btn m-0"><i
                                     class='text-white fs-4 bx bx-right-arrow-alt'></i>
+=======
+                            <a anim="ripple" target="_blank" href="" type="button"
+                                class="arrowicon px-3 py-auto btn m-0"><i
+                                    class='text-white fs-5 bx bx-right-arrow-alt'></i>
+>>>>>>> Stashed changes
                             </a>
                         </div>
                         <p class="debug-url-valid"></p>
@@ -434,11 +476,13 @@ $this->section('content');
                 <div class="modal-footer">
                     <div class="row w-100">
                         <div class="col text-start">
-                            <button type="button" class="btn btn-warning btn-edit-valid">Edit</button>
+                            <button anim="ripple" type="button" class="btn btn-warning btn-edit-valid">Edit</button>
                         </div>
                         <div class="col text-end">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                            <button type="submit" name="submit" class="btn btn-info btn-valid">Simpan</button>
+                            <button anim="ripple" type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Kembali</button>
+                            <button anim="ripple" type="submit" name="submit"
+                                class="btn btn-info btn-valid">Simpan</button>
                             <!-- <a class="btn btn-info btn-valid">Simpan</a> -->
                         </div>
                     </div>

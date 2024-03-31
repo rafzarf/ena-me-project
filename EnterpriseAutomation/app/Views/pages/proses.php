@@ -22,7 +22,6 @@ $this->section('content');
             <i class='fs-5 mt-1 text-white bx bxs-wrench'></i>
         </a>
     </div>
-
 </div>
 
 <div class="row mt-4">
@@ -34,8 +33,13 @@ $this->section('content');
                         <i class='fs-4 bx bxs-pie-chart-alt-2'></i>
                     </div>
                     <div class="d-flex">
+<<<<<<< Updated upstream
                         <h3 class="text-dark lh-1 ms-3 my-auto poppins-bold">Proses<br>
                             <span class="text-sm lh-1 poppins-regular text-dark text-start"> No.SPK : PM2004.01
+=======
+                        <h3 class="text-dark lh-1 ms-3 my-auto fw-bolder">Proses<br>
+                            <span class="text-sm lh-1 poppins-regular text-dark text-start"> No.SPK : <?= $getSPK[0]->no_spk ?>
+>>>>>>> Stashed changes
                             </span>
                         </h3>
                     </div>
@@ -63,14 +67,14 @@ $this->section('content');
                     <!-- <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
                         <i class='fs-4 bx bxs-calendar'></i>
                     </div> -->
-                    <!-- <h3 class="text-dark text-center my-auto poppins-bold">Progress</h3> -->
+                    <!-- <h3 class="text-dark text-center my-auto fw-bolder">Progress</h3> -->
                 </div>
             </div>
             <div class="card-body mx-auto text-center pt-0">
                 <div class="progress-halfcircle w-100">
                     <div class="barOverflow">
                         <div class="bar"></div>
-                        <h4 class="text-dark text-center mt-5 poppins-bold">Progress</h4>
+                        <h4 class="text-dark text-center mt-5 fw-bolder">Progress</h4>
                         <span class="text-dark">100%</span>
                     </div>
 
@@ -86,7 +90,7 @@ $this->section('content');
             <!-- <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md"><i
                     class='fs-4 bx bxs-briefcase-alt-2'></i>
             </div> -->
-            <h4 class="d-flex ms-3 mt-2 poppins-bold mb-0 text-dark">Data Proses</h4>
+            <h4 class="d-flex ms-3 mt-2 fw-bolder mb-0 text-dark">Data Proses</h4>
         </div>
 
     </div>
@@ -131,19 +135,12 @@ $this->section('content');
     </div>
 </div>
 
-
-<!-- <div class="fixed-plugin">
-    <a data-bs-toggle="modal" data-bs-target="#createModal"
-        class=" fixed-plugin-button text-white position-fixed px-3 py-2">
-        <i class='fs-4 bx bx-plus py-2'></i>
-    </a>
-</div> -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <form method="post" action="/Spk/createSPK">
             <div class="modal-content">
                 <div class="bg-polman modal-header">
-                    <h5 class="text-white poppins-bold modal-title" id="exampleModalLabel">Tambah Komponen</h5>
+                    <h5 class="text-white fw-bolder modal-title" id="exampleModalLabel">Tambah Komponen</h5>
                     <!-- <button type="button" class="text-white opacity-10 btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button> -->
 
@@ -166,7 +163,7 @@ $this->section('content');
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-polman">
-                <h5 class="modal-title text-white poppins-bold" id="myModalLabel">Tambah Permesinan</h5>
+                <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Tambah Permesinan</h5>
             </div>
 
             <div class="modal-body">

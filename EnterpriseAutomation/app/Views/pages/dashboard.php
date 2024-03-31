@@ -19,7 +19,7 @@ $this->section('content');
                                 <h5 class="text-dark poppins-bold mb-0">50 </h5>
                             </div>
                         </div>
-                        <div class="col-4 my-auto text-end">
+                        <div class="col-4 d-lg-block d-flex my-auto justify-content-end text-end">
                             <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md"><i
                                     class='fs-4 bx bxs-briefcase-alt-2'></i></div>
                         </div>
@@ -37,7 +37,7 @@ $this->section('content');
                                 <h5 class="text-dark poppins-bold mb-0">20</h5>
                             </div>
                         </div>
-                        <div class="col-4 my-auto text-end">
+                        <div class="col-4 d-lg-block d-flex my-auto justify-content-end text-end">
                             <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md"><i
                                     class='fs-4 bx bxs-badge-check'></i></div>
                         </div>
@@ -55,7 +55,7 @@ $this->section('content');
                                 <h5 class="text-dark poppins-bold mb-0">30</h5>
                             </div>
                         </div>
-                        <div class="col-4 my-auto text-end">
+                        <div class="col-4 d-lg-block d-flex my-auto justify-content-end text-end">
                             <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md"><i
                                     class='fs-4 bx bxs-pie-chart'></i></div>
                         </div>
@@ -73,7 +73,7 @@ $this->section('content');
                                 <h5 class="text-dark poppins-bold mb-0">100 </h5>
                             </div>
                         </div>
-                        <div class="col-4 my-auto text-end">
+                        <div class="col-4 d-lg-block d-flex my-auto justify-content-end text-end">
                             <div class="icon icon-shape bg-gradient-secondary shadow text-center border-radius-md">
                                 <i class='fs-4 bx bxs-hard-hat'></i></div>
                         </div>
@@ -240,6 +240,5 @@ $this->section('content');
 
     );
 </script>
-
 
 <?=$this->endSection();?>
