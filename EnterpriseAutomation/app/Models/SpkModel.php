@@ -26,6 +26,9 @@ class SpkModel extends Model
         'no_order',
     ];
     
+    // buat generate nomor spk , order dan penawaran
+    // mungkin bakal dihapus kalau udh integrasi jadi gausah 
+    // terlalu dipikirin
     public function getLastId() {
         $db = db_connect();
         $query = $db->query('SELECT MAX(id_spk) AS lastid FROM spk LIMIT 1;');
@@ -35,11 +38,25 @@ class SpkModel extends Model
         } else {
             return 1;
         }
-        
+    }
+    
+    //get() detailed data SPK by id 
+    public function getSPKDetail($id) {
+        return $this->table('$this->table')
+        ->getWhere([$this->primaryKey => $id])
+        ->getResult();
     }
 
-<<<<<<< Updated upstream
-=======
+    //buat kebutuhan input di logistik , biar bisa select berdasarkan no SPK yang sudah ada.
+    // query builder itu urutannya syntax query misal getwhere, select , dsb baru di get() baru di getresult
+    // get() itu kaya menjalanjakn query  ibarat mysqli?(conn , query)
+    //sedangkan getresult() itu kaya mysqli_fetch_array / fetch assoc.
+    public function getUniqueKeySPK() {
+        return $this->table('$this->table')
+        ->select('no_spk')
+        ->get()->getResult();
+    }
+
     //buat kebutuhan input di logistik , biar bisa select berdasarkan no SPK yang sudah ada.
     // query builder itu urutannya syntax query misal getwhere, select , dsb baru di get() baru di getresult
     // get() itu kaya menjalanjakn query  ibarat mysqli?(conn , query)
@@ -57,7 +74,10 @@ class SpkModel extends Model
     }
 
     //fungsi search $keyword dari variable GET dari input search.
->>>>>>> Stashed changes
+
+
+    //fungsi search $keyword dari variable GET dari input search.
+
     public function search($keyword) {
         if($keyword){
             $spkdata = $this->table($this->table)

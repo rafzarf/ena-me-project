@@ -16,7 +16,7 @@
     const input_response = $('.data-input');
     const edit_response = $('.data-edit');
     const delete_response = $('.data-delete');
-    
+
     response(input_response, "Data Berhasil Ditambahkan", "Data Gagal Ditambahkan");
     response(edit_response, "Data Berhasil Diedit", "Data Gagal Diedit");
     response(delete_response, "Data Berhasil Dihapus", "Data Gagal Dihapus");
@@ -42,10 +42,10 @@
         /*event hide pada modal adalah saat modal hendak hilang sepenuhnya
         jika hidden saat sudah hilang sepenuhnya.*/
 
+
         $('#modal_info').on('hidden.bs.modal', function (e) {
             $('#edit-form .modal-body').find(':input:not(:disabled)').prop('disabled', true);
             $('#edit-form .modal-body').find('select').prop('disabled', true);
-        });
     })
 
     /*ini fungsi buat modal input sama edit yang input formnya banyak bgt 
@@ -99,6 +99,7 @@
         nextPrev(-1, tabEdit, tabEditLength, currentEditTab, formEdit, modalEdit, prevBtnEdit, nextBtnEdit);
     });
 
+
     // MULTIPLE DELETE FUNCTION
     $('.multiple-dlt-btn').on('click', function () {
         $('.check-th').toggleClass('d-none');
@@ -121,4 +122,5 @@
             $('#confirm-delete').modal('show');
         }
     });
+
 </script>

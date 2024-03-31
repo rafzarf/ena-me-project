@@ -32,13 +32,8 @@
                 <div class="col text-center">
                     <img class="w-75" src="/assets/img/favicon.png" alt="">
                 </div>
-<<<<<<< Updated upstream
-                <div class="col-8">
-                    <h3 class="poppins-bold text-start mt-2 text-dark">Halaman Login<br> Enterprise ME </h3>
-=======
                 <div class="col-8 px-0">
                     <h3 class="fw-bolder text-start mt-2 text-dark">Halaman Login<br> Enterprise ME </h3>
->>>>>>> Stashed changes
                 </div>
             </div>
 

@@ -8,15 +8,8 @@ $this->section('content');
 
 ?>
 
+<!-- CARD START -->
 <div class="card mt-4">
-<<<<<<< Updated upstream
-    <div class="card-header ">
-        <div class="w-100 d-flex col-4 my-auto text-start">
-            <!-- <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md"><i
-                    class='fs-4 bx bxs-briefcase-alt-2'></i>
-            </div> -->
-            <h4 class="d-flex ms-3 mt-2 poppins-bold mb-0 text-dark">Inventaris Gudang</h4>
-=======
 
     <!-- CARD HEADER START -->
     <div class="card-header pe-0 ">
@@ -64,10 +57,11 @@ $this->section('content');
                     </div>
                 </div>
             </div>
->>>>>>> Stashed changes
         </div>
-
     </div>
+    <!-- CARD HEADER END -->
+
+    <!-- CARD BODY START -->
     <div class="card-body pt-0 mt-0">
         <div class="table-responsive p-0">
             <table class="table align-items-center">
@@ -76,45 +70,127 @@ $this->section('content');
                         <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
                             No.
                         </th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th
+                            class="sticky-left text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
                             No.SPK</th>
                         <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
                             Nama Barang</th>
                         <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
-                            Tanggal Sampai</th>
+                            Jumlah</th>
+                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                            Batas Waktu</th>
                         <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
                             Status</th>
                         <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
                             Nama Penerima</th>
                         <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
                             Lokasi Penyimpanan</th>
+                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                            Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $no = 1 + ($entries * ($current_page - 1)); foreach($getLogistik as $data){?>
                     <tr>
-                        <td data-label="No" class="text-dark text-center">1</td>
-                        <td data-label="No.SPK" class="text-dark text-center">PM240050</td>
-                        <td data-label="Pengorder" class="text-dark text-center">Crank Shaft</td>
-                        <td data-label="Batas Waktu" class="text-dark text-center">2024/03/19</td>
-                        <td data-label="No" class="text-dark text-center">ADA</td>
-                        <td data-label="No.SPK" class="text-dark text-center">Hafidz</td>
-                        <td data-label="Pengorder" class="text-dark text-center">Rak A</td>
+                        <td data-label="No" class="text-dark text-center"><?= $no;?></td>
+                        <td data-label="No.SPK" class="sticky-left text-dark text-center"><?= $data['no_spk']?></td>
+                        <td data-label="Nama Barang" class="text-dark text-center"><?= $data['nama_barang']?></td>
+                        <td data-label="Jumlah" class="text-dark text-center"><?= $data['jml_komponen']?></td>
+                        <td data-label="Batas Waktu" class="text-dark text-center"><?= $data['batas_waktu']?></td>
+                        <td data-label="Status" class="text-dark text-center">
+                            <span class="status_barang badge badge-sm 
+                            <?php 
+                            if($data['status'] == 'Tersedia') {
+                                echo 'bg-gradient-success';
+                            } else {
+                                echo 'bg-gradient-secondary';
+                            }
+                            ?>"><?=$data['status'] ?></span>
+                        </td>
+                        <td data-label="Nama Penerima" class="text-dark text-center"><?= $data['nama_penerima']?></td>
+                        <td data-label="Lokasi Penyimpanan" class="text-dark text-center"><?= $data['tempat_simpan']?>
+                        </td>
+                        <td data-label="Aksi" class="text-dark text-center">
+                            <div class="btn-group dropstart">
+                                <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" data-boundary="window">
+                                    Pilih Aksi
+                                </button>
+                                <ul class="dropdown-menu position-fixed dropdown-menu-right p-1">
+                                    <li class="mb-0">
+                                        <a href="#" class="btn-edit dropdown-item"
+                                            data-idlogistik="<?=$data['id_stoklogistik']?>"
+                                            data-nospk="<?=$data['no_spk']?>"
+                                            data-penerima="<?= $data['nama_penerima']?>"
+                                            data-status="<?= $data['status']?>" data-waktu="<?= $data['batas_waktu']?>"
+                                            data-nama_barang="<?= $data['nama_barang']?>"
+                                            data-tempat="<?= $data['tempat_simpan']?>"
+                                            data-jumlah="<?= $data['jml_komponen']?>" 
+                                            data-href="/Gudang/editLogistik/">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 text-center bx bxs-info-circle 
+                                            btn bg-gradient-info px-2 py-1'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Info
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Tampilkan info
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mb-0">
+                                        <a href="#" data-href="/Gudang/deleteLogistik/<?=$data['id_stoklogistik']?>"
+                                            data-bs-toggle="modal" data-bs-target="#confirm-delete"
+                                            class="dropdown-item">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 bx bxs-trash px-2 py-1 btn bg-gradient-danger'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Hapus
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Hapus Data
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
                     </tr>
+                    <?php $no++;}?>
                 </tbody>
             </table>
         </div>
+        <div class="mt-4">
+            <?= $pager->links() ?>
+        </div>
     </div>
+    <!-- CARD BODY END -->
 </div>
+<!-- CARD END -->
 
+<!-- FLOATING ACTION BUTTON START -->
 <div class="fixed-plugin">
     <a data-bs-toggle="modal" data-bs-target="#createModal"
         class=" fixed-plugin-button text-white position-fixed px-3 py-2">
         <i class='fs-4 bx bx-plus py-2'></i>
     </a>
 </div>
+<!-- FLOATING ACTION BUTTON END -->
 
-<<<<<<< Updated upstream
-=======
 <!-- MODAL CREATE START -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
@@ -304,6 +380,5 @@ $this->section('content');
         });
     })
 </script>
->>>>>>> Stashed changes
 
 <?=$this->endSection();?>

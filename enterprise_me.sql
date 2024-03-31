@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
-<<<<<<< Updated upstream
 -- Generation Time: Mar 11, 2024 at 03:46 AM
-=======
--- Generation Time: Mar 31, 2024 at 03:38 PM
->>>>>>> Stashed changes
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.5
 
@@ -33,10 +29,6 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `form_order_logistik` (
   `id_orderlog` int(11) NOT NULL,
-<<<<<<< Updated upstream
-  `id_worker` int(11) NOT NULL,
-  `no_barang` int(11) NOT NULL,
-=======
   `no_spk` varchar(50) NOT NULL,
   `pemesan` varchar(255) NOT NULL,
   `tanggal_created` date NOT NULL,
@@ -46,7 +38,6 @@ CREATE TABLE `form_order_logistik` (
   `jml_satuan` int(11) NOT NULL,
   `nama_barang` varchar(255) NOT NULL,
   `no_barang` varchar(255) NOT NULL,
->>>>>>> Stashed changes
   `no_gambar` varchar(255) NOT NULL,
   `tgl_penerima` date NOT NULL,
   `nama_penerima` varchar(255) NOT NULL,
@@ -157,16 +148,8 @@ INSERT INTO `spk` (`id_spk`, `pengorder`, `tgl_selesai`, `tgl_penyerahan`, `nama
 (53, 'Agung', '2024-03-23', '2024-03-08', 'Jubah', 68, NULL, '2024-04-05', 'Q24.0052', '0052/PTR/II/2024', 'PM240052'),
 (58, 'ipman', '2024-03-18', '2024-03-13', 'Gearbox', 1, NULL, '2024-03-27', 'Q24.0053', '0053/PTR/II/2024', 'PM240053'),
 (59, 'Yang chen', '2024-03-28', '2024-03-13', 'pesawat', 22, 'https://samehadaku.show/undead-unluck-episode-22/', '2024-03-18', 'Q24.0058', '0058/PTR/II/2024', 'PM240058'),
-<<<<<<< Updated upstream
-(60, 'korra', '2024-03-30', '2024-03-20', 'panah', 1, NULL, '2024-04-02', 'Q24.0059', '0059/PTR/II/2024', 'PM240059'),
-(61, 'kol', '2024-03-18', '2024-02-26', 'panah', 1, NULL, '2024-03-26', 'Q24.0060', '0060/PTR/II/2024', 'PM240060'),
-(62, 'adasdas', '2024-03-23', '2024-03-13', 'Gearbox', 3, NULL, '2024-03-30', 'Q24.0061', '0061/PTR/II/2024', 'PM240061'),
-(63, 'yuji', '2024-03-20', '2024-03-12', 'Gearbox', 121, NULL, '2024-03-28', 'Q24.0062', '0062/PTR/II/2024', 'PM240062'),
-(64, 'mizan', '2024-03-30', '2024-03-19', 'Xiaomi', 12, NULL, '2024-03-28', 'Q24.0063', '0063/PTR/II/2024', 'PM240063');
-=======
 (60, 'korra', '2024-04-15', '2024-03-20', 'panah', 1, NULL, '2024-04-02', 'Q24.0059', '0059/PTR/II/2024', 'PM240059'),
 (61, 'kol', '2024-04-06', '2024-02-26', 'panah', 1, NULL, '2024-03-26', 'Q24.0060', '0060/PTR/II/2024', 'PM240060');
->>>>>>> Stashed changes
 
 -- --------------------------------------------------------
 
@@ -180,8 +163,6 @@ CREATE TABLE `stok_gudang` (
   `jml_komponen` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-<<<<<<< Updated upstream
-=======
 --
 -- Dumping data for table `stok_gudang`
 --
@@ -190,7 +171,6 @@ INSERT INTO `stok_gudang` (`id_stoklogistik`, `no_spk`, `nama_penerima`, `status
 (2, 'PM240050', 'Rachmat Syaiful Mujab', 'Tersedia', '2024-03-21', 'Arduino', 'Rak B', 1),
 (4, 'PM240050', 'rafza ray F', 'Tersedia', '2024-03-30', 'Raspberry Pico', 'Rak A', 13);
 
->>>>>>> Stashed changes
 -- --------------------------------------------------------
 
 --
@@ -214,12 +194,7 @@ CREATE TABLE `worker` (
 --
 ALTER TABLE `form_order_logistik`
   ADD PRIMARY KEY (`id_orderlog`),
-<<<<<<< Updated upstream
-  ADD KEY `id_spk` (`id_spk`),
-  ADD KEY `id_worker` (`id_worker`);
-=======
   ADD KEY `no_spk` (`no_spk`);
->>>>>>> Stashed changes
 
 --
 -- Indexes for table `form_proses`
@@ -297,21 +272,13 @@ ALTER TABLE `pengerjaan`
 -- AUTO_INCREMENT for table `spk`
 --
 ALTER TABLE `spk`
-<<<<<<< Updated upstream
-  MODIFY `id_spk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
-=======
   MODIFY `id_spk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
->>>>>>> Stashed changes
 
 --
 -- AUTO_INCREMENT for table `stok_gudang`
 --
 ALTER TABLE `stok_gudang`
-<<<<<<< Updated upstream
-  MODIFY `id_stoklogistik` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_stoklogistik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
->>>>>>> Stashed changes
 
 --
 -- AUTO_INCREMENT for table `worker`
@@ -327,26 +294,16 @@ ALTER TABLE `worker`
 -- Constraints for table `form_order_logistik`
 --
 ALTER TABLE `form_order_logistik`
-<<<<<<< Updated upstream
-  ADD CONSTRAINT `form_order_logistik_ibfk_1` FOREIGN KEY (`id_spk`) REFERENCES `spk` (`id_spk`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `form_order_logistik_ibfk_2` FOREIGN KEY (`id_worker`) REFERENCES `worker` (`id_worker`) ON DELETE NO ACTION;
-=======
   ADD CONSTRAINT `form_order_logistik_ibfk_2` FOREIGN KEY (`no_spk`) REFERENCES `spk` (`no_spk`);
->>>>>>> Stashed changes
 
 --
 -- Constraints for table `form_proses`
 --
 ALTER TABLE `form_proses`
   ADD CONSTRAINT `form_proses_ibfk_1` FOREIGN KEY (`id_mesin`) REFERENCES `mesin` (`id_mesin`) ON DELETE NO ACTION,
-<<<<<<< Updated upstream
-  ADD CONSTRAINT `form_proses_ibfk_2` FOREIGN KEY (`id_orderlog`) REFERENCES `form_order_logistik` (`id_orderlog`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `form_proses_ibfk_3` FOREIGN KEY (`id_stoklogistik`) REFERENCES `stok_gudang` (`id_stoklogistik`) ON DELETE NO ACTION;
-=======
   ADD CONSTRAINT `form_proses_ibfk_3` FOREIGN KEY (`id_stoklogistik`) REFERENCES `stok_gudang` (`id_stoklogistik`) ON DELETE NO ACTION,
   ADD CONSTRAINT `form_proses_ibfk_4` FOREIGN KEY (`id_spk`) REFERENCES `spk` (`id_spk`),
   ADD CONSTRAINT `form_proses_ibfk_5` FOREIGN KEY (`no_order`) REFERENCES `spk` (`no_order`);
->>>>>>> Stashed changes
 
 --
 -- Constraints for table `pengerjaan`

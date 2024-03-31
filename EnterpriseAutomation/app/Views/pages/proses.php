@@ -2,7 +2,6 @@
 
 $this->section('content');
 
-
 ?>
 <div class="fab-container">
     <div class="fab shadow">
@@ -33,13 +32,8 @@ $this->section('content');
                         <i class='fs-4 bx bxs-pie-chart-alt-2'></i>
                     </div>
                     <div class="d-flex">
-<<<<<<< Updated upstream
-                        <h3 class="text-dark lh-1 ms-3 my-auto poppins-bold">Proses<br>
-                            <span class="text-sm lh-1 poppins-regular text-dark text-start"> No.SPK : PM2004.01
-=======
                         <h3 class="text-dark lh-1 ms-3 my-auto fw-bolder">Proses<br>
                             <span class="text-sm lh-1 poppins-regular text-dark text-start"> No.SPK : <?= $getSPK[0]->no_spk ?>
->>>>>>> Stashed changes
                             </span>
                         </h3>
                     </div>
