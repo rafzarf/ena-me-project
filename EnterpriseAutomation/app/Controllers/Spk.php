@@ -12,8 +12,6 @@ class Spk extends BaseController
         $this->spk = new SpkModel();
     }
 
-
-
     public function index() {
         $keyword = $this->request->getVar('keyword') ? $this->request->getVar('keyword') : "";
         $currentPage = $this->request->getVar('page') ? $this->request->getVar('page') : 1;
@@ -35,9 +33,17 @@ class Spk extends BaseController
     {
         // lakukan validasi
         $validation =  \Config\Services::validation();
-        $validation->setRules([
+        $validation->setRules(
+        [
             'pengorder' => 'required',
-            'no_spk' => 'required'
+            'no_spk' => 'required|is_unique[spk.no_spk]',
+            'tgl_selesai' => 'required',
+            'tgl_penyerahan' => 'required',
+            'nama_produk' => 'required',
+            'jml_pesanan' => 'required',
+            'tgl_upm' => 'required',
+            'no_penawar' => 'required|is_unique[spk.no_penawar]',
+            'no_order' => 'required|is_unique[spk.no_order]',
         ]);
         $isDataValid = $validation->withRequest($this->request)->run();
 
@@ -64,7 +70,6 @@ class Spk extends BaseController
         }
 		
         // tampilkan form create
-        //return view("/pages/spk", $this->dataSPK);
         return redirect()->back()->withInput(); 
     }
 
@@ -73,7 +78,6 @@ class Spk extends BaseController
     public function editSPK()
     {
         // ambil data spk yang akan diedit
-        //$data['spk'] = $this->spk->where('id_spk', $id);
         $id = $this->request->getPost('idspk');
 
         // lakukan validasi data spk
@@ -107,6 +111,14 @@ class Spk extends BaseController
 	public function deleteSPK($id){
 
         $this->spk->delete($id);
+        session()->setFlashdata('del_msg','success');
+
+        return redirect()->back();
+    }
+
+    public function bulkDelSPK($id){
+        $arrIds = explode(",", $id);
+        $this->spk->multipleDelete($arrIds);
         session()->setFlashdata('del_msg','success');
 
         return redirect()->back();

@@ -57,7 +57,27 @@ class SpkModel extends Model
         ->get()->getResult();
     }
 
+    //buat kebutuhan input di logistik , biar bisa select berdasarkan no SPK yang sudah ada.
+    // query builder itu urutannya syntax query misal getwhere, select , dsb baru di get() baru di getresult
+    // get() itu kaya menjalanjakn query  ibarat mysqli?(conn , query)
+    //sedangkan getresult() itu kaya mysqli_fetch_array / fetch assoc.
+    public function getUniqueKeySPK() {
+        return $this->table('$this->table')
+        ->select('no_spk')
+        ->get()->getResult();
+    }
+
+    public function multipleDelete($id) {
+        $this->table('$this->table')
+        ->whereIn($this->primaryKey, $id)
+        ->delete();
+    }
+
     //fungsi search $keyword dari variable GET dari input search.
+
+
+    //fungsi search $keyword dari variable GET dari input search.
+
     public function search($keyword) {
         if($keyword){
             $spkdata = $this->table($this->table)

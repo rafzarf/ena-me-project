@@ -19,11 +19,11 @@ $this->section('content');
                     <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md"><i
                             class='fs-4 bx bxs-package'></i>
                     </div>
-                    <h4 class="d-flex ms-3 mt-2 poppins-bold mb-0 text-dark">Inventaris Gudang</h4>
+                    <h4 class="d-flex ms-3 mt-2 fw-bolder mb-0 text-dark">Inventaris Gudang</h4>
                 </div>
             </div>
             <div class="col pe-0 d-flex  justify-content-lg-end justify-content-center">
-                <div class="row">
+                <div class="row w-100">
                     <div class="col px-0">
                         <div
                             class="ms-md-auto pe-md-3 d-flex align-items-center justify-content-end ms-sm-auto me-lg-0 me-sm-3">
@@ -38,19 +38,19 @@ $this->section('content');
                             </form>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="dropdown h-100 w-0">
-                            <button class="h-100 my-auto dropdown-toggle btn btn-info ps-3 pe-2" type="button"
+                    <div class="col pe-lg-0 me-lg-0 me-4">
+                        <div class="dropdown h-100">
+                        <button class="h-100 w-lg-75 w-100 my-auto dropdown-toggle btn btn-info ps-3 pe-2" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 Show <?= $entries ?> Data
                                 <span class="ms-2 me-0 pe-0"><i class='bx bxs-chevron-down'></i></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="text-dark text-center dropdown-item" href="/Spk?page=1&entries=5">5 Data /
+                                <li><a class="text-dark text-center dropdown-item" href="/Gudang?entries=5">5 Data /
                                         Halaman</a></li>
-                                <li><a class="text-dark text-center dropdown-item" href="/Spk?page=1&entries=10">10 Data
+                                <li><a class="text-dark text-center dropdown-item" href="/Gudang?entries=10">10 Data
                                         / Halaman</a></li>
-                                <li><a class="text-dark text-center dropdown-item" href="/Spk?page=1&entries=15">15 Data
+                                <li><a class="text-dark text-center dropdown-item" href="/Gudang?entries=15">15 Data
                                         / Halaman</a></li>
                             </ul>
                         </div>
@@ -197,7 +197,7 @@ $this->section('content');
         <form method="post" id="create-form" action="/Gudang/createLogistik">
             <div class="modal-content">
                 <div class="bg-polman modal-header">
-                    <h5 class="text-white poppins-bold modal-title" id="exampleModalLabel">Tambah Data Logistik</h5>
+                    <h5 class="text-white fw-bolder modal-title" id="exampleModalLabel">Tambah Data Logistik</h5>
                     <!-- <button type="button" class="text-white opacity-10 btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button> -->
                 </div>
@@ -266,7 +266,7 @@ $this->section('content');
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-polman">
-                <h5 class="modal-title text-white poppins-bold" id="myModalLabel">Konfirmasi Hapus Data</h5>
+                <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Konfirmasi Hapus Data</h5>
             </div>
 
             <div class="modal-body">
@@ -289,7 +289,7 @@ $this->section('content');
         <form method="POST" id="edit-form" action="/Gudang/editLogistik">
             <div class="modal-content">
                 <div class="modal-header bg-polman">
-                    <h5 class="modal-title text-white poppins-bold" id="">Info Logistik</h5>
+                    <h5 class="modal-title text-white fw-bolder" id="">Info Logistik</h5>
                 </div>
                 <div class="modal-body">
                     <div class="tab_edit">

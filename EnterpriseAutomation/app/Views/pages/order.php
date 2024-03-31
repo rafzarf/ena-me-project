@@ -3,30 +3,61 @@
 $this->section('content');
 
 ?>
+<!-- PASSING FLASH DATA FOR SWEETALERT2 -->
+<div data-flash="<?= session()->getFlashdata('validate_msg') ?>" class="data-valid d-none"> </div>
 
 <div class="row mt-4">
+    <!-- CARD ORDER START -->
     <div class="col-lg-7">
         <div class="card z-index-2">
             <div class="card-header pb-0">
-                <div class="my-auto d-flex text-start">
-                    <div class="icon my-auto icon-shape bg-gradient-warning shadow text-center border-radius-md">
-                        <i class='fs-4 bx bxs-cart-alt'></i>
+                <div class="row mx-0 w-100">
+                    <div class="col ps-0 d-flex">
+                        <div class="icon my-auto icon-shape bg-gradient-warning shadow text-center border-radius-md">
+                            <i class='fs-4 bx bxs-cart-alt'></i>
+                        </div>
+                        <div class="d-flex">
+                            <h3 class="text-dark lh-1 ms-3 my-auto">Order<br>
+                                <span class="text-sm lh-1 text-dark text-start"> No.SPK :
+                                    <?= $getSPK[0]->no_spk ?>
+                                </span>
+                            </h3>
+                        </div>
                     </div>
-                    <div class="d-flex">
-                        <h3 class="text-dark lh-1 ms-3 my-auto poppins-bold">Order<br>
-                            <span class="text-sm lh-1 poppins-regular text-dark text-start"> No.SPK : PM2004.01
-                            </span>
-                        </h3>
-                    </div>
-                </div>
-                <div class="row text-start mt-3">
+                    <div class="col-auto pe-0 my-auto">
+                        <div class="row">
+                            <div class="text-end text-lg-center">
+                                <?php 
+                                if(isset($getSPK[0]->gbr_kerja)) { 
+                                    $valid = $getSPK[0]->gbr_kerja;
+                                } else {
+                                    $valid = "";
+                                }
+                                
+                                if(!isset($getSPK[0]->gbr_kerja)) { 
+                                    echo '<a id="btn-validate" class="text-wrap my-auto w-100 py-2 btn btn-info" href="#"
+                                    data-bs-toggle="modal" data-bs-target="#validation_modal"
+                                    data-href="/Order/validateSPK/'.$getSPK[0]->id_spk.'"
+                                    data-valid="'.$valid.'">Validasi</a>';
+                                } 
+                                else {
+                                    echo '<a id="btn-validate" class="text-wrap my-auto w-100 py-2 btn btn-success"
+                                    href="#" data-bs-toggle="modal"
+                                    data-bs-target="#validation_modal"
+                                    data-href="/Order/validateSPK/'.$getSPK[0]->id_spk.'" 
+                                    data-valid="'.$valid.'">Info Validasi</a>';
+                                }?>
 
-                    <div class="col-lg-4 mb-lg-0 mb-3 text-start">
-                        <button type="submit" name="submit" class="my-auto w-lg-100 py-2 btn btn-success">ACC
-                            Project</button>
-                    </div>
-                    <div class="col text-start my-auto">
-                        <span class="py-2 h-100 badge badge-sm bg-gradient-success">status : Tervalidasi</span>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="text-end text-lg-center mt-3">
+                                <div data-valid="<?=$valid?>" class="text-wrap status_validate">
+                                    <span class="py-2 h-100 badge badge-sm"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -35,204 +66,447 @@ $this->section('content');
             </div>
         </div>
     </div>
+    <!-- CARD ORDER END -->
+
+    <!-- CARD BATAS WAKTU START -->
     <div class="col-lg-5 mt-4 mt-lg-0">
-        <div class="card h-100 z-index-2">
-            <div class="card-header mb-3 pb-0">
-                <div class="my-auto text-center">
-                    <!-- <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
-                        <i class='fs-4 bx bxs-calendar'></i>
-                    </div> -->
-                    <h3 class="text-dark text-center my-auto poppins-bold">Batas Waktu</h3>
+        <?php 
+        
+        $epoch = time();
+        $currentdate = date_create("@$epoch", new DateTimeZone("UTC"))
+        ->setTimezone(new DateTimeZone("Asia/Jakarta"))->format("Y-m-d");
+        $date_batas = $getSPK[0]->tgl_selesai;
+        date_create($currentdate) > date_create($date_batas) ? $punc = "+" : $punc = '-';
+        $diff = date_diff(date_create($currentdate),date_create($date_batas));
+
+        ?>
+        <div class="card waktu h-100 <?php 
+                if($punc == "+" && $diff->format("%a") > 0) {
+                    echo "bg-gradient-danger";
+                } else if ($punc == '-' && $diff->format("%a") > 7) {
+                    echo "bg-gradient-success";
+                } else if ($punc == '-' && $diff->format("%a") <= 7) { 
+                    echo 'bg-gradient-warning';
+                } ?>
+                
+                py-auto z-index-2">
+            <div class="card-header <?php 
+                if($punc == "+" && $diff->format("%a") > 0) {
+                    echo "bg-gradient-danger";
+                } else if ($punc == '-' && $diff->format("%a") > 7) {
+                    echo "bg-gradient-success";
+                } else if ($punc == '-' && $diff->format("%a") <= 7) { 
+                    echo 'bg-gradient-warning';
+                } 
+                ?> ">
+                <div class="my-auto text-center py-auto">
+                    <h5 class="text-white fw-bolder letter-spacing-2 text-center">BATAS WAKTU</h5>
                 </div>
+                <h4 class="text-white text-center fw-light"><?=$getSPK[0]->tgl_selesai?> |
+                    <?="H".$punc.$diff->format("%a")?>
+                </h4>
             </div>
-            <div class="card-body text-center pt-0">
-                <h3 class="text-dark">24/03/2024 | H-18</h3>
+            <div class="card-body p-1">
+
             </div>
         </div>
     </div>
+    <!-- CARD BATAS WAKTU END -->
 </div>
 
+<!-- TABEL DATA ORDER START -->
 <div class="card mt-4">
-    <div class="card-header ">
-        <div class="w-100 d-flex col-4 my-auto text-start">
-            <!-- <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md"><i
-                    class='fs-4 bx bxs-briefcase-alt-2'></i>
-            </div> -->
-            <h4 class="d-flex ms-3 mt-2 poppins-bold mb-0 text-dark">Data Order Logistik</h4>
+    <div class="card-header pb-1 pe-0">
+        <div class="row w-100">
+            <div class="col mb-lg-0 mb-3">
+                <div class="w-100 d-flex my-auto text-start">
+                    <h5 class="d-flex ms-1 mt-lg-2 mb-0 text-dark">Tabel Data Order Logistik</h5>
+                </div>
+            </div>
+            <div class="col col-lg-auto pe-0 d-flex justify-content-lg-end justify-content-center">
+                <div class="row w-100">
+                    <div class="col px-0">
+                        <div
+                            class="ms-md-auto pe-md-3 d-flex align-items-center justify-content-end ms-sm-auto me-lg-0 me-sm-3">
+                            <form action="" id="searchbar" method="GET">
+                                <div class="input-group">
+                                    <input type="text" id="searchbox" class="form-control" placeholder="Type here..."
+                                        name="keyword">
+                                    <button anim="ripple" type="submit" class="searchicon px-3 py-auto btn m-0"><i
+                                            class='text-white fs-6 bx bx-search'></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="option-dropdown col-auto ps-0 pe-lg-0 me-lg-4">
+                        <div class="btn-group dropstart">
+                            <button class="pt-2 ps-lg-0 ps-2 pe-0 btn btn-mesin" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" data-bs-auto-close="outside">
+                                <i class="text-dark fs-3 bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="py-1 text-center mb-0">
+                                    <div class="btn-group dropstart">
+                                        <a type="button" class="ps-0 text-dark text-center dropdown-item"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class='me-2 text-xxs bx bxs-left-arrow'></i>Data Per Halaman
+                                        </a>
+                                        <ul class="dropdown-menu sub-menu">
+                                            <li><a class="text-dark text-center dropdown-item" href="?entries=5">5
+                                                </a></li>
+                                            <li><a class="text-dark text-center dropdown-item" href="?entries=10">10
+                                                </a>
+                                            </li>
+                                            <li><a class="text-dark text-center dropdown-item" href="?entries=15">15
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="py-1 mb-0">
+                                    <a class="multiple-dlt-btn ps-0 text-dark text-center dropdown-item" href="#">
+                                        Multiple Delete Selection</a></li>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
     <div class="card-body pt-0 mt-0">
         <div class="table-responsive p-0">
-            <table class="table align-items-center">
-                <thead>
+            <table class="table table-hover align-items-center">
+                <thead class="text-xs">
                     <tr>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="check-th d-none text-uppercase text-center text-dark font-weight-bolder opacity-10">
+                        </th>
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             No.
                         </th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             Jumlah</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
-                            Nama Barang/Uraian/Ukuran</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th
+                            class="sticky-left text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
+                            Nama Barang/ Uraian/ Ukuran</th>
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             No.Barang</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             No.Gambar</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             Tanggal Penerima</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             Nama Penerima</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             Berat(kg)</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             Tanggal Pelaporan/Pembelian</th>
-                        <th class="text-uppercase text-center text-sm text-dark font-weight-bolder opacity-10">
-                            Aksi
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-sm">
+                    <?php $no = 1 + ($entries * ($current_page - 1)); foreach($getOrder as $dataOrder){?>
                     <tr>
-                        <td data-label="No" class="text-dark text-center">1</td>
-                        <td data-label="No.SPK" class="text-dark text-center">2</td>
-                        <td data-label="Pengorder" class="text-dark text-center">Crank Shaft</td>
-                        <td data-label="Batas Waktu" class="text-dark text-center">P-2340</td>
-                        <td data-label="No" class="text-dark text-center">G-0002</td>
-                        <td data-label="No.SPK" class="text-dark text-center">06/03/2024</td>
-                        <td data-label="Pengorder" class="text-dark text-center">Hafidz</td>
-                        <td data-label="Batas Waktu" class="text-dark text-center">0.5</td>
-                        <td data-label="No" class="text-dark text-center">01/03/2024</td>
-                        <td data-label="No.SPK" class="text-dark text-center">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal_info"
-                                class="btn btn-edit btn-info">Edit</a>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#confirm-delete"
-                                class="p-2 btn btn-danger">
-                                <i class='fs-4 bx bxs-trash'></i></a>
+                        <td data-label="Select Data" class="text-dark text-center check-td d-none">
+                            <div class="checkbox-wrapper-46">
+                                <input class="shadow inp-cbx" id="cbx-46-<?=$dataOrder['id_orderlog']?>" type="checkbox"
+                                    value="<?=$dataOrder['id_orderlog']?>">
+                                <label class="cbx" for="cbx-46-<?=$dataOrder['id_orderlog']?>"><span>
+                                        <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                        </svg></span><span class="ps-0"></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td data-label="No" class="text-dark text-center"><?= $no;?></td>
+                        <td data-label="Jumlah" class="text-dark text-center"><?= $dataOrder['jml_satuan'] ?></td>
+                        <td data-label="Nama Barang/Uraian/Ukuran" class="sticky-left text-dark text-center">
+                            <?= $dataOrder['nama_barang'] ?></td>
+                        <td data-label="No.Barang" class="text-dark text-center"><?= $dataOrder['no_barang'] ?></td>
+                        <td data-label="No.Gambar" class="text-dark text-center"><?= $dataOrder['no_gambar'] ?></td>
+                        <td data-label="Tanggal Penerima" class="text-dark text-center">
+                            <?= $dataOrder['tgl_penerima'] ?></td>
+                        <td data-label="Nama Penerima" class="text-dark text-center"><?= $dataOrder['nama_penerima'] ?>
+                        </td>
+                        <td data-label="Berat(kg)" class="text-dark text-center"><?= $dataOrder['berat_barang'] ?></td>
+                        <td data-label="Tanggal Pelaporan/Pembelian" class="text-dark text-center">
+                            <?= $dataOrder['tgl_pembelian'] ?></td>
+                        <td data-label="Option" class="text-dark text-center">
+                            <div class="btn-group dropstart">
+                                <button class="btn btn-mesin mb-0" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" data-boundary="window">
+                                    <i class="fs-5 bx text-dark bx-dots-vertical-rounded"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right p-1 position-fixed">
+                                    <li class="mb-0">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal_info"
+                                            class="btn-edit dropdown-item"
+                                            data-id_orderlog="<?=$dataOrder['id_orderlog']?>"
+                                            data-pengorder="<?=$dataOrder['pemesan']?>"
+                                            data-tgl_created="<?=$dataOrder['tanggal_created']?>"
+                                            data-unit_kerja="<?=$dataOrder['unit_kerja']?>"
+                                            data-batas_waktu="<?=$dataOrder['batas_waktu']?>"
+                                            data-disetujui="<?=$dataOrder['disetujui']?>"
+                                            data-no_spk="<?=$dataOrder['no_spk']?>"
+                                            data-jml_satuan="<?=$dataOrder['jml_satuan']?>"
+                                            data-nama_barang="<?=$dataOrder['nama_barang']?>"
+                                            data-no_barang="<?=$dataOrder['no_barang']?>"
+                                            data-no_gambar="<?=$dataOrder['no_gambar']?>"
+                                            data-tgl_penerima="<?=$dataOrder['tgl_penerima']?>"
+                                            data-nama_penerima="<?=$dataOrder['nama_penerima']?>"
+                                            data-tgl_pembelian="<?=$dataOrder['tgl_pembelian']?>"
+                                            data-berat_barang="<?=$dataOrder['berat_barang']?>"
+                                            data-tgl_pesanan="<?=$dataOrder['tgl_pesanan']?>"
+                                            data-record_order="<?=$dataOrder['record_order']?>"
+                                            data-nama_pelaksana="<?=$dataOrder['nama_pelaksana']?>"
+                                            data-catatan="<?=$dataOrder['catatan']?>">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 text-center bx bxs-info-circle 
+                                            btn bg-gradient-info px-2 py-1'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Info
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Tampilkan info
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mb-0">
+                                        <a href="#" data-href="/Order/deleteOrder/<?=$dataOrder['id_orderlog']?>"
+                                            data-bs-toggle="modal" data-bs-target="#confirm-delete"
+                                            class="dropdown-item">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 bx bxs-trash px-2 py-1 btn bg-gradient-danger'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Hapus
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Hapus Data
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
+                    <?php $no++;}?>
                 </tbody>
             </table>
         </div>
+        <div class="mt-4">
+            <?= $pager->links() ?>
+        </div>
     </div>
 </div>
+<!-- TABEL DATA ORDER START -->
 
-
+<!-- FLOATING ACTION BUTTON START -->
 <div class="fixed-plugin">
     <a data-bs-toggle="modal" data-bs-target="#createModal"
-        class=" fixed-plugin-button text-white position-fixed px-3 py-2">
+        class="bg-gradient-polman fixed-plugin-button text-white position-fixed px-3 py-2">
         <i class='fs-4 bx bx-plus py-2'></i>
     </a>
 </div>
 
+<div class="fixed-plugin fixed-delete d-none">
+    <a href="#" data-href="/Order/bulkDelOrder/"
+        class="fixed-plugin-button bg-gradient-danger text-white position-fixed px-3 py-2">
+        <i class='fs-4 bx bxs-trash-alt py-2'></i>
+    </a>
+</div>
+
+<!-- FLOATING ACTION BUTTON END -->
+
+<!-- MODAL CREATE START -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" id="createOrder" action="">
+        <form method="post" id="create-form" action="/Order/createOrder">
             <div class="modal-content">
                 <div class="bg-polman modal-header">
-                    <h5 class="text-white poppins-bold modal-title" id="exampleModalLabel">Tambah Order</h5>
-                    <!-- <button type="button" class="text-white opacity-10 btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button> -->
-
+                    <h5 class="text-white fw-bolder modal-title" id="exampleModalLabel">Tambah Order</h5>
                 </div>
                 <div class="modal-body">
                     <div class="tab">
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Pemesan</label>
-                            <input type="text" name="pengorder" class="form-control" id="pengorder">
+                            <input type="text" name="pengorder" class="form-control" id="pengorder"
+                                placeholder="Masukan Nama Pemesan">
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Tanggal</label>
-                            <input type="text" class="dateselect form-control" id="">
+                            <input type="text" name="tgl_created" class="dateselect form-control" id="tgl_create"
+                                placeholder="Masukkan Tanggal (YYYY/MM/DD)">
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Unit Kerja</label>
-                            <input type="text" class="form-control" id="">
+                            <input type="text" name="unit_kerja" class="form-control" id="unit_kerja"
+                                placeholder="Masukkan Unit Kerja">
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Batas Waktu</label>
-                            <input type="text" class="dateselect form-control" id="">
+                            <input type="text" name="batas_waktu" class="dateselect form-control" id="batas_waktu"
+                                placeholder="Masukkan Batas Waktu (YYYY/MM/DD">
                         </div>
                     </div>
 
                     <div class="tab">
                         <div class="mb-1">
-                            <label for="" class="text-uppercase form-label">Disetujui</label>
-                            <input type="text" name="" class="form-control"
-                                id="">
+                            <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
+                            <select name="disetujui" class="form-control" id="disetujui">
+                                <option value="1">Ya</option>
+                                <option value="0">Tidak</option>
+                            </select>
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">No. Pembebanan</label>
-                            <input type="text" name="" class="form-control" id="">
-                        </div>
+                            <input type="hidden" class="form-control" id="no_spk" name="no_spk"
+                                value="<?=$getSPK[0]->no_spk?>">
 
-                        <div class="mb-1">
-                            <label for="" class="text-uppercase form-label">Jumlah/Satuan</label>
-                            <input type="number" name="" class="form-control" id="">
+                            <input type="text" class="form-control" id="" name="" value="<?=$getSPK[0]->no_spk?>"
+                                disabled>
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Nama Barang/Uraian/Ukuran</label>
-                            <input type="text" name="" class="form-control" id="">
+                            <input type="text" name="nama_barang" class="form-control" id="nama_barang"
+                                placeholder="Masukkan Nama Barang">
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Jumlah/Satuan</label>
+                            <input type="number" name="jml_satuan" class="form-control" id="jml_satuan"
+                                placeholder="Masukkan Jumlah">
                         </div>
                     </div>
 
                     <div class="tab">
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">No. Barang</label>
-                            <input type="text" class="form-control" id="">
+                            <input type="text" name="no_barang" class="form-control" id="no_barang"
+                                placeholder="Masukkan No.Barang">
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">No. Gambar</label>
-                            <input type="text" class="form-control" id="">
+                            <input type="text" name="no_gambar" class="form-control" id="no_gambar"
+                                placeholder="Masukkan No.Gambar">
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Tanggal Penerima</label>
-                            <input type="text" class="dateselect form-control" id="">
+                            <input type="text" name="tgl_penerima" class="dateselect form-control" id="tgl_penerima"
+                                placeholder="Masukkan Tanggal Penerima">
                         </div>
+                        <!-- ini klo mau pake ttd sign hrs pake ajax nanti formnya -->
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Nama & Paraf Penerima</label>
-                            <input type="text" class="form-control" id="">
+                            <input type="text" name="nama_penerima" class="form-control" id="nama_penerima"
+                                placeholder="Masukkan Nama Penerima">
                         </div>
                     </div>
 
                     <div class="tab">
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Berat (Kg)</label>
-                            <input type="number" class="form-control" id="">
+                            <input type="number" name="berat_barang" class="form-control" id="berat_barang"
+                                placeholder="Masukkan Berat Dalam Kilogram (Kg)">
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Tanggal Pelaporan/Pembelian</label>
-                            <input type="text" class="dateselect form-control" id="">
+                            <input type="text" name="tgl_pembelian" class="dateselect form-control" id="tgl_pembelian"
+                                placeholder="Masukkan Tanggal Pelaporan">
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Tanggal Pelaksana Pesanan</label>
-                            <input type="text" class="dateselect form-control" id="">
+                            <input type="text" name="tgl_pesanan" class="dateselect form-control" id="tgl_pesanan"
+                                placeholder="Masukkan Tanggal Pelaksana Pesanan">
                         </div>
+                        <!-- ini klo mau pake ttd sign hrs pake ajax nanti formnya -->
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Nama & Paraf Pelaksana Pesanan</label>
-                            <input type="text" class="form-control" id="">
+                            <input type="text" name="nama_pelaksana" class="form-control" id="nama_pelaksana"
+                                placeholder="Masukkan Nama Pelaksana">
                         </div>
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">Catatan</label>
-                            <textarea class="form-control" id=""> </textarea>
+                            <textarea class="form-control" name="catatan" id="catatan"></textarea>
                         </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                    <button type="button" class="btn btn-secondary" id="prevBtn"
-                        onclick="nextPrev(-1)">Previous</button>
-                    <button type="button" class="btn btn-info" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button> -->
+                    <button type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
+                    <button type="button" class="btn btn-info" id="nextBtn">Next</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+<!-- CREATE MODAL END -->
+
+<!-- MODAL VALIDATION START -->
+<div class="modal fade" id="validation_modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" id="validate-form" action="/Order/validateSPK">
+            <div class="modal-content">
+                <div class="modal-header bg-polman">
+                    <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Validasi</h5>
+                </div>
+                <div class="modal-body">
+                    <p class="text-sm">Validasi diperlukan untuk melakukan ACC pada Project,
+                        silahkan lampirkan link gambar kerja. Link dapat berupa link google drive.</p>
+                    <div class="mb-1">
+                        <label for="" class="text-uppercase form-label">Link Gambar Kerja</label>
+                        <div class="input-group">
+                            <input type="text" id="validation_input" class="form-control"
+                                placeholder="Masukkan Link Gambar Kerja Disini" name="validation">
+                            <a anim="ripple" target="_blank" href="" type="button"
+                                class="arrowicon px-3 py-auto btn m-0"><i
+                                    class='text-white fs-5 bx bx-right-arrow-alt'></i>
+                            </a>
+                        </div>
+                        <p class="debug-url-valid"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row w-100">
+                        <div class="col text-start">
+                            <button anim="ripple" type="button" class="btn btn-warning btn-edit-valid">Edit</button>
+                        </div>
+                        <div class="col text-end">
+                            <button anim="ripple" type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Kembali</button>
+                            <button anim="ripple" type="submit" name="submit"
+                                class="btn btn-info btn-valid">Simpan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL VALIDATION END -->
+
+<!-- DELETE MODAL START -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-polman">
-                <h5 class="modal-title text-white poppins-bold" id="myModalLabel">Konfirmasi Hapus Data</h5>
+                <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Konfirmasi Hapus Data</h5>
             </div>
 
             <div class="modal-body">
@@ -247,128 +521,249 @@ $this->section('content');
         </div>
     </div>
 </div>
+<!-- DELETE MODAL END -->
 
+<!-- EDIT MODAL START -->
 <div class="modal fade" id="modal_info" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST" id="edit-form" action="">
+        <form method="POST" id="edit-form" action="/Order/editOrder">
             <div class="modal-content">
                 <div class="modal-header bg-polman">
-                    <h5 class="modal-title text-white poppins-bold" id="">Edit Data Order</h5>
+                    <h5 class="modal-title text-white fw-bolder" id="">Info Order</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Pemesan</label>
-                        <input type="text" name="pengorder" class="form-control" id="pengorder">
+                    <div class="tab_edit">
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Pemesan</label>
+                            <input type="text" name="edit_pengorder" class="form-control" id="edit_pengorder" disabled>
+                            <input type="hidden" name="edit_id_orderlog" class="form-control" id="edit_id_orderlog"
+                                disabled>
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Tanggal</label>
+                            <input type="text" name="edit_tgl_created" class="dateselect form-control"
+                                id="edit_tgl_created" disabled>
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Unit Kerja</label>
+                            <input type="text" name="edit_unit_kerja" class="form-control" id="edit_unit_kerja"
+                                disabled>
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Batas Waktu</label>
+                            <input type="text" name="edit_batas_waktu" class="dateselect form-control"
+                                id="edit_batas_waktu" disabled>
+                        </div>
                     </div>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Tanggal</label>
-                        <input type="text" class="dateselect form-control" id="">
-                    </div>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Unit Kerja</label>
-                        <input type="text" class="form-control" id="">
-                    </div>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Batas Waktu</label>
-                        <input type="text" class="dateselect form-control" id="">
-                    </div>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Disetujui</label>
-                        <input type="text" name="" class="form-control" id="">
-                    </div>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">No. Pembebanan</label>
-                        <input type="text" name="" class="form-control" id="">
-                    </div>
+                    <div class="tab_edit">
+                        <div class="mb-1">
+                            <!-- <label for="" class="text-uppercase form-label">Disetujui</label>
+                            <input type="text" name="edit_disetujui" class="form-control" id="edit_disetujui"
+                            disabled> -->
 
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Jumlah/Satuan</label>
-                        <input type="number" name="" class="form-control" id="">
-                    </div>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Nama Barang/Uraian/Ukuran</label>
-                        <input type="text" name="" class="form-control" id="">
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-1">
-                                <label for="" class="text-uppercase form-label">No. Barang</label>
-                                <input type="text" class="form-control" id="">
-                            </div>
+                            <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
+                            <select name="edit_disetujui" class="form-control" id="edit_disetujui" disabled>
+                                <option value="1">Ya</option>
+                                <option value="0">Tidak</option>
+                            </select>
                         </div>
-                        <div class="col">
-                            <div class="mb-1">
-                                <label for="" class="text-uppercase form-label">No. Gambar</label>
-                                <input type="text" class="form-control" id="">
-                            </div>
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">No. Pembebanan</label>
+                            <input type="text" name="edit_no_spk" class="form-control" id="edit_no_spk" disabled>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-1">
-                                <label for="" class="text-uppercase form-label">Tanggal Penerima</label>
-                                <input type="text" class="dateselect form-control" id="">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-1">
-                                <label for="" class="text-uppercase form-label">Nama & Paraf Penerima</label>
-                                <input type="text" class="form-control" id="">
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Berat (Kg)</label>
-                        <input type="number" class="form-control" id="">
-                    </div>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Tanggal Pelaporan/Pembelian</label>
-                        <input type="text" class="dateselect form-control" id="">
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-1">
-                                <label for="" class="text-uppercase form-label">Tanggal Pelaksana Pesanan</label>
-                                <input type="text" class="dateselect form-control" id="">
-                            </div>
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Jumlah/Satuan</label>
+                            <input type="number" name="edit_jml_satuan" class="form-control" id="edit_jml_satuan"
+                                disabled>
                         </div>
-                        <div class="col">
-                            <div class="mb-1">
-                                <label for="" class="text-uppercase form-label">Nama & Paraf Pelaksana Pesanan</label>
-                                <input type="text" class="form-control" id="">
-                            </div>
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Nama Barang/Uraian/Ukuran</label>
+                            <input type="text" name="edit_nama_barang" class="form-control" id="edit_nama_barang"
+                                disabled>
                         </div>
                     </div>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Catatan</label>
-                        <textarea class="form-control" id=""> </textarea>
+                    <div class="tab_edit">
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-1">
+                                    <label for="" class="text-uppercase form-label">No.Barang</label>
+                                    <input type="text" class="form-control" name="edit_no_barang" id="edit_no_barang"
+                                        disabled>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-1">
+                                    <label for="" class="text-uppercase form-label">No.Gambar</label>
+                                    <input type="text" class="form-control" name="edit_no_gambar" id="edit_no_gambar"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-1">
+                                    <label for="" class="text-uppercase form-label">Tanggal Penerima</label>
+                                    <input type="text" name="edit_tgl_penerima" class="dateselect form-control"
+                                        id="edit_tgl_penerima" disabled>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-1">
+                                    <label for="" class="text-uppercase form-label">Nama & Paraf Penerima</label>
+                                    <input type="text" name="edit_nama_penerima" class="form-control"
+                                        id="edit_nama_penerima" disabled>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
+                    <div class="tab_edit">
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Berat (Kg)</label>
+                            <input type="number" name="edit_berat_barang" class="form-control" id="edit_berat_barang"
+                                disabled>
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Tanggal Pelaporan/Pembelian</label>
+                            <input type="text" name="edit_tgl_pembelian" class="dateselect form-control"
+                                id="edit_tgl_pembelian" disabled>
+                        </div>
+                        <!-- ini maksudnya tgl apa di database ? record order kah ? -->
+                        <!-- <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Tanggal Pelaksana Pesanan</label>
+                            <input type="text" class="dateselect form-control" name="edit_tgl_pelaksana"
+                                id="edit_tgl_pelaksana" disabled>
+                        </div> -->
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Nama & Paraf Pelaksana
+                                Pesanan</label>
+                            <input type="text" name="edit_nama_pelaksana" class="form-control" id="edit_nama_pelaksana"
+                                disabled>
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Catatan</label>
+                            <textarea class="form-control" name="edit_catatan" id="edit_catatan" disabled> </textarea>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                    <button type="button" class="btn btn-warning btn-edit-allow">Edit</button>
-                    <!-- <a class="btn btn-info btn-edit-save">Simpan</a> -->
-                    <button type="submit" name="submit" class="btn btn-info">Simpan</button>
+                    <div class="row w-100">
+                        <div class="col text-start">
+                            <button type="button" class="btn btn-warning btn-edit-allow">Edit</button>
+                        </div>
+                        <div class="col text-end">
+                            <button type="button" class="btn btn-secondary" id="prevBtn_edit">Previous</button>
+                            <button type="button" class="btn btn-info" id="nextBtn_edit">Next</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </form>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-    integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"
-    integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js
-"></script>
-<script src="/assets/js/myfunction.js"></script>
+<!-- call generic js file -->
+
+<?php 
+
+include "footerjs.php"
+
+
+?>
 
 <script>
+    let arrlength = $(".status_validate").data('valid').length;
+    if (arrlength > 0) {
+        $(".status_validate span").html("STATUS : TERVALIDASI").addClass('bg-gradient-success');
 
+    } else {
+        $(".status_validate span").html("STATUS : BELUM TERVALIDASI").addClass('bg-gradient-secondary');
+    }
+
+    // Creating response and call Sweet alert 
+    const valid_response = $('.data-valid');
+    response(valid_response, "Validasi Berhasil Ditambahkan", "Validasi Gagal Ditambahkan");
+
+    $(document).ready(function () {
+
+
+        //modal validation
+        $('#validation_modal').on('show.bs.modal', function (e) {
+            $(this).find('#validate-form').attr('action', $(e.relatedTarget).data('href'));
+            if ($(e.relatedTarget).data('valid')) {
+                $(".arrowicon").css('display', 'inline-block').attr('href', $(e
+                    .relatedTarget).data(
+                    'valid'));
+                $(".btn-edit-valid").css('display', 'inline-block');
+                $('#validation_input').val($(e.relatedTarget).data('valid')).prop(
+                        'disabled', true)
+                    .addClass('border-tb-none');
+            } else {
+                $(".arrowicon").css('display', 'none');
+                $(".btn-edit-valid").css('display', 'none');
+                $('#validation_input').val($(e.relatedTarget).data('valid')).prop(
+                        'disabled', false)
+                    .removeClass('border-tb-none');
+            }
+            //debugging url
+            // $('.debug-url-valid').html('Delete URL: <strong>' + $(this).find('#validate-form').attr(
+            //         'action') +
+            //     '</strong>');
+        });
+
+        //button edit pada modal edit dan validasi
+        $(".btn-edit-valid").click(function () {
+            $('#validate-form').find(':input(:disabled)').prop('disabled', false);
+        });
+
+        $('.btn-edit').on('click', function () {
+
+            // Get data from button edit
+            const id_orderlog = $(this).data('id_orderlog');
+            const pengorder = $(this).data('pengorder');
+            const tgl_created = $(this).data('tgl_created');
+            const unit_kerja = $(this).data('unit_kerja');
+            const batas_waktu = $(this).data('batas_waktu');
+            const disetujui = $(this).data('disetujui');
+            const no_spk = $(this).data('no_spk');
+            const jml_satuan = $(this).data('jml_satuan');
+            const nama_barang = $(this).data('nama_barang');
+            const no_barang = $(this).data('no_barang');
+            const no_gambar = $(this).data('no_gambar');
+            const tgl_penerima = $(this).data('tgl_penerima');
+            const nama_penerima = $(this).data('nama_penerima');
+            const tgl_pembelian = $(this).data('tgl_pembelian');
+            const berat_barang = $(this).data('berat_barang');
+            const tgl_pesanan = $(this).data('tgl_pesanan');
+            const record_order = $(this).data('record_order');
+            const nama_pelaksana = $(this).data('nama_pelaksana');
+            const catatan = $(this).data('catatan');
+
+            // Set data to Form Edit
+            $('#edit_id_orderlog').val(id_orderlog);
+            $('#edit_pengorder').val(pengorder);
+            $('#edit_tgl_created').val(tgl_created);
+            $('#edit_unit_kerja').val(unit_kerja);
+            $('#edit_batas_waktu').val(batas_waktu);
+            $('#edit_disetujui').val(disetujui);
+            $('#edit_no_spk').val(no_spk);
+            $('#edit_jml_satuan').val(jml_satuan);
+            $('#edit_nama_barang').val(nama_barang);
+            $('#edit_no_barang').val(no_barang);
+            $('#edit_no_gambar').val(no_gambar);
+            $('#edit_tgl_penerima').val(tgl_penerima);
+            $('#edit_nama_penerima').val(nama_penerima);
+            $('#edit_tgl_pembelian').val(tgl_pembelian);
+            $('#edit_berat_barang').val(berat_barang);
+            $('#edit_tgl_pesanan').val(tgl_pesanan);
+            $('#edit_record_order').val(record_order);
+            $('#edit_nama_pelaksana').val(nama_pelaksana);
+            $('#edit_catatan').val(catatan);
+
+
+            // Call Modal Edit
+            $('#modal_info').modal('show');
+        });
+    })
 </script>
 <?=$this->endSection();?>

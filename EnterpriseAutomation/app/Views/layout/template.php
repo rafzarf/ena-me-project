@@ -4,6 +4,8 @@ if (!isset($nav_active)) {
     $nav_active = -1;
 }
 
+$animation = false;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +27,10 @@ if (!isset($nav_active)) {
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Quicksand:wght@300..700&display=swap"
         rel="stylesheet">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
     <!-- Box Icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- CSS Files -->
@@ -32,7 +38,19 @@ if (!isset($nav_active)) {
     <link rel="stylesheet" href="/assets/css/dark-mode.css">
 </head>
 
-<body class="g-sidenav-show  bg-gray-100">
+<body id="mainbody" class="g-sidenav-show  bg-gray-100">
+
+    <div id="preloader">
+        <div class="row align-items-center">
+            <div class="col text-center">
+                <img class="" src="/assets/img/favicon.png" alt="">
+            </div>
+            <div class="col-auto px-0">
+                <h3 class="fw-bolder text-start mt-2 text-dark">Enterprise ME</h3>
+            </div>
+        </div>
+    </div>
+
     <aside
         class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-polman"
         id="sidenav-main">
@@ -58,7 +76,7 @@ if (!isset($nav_active)) {
                                     alt="Cant Load Profile Picture">
                             </div>
                             <div class="col-auto my-auto text-wrap">
-                                <p class="my-0 poppins-bold">PPC ME</p>
+                                <p class="my-0 fw-bolder">PPC ME</p>
                                 <span>Ketua PPC</span>
                             </div>
                         </div>
@@ -67,7 +85,7 @@ if (!isset($nav_active)) {
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Tampilan Awal Aplikasi Enterprise, digunakan untuk melihat beberapa informasi penting dengan cepat"
                     data-bs-custom-class="mytooltip">
-                    <a class="nav-link navi-item" href="/">
+                    <a anim="ripple" class="nav-link navi-item" href="/">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white 
                             text-center me-2 d-flex align-items-center justify-content-center">
                             <i class='fs-6 text-dark bx bxs-dashboard'></i>
@@ -80,7 +98,7 @@ if (!isset($nav_active)) {
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Menu ini digunakan untuk melakukan management data data SPK yang masuk ke sistem Enterprise ME"
                     data-bs-custom-class="mytooltip">
-                    <a class="nav-link  navi-item" href="/Spk">
+                    <a anim="ripple" class="nav-link  navi-item" href="/Spk">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white 
                             text-center me-2 d-flex align-items-center justify-content-center">
                             <i class='fs-6 text-dark bx bx-list-ul'></i>
@@ -100,7 +118,7 @@ if (!isset($nav_active)) {
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Menu ini adalah visualisasi dari proses yang sedang terjadi 
                 di ME, dapat digunakan untuk melakukan tracking SPK yang ada di Workshop ME"
                     data-bs-custom-class="mytooltip">
-                    <a class="nav-link  navi-item" href="/Visualization">
+                    <a anim="ripple" class="nav-link  navi-item" href="/Visualization">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white 
                             text-center me-2 d-flex align-items-center justify-content-center">
                             <i class='fs-6 text-dark bx bxs-zap'></i>
@@ -111,7 +129,7 @@ if (!isset($nav_active)) {
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Menu ini digunakan untuk melakukan manajemen pada proses permesinan yang ada di ME"
                     data-bs-custom-class="mytooltip">
-                    <a class="nav-link  navi-item" href="/Permesinan">
+                    <a anim="ripple" class="nav-link  navi-item" href="/Permesinan">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white 
                             text-center me-2 d-flex align-items-center justify-content-center">
                             <i class='fs-6 text-dark bx bxs-cog'></i>
@@ -122,7 +140,7 @@ if (!isset($nav_active)) {
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Menu ini digunakan untuk melakukan manajemen terutama inventaris barang pada gudang ME"
                     data-bs-custom-class="mytooltip">
-                    <a class="nav-link  navi-item" href="/Gudang">
+                    <a anim="ripple" class="nav-link  navi-item" href="/Gudang">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white 
                             text-center me-2 d-flex align-items-center justify-content-center">
                             <i class='fs-6 text-dark bx bxs-package'></i>
@@ -133,8 +151,7 @@ if (!isset($nav_active)) {
             </ul>
         </div>
         <div class="sidenav-footer mx-3 ">
-
-            <a class="btn bg-gradient-primary mt-3 w-100" href="/">Sign Out</a>
+            <a anim="ripple" class="btn btn-warning mt-3 w-100" href="/">Sign Out</a>
         </div>
     </aside>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -148,7 +165,7 @@ if (!isset($nav_active)) {
                         </li>
                         <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><?= $title ?></li>
                     </ol>
-                    <h6 class="text-dark poppins-bold mb-0"><?= $title ?></h6>
+                    <h6 class="text-dark fw-bolder mb-0"><?= $title ?></h6>
                 </nav>
                 <div class="collapse justify-content-end navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <ul class="navbar-nav  justify-content-end">
@@ -167,7 +184,7 @@ if (!isset($nav_active)) {
                                 <label class="switch" for="darkSwitch">
                                     <input type="checkbox" id="darkSwitch">
                                     <div class="header_icon" data-bs-toggle="tooltip" data-bs-placement="left"
-                                        data-bs-title="Change to dark mode" data-bs-custom-class="mytooltip">
+                                        data-bs-custom-class="mytooltip">
                                         <i class='fs-5 btn-moon bxs-moon bx'></i>
                                         <i class='fs-5 btn-sun bxs-sun d-none bx'></i>
                                     </div>
@@ -175,7 +192,7 @@ if (!isset($nav_active)) {
                             </span>
                             <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class='mt-1 fs-5 bx bxs-bell' data-bs-toggle="tooltip" data-bs-placement="left"
+                                <i class='fs-5 bx bxs-bell' data-bs-toggle="tooltip" data-bs-placement="left"
                                     data-bs-title="Lihat Notifikasi" data-bs-custom-class="mytooltip"></i>
                             </a>
                             <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
@@ -247,11 +264,14 @@ if (!isset($nav_active)) {
 
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
         integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="/assets/js/core/popper.min.js"></script>
     <script src="/assets/js/core/bootstrap.min.js"></script>
     <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="/assets/js/dark-mode-switch.min.js"></script>
+    <script src="/assets/js/pace.js"></script>
+    <script src="/assets/js/soft-ui-dashboard.js"></script>
 
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
@@ -277,9 +297,63 @@ if (!isset($nav_active)) {
             $(".btn-moon").toggleClass("d-none");
             $(".btn-sun").toggleClass("d-none");
         })
+
+        function changetooltip() {
+            if (localStorage.getItem("darkSwitch") == "dark") {
+                $('.header_icon').tooltip('dispose').attr('title', 'Ubah Ke Dark Mode');
+                $('.header_icon').tooltip('show');
+
+            } else {
+                $('.header_icon').tooltip('dispose').attr('title', 'Ubah Ke Light Mode');
+                $('.header_icon').tooltip('show');
+            }
+        }
+
+        $("#darkSwitch").on("change", function () {
+            changetooltip()
+        });
+
+        $(document).ready(function () {
+            if (localStorage.getItem("darkSwitch") == "dark") {
+                $('.header_icon').tooltip('dispose').attr('title', 'Ubah Ke Light Mode');
+                $('.header_icon').tooltip();
+
+            } else {
+                $('.header_icon').tooltip('dispose').attr('title', 'Ubah Ke Dark Mode');
+                $('.header_icon').tooltip();
+            }
+        })
+
+        paceOptions = {
+            ajax: true,
+            document: true,
+            eventLag: false
+        };
+
+        Pace.on('done', function () {
+            // $('#preloader').addClass('d-none');
+            var tl = gsap.timeline();
+            tl.to('#preloader .row', {
+                    y: 3,
+                    opacity: 0,
+                    duration: 0.6
+                })
+
+                .to("#preloader", {
+                    y: -1000,
+                    duration: 1,
+                    onComplete() {
+                        localStorage.setItem("load", true);
+                        console.log(localStorage.getItem("load"));
+                        setTimeout(() => {
+                            localStorage.setItem("load", false);
+                            console.log(localStorage.getItem("load"));
+                        }, 1000);
+                    }
+                })
+        });
     </script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="/assets/js/soft-ui-dashboard.js"></script>
+
 </body>
 
 </html>

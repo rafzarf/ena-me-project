@@ -21,8 +21,6 @@
     response(edit_response, "Data Berhasil Diedit", "Data Gagal Diedit");
     response(delete_response, "Data Berhasil Dihapus", "Data Gagal Dihapus");
 
-
-
     $(document).ready(function () {
         /*saat modal akan tampil (event show pada modal berarti saat modal hendak popup)
         jika shown adalah modal saat sudah popup. lakukan fungsi dibawah ini.
@@ -30,7 +28,7 @@
         $('#confirm-delete').on('show.bs.modal', function (e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 
-            //debugging url
+            // debugging url
             // $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') +
             //     '</strong>');
         });
@@ -38,14 +36,16 @@
         //button edit pada modal edit dan validasi
         $(".btn-edit-allow").click(function () {
             $('#edit-form').find(':input(:disabled)').prop('disabled', false);
+            $('#edit-form').find('select').prop('disabled', false);
         });
 
         /*event hide pada modal adalah saat modal hendak hilang sepenuhnya
         jika hidden saat sudah hilang sepenuhnya.*/
 
-        $('#modal_info').on('hide.bs.modal', function (e) {
+
+        $('#modal_info').on('hidden.bs.modal', function (e) {
             $('#edit-form .modal-body').find(':input:not(:disabled)').prop('disabled', true);
-        });
+            $('#edit-form .modal-body').find('select').prop('disabled', true);
     })
 
     /*ini fungsi buat modal input sama edit yang input formnya banyak bgt 
@@ -98,4 +98,29 @@
     $('body').on('click', "#prevBtn_edit", function () {
         nextPrev(-1, tabEdit, tabEditLength, currentEditTab, formEdit, modalEdit, prevBtnEdit, nextBtnEdit);
     });
+
+
+    // MULTIPLE DELETE FUNCTION
+    $('.multiple-dlt-btn').on('click', function () {
+        $('.check-th').toggleClass('d-none');
+        $('.check-td').toggleClass('d-none');
+        $('.fixed-create').toggleClass('d-none');
+        $('.fixed-delete').toggleClass('d-none');
+    });
+
+    $('.fixed-delete').click(function () {
+        var sel = $('.inp-cbx:checked').map(function (_, el) {
+            return $(el).val();
+        }).get();
+
+        if (sel == "") {
+            popup_yellow("Tidak Ada Data Yang Dipilih !");
+        } else {
+            // alert(sel);
+            $('.btn-ok').attr('href', ($(".fixed-delete .fixed-plugin-button").data('href') + sel));
+
+            $('#confirm-delete').modal('show');
+        }
+    });
+
 </script>

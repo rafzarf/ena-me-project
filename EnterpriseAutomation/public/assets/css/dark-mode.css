@@ -40,6 +40,16 @@
     border: #2e303e !important;
 }
 
+[data-theme="dark"] .form-control::file-selector-button {
+    color: #fff !important;
+    background-color: var(--bs-secondary) !important;
+}
+
+[data-theme="dark"] .navbar .sidenav-toggler-inner .sidenav-toggler-line {
+    background: #fff !important;
+}
+
+
 [data-theme="dark"] .card {
     --bs-card-bg: #2e303e !important;
 }

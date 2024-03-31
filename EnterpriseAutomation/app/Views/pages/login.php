@@ -33,14 +33,14 @@
                     <img class="w-75" src="/assets/img/favicon.png" alt="">
                 </div>
                 <div class="col-8 px-0">
-                    <h3 class="poppins-bold text-start mt-2 text-dark">Halaman Login<br> Enterprise ME </h3>
+                    <h3 class="fw-bolder text-start mt-2 text-dark">Halaman Login<br> Enterprise ME </h3>
                 </div>
             </div>
 
             <hr class="text-dark bg-dark">
 
             <p class="text-center text-sm mt-2 text-wrap">Selamat Datang di Sistem Enterprise
-                Jurusan Teknik Manufaktur Politeknik Mnufaktur Bandung. 
+                Jurusan Teknik Manufaktur Politeknik Mnufaktur Bandung.
                 <span class="fw-bold">Silahkan Login Terlebih dahulu</span></p>
             <div class="form-group pt-2">
                 <input id="username" type="text" name="username" class="form-control" placeholder="Masukan Username" />
@@ -50,10 +50,18 @@
                     placeholder="Masukan Password"></input>
             </div>
             <div class="form-group text-start pt-2">
-                <input class="form-check-input" type="checkbox" onclick="showpass()">
+                <!-- <input class="form-check-input" type="checkbox" onclick="showpass()">
                 <label class="form-check-label ps-2">
                     Show Password
-                </label>
+                </label> -->
+                <div class="checkbox-wrapper-46">
+                    <input class="shadow inp-cbx" id="cbx-46" type="checkbox" onclick="showpass()">
+                    <label class="cbx" for="cbx-46"><span>
+                            <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                            </svg></span><span class="ps-2 text-uppercase">Show Password</span>
+                    </label>
+                </div>
             </div>
             <div class="form-group ">
                 <!-- <div class="row">
@@ -68,6 +76,16 @@
             </div>
         </div>
     </div>
+    <script>
+        function showpass() {
+            var pass = document.getElementById("password");
+            if (pass.type === "password") {
+                pass.type = "text";
+            } else {
+                pass.type = "password";
+            }
+        }
+    </script>
 </body>
 
 </html>
