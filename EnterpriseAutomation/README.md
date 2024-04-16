@@ -27,4 +27,4 @@ jangan lupa import .sql di phpmyadmin, setelah itu buka cmd di folder Enterprise
 php spark serve
 ```
 
-Jangan lupa setiap minggu diupdate infonya, kalau ada waktu luang bisa dikerjain tapi ttp komunikasi fitur apa yang mau dikerjain. usahakan sebelum deadline tuntas karena perlu testing domain hosting.
+Jangan lupa setiap minggu diupdate infonya, kalau ada waktu luang bisa dikerjain tapi tetap komunikasi fitur apa yang mau dikerjain. Usahakan sebelum deadline tuntas karena perlu testing domain hosting.
