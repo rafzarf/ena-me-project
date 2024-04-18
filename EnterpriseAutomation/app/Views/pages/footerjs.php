@@ -1,10 +1,8 @@
 <!-- PASSING FLASH DATA FOR SWEETALERT2 -->
-<div data-flash="<?= session()->getFlashdata('input_msg') ?>" class="data-input d-none"> </div>
 <div data-flash="<?= session()->getFlashdata('del_msg') ?>" class="data-delete d-none"> </div>
-<div data-flash="<?= session()->getFlashdata('edit_msg') ?>" class="data-edit d-none"> </div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-    integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"
     integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -13,12 +11,7 @@
 
 <script>
     // Creating response and call Sweet alert 
-    const input_response = $('.data-input');
-    const edit_response = $('.data-edit');
     const delete_response = $('.data-delete');
-
-    response(input_response, "Data Berhasil Ditambahkan", "Data Gagal Ditambahkan");
-    response(edit_response, "Data Berhasil Diedit", "Data Gagal Diedit");
     response(delete_response, "Data Berhasil Dihapus", "Data Gagal Dihapus");
 
     $(document).ready(function () {
@@ -27,78 +20,109 @@
         modal delete*/
         $('#confirm-delete').on('show.bs.modal', function (e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-
             // debugging url
             // $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') +
             //     '</strong>');
         });
 
-        //button edit pada modal edit dan validasi
-        $(".btn-edit-allow").click(function () {
-            $('#edit-form').find(':input(:disabled)').prop('disabled', false);
-            $('#edit-form').find('select').prop('disabled', false);
+        // form setelah invalid pas di keyup atau change sama pas modal show ilang invalidnya.
+        $(":input").on("keyup change focus", function () {
+            ($(this).hasClass('is-invalid')) ? $(this).removeClass('is-invalid'): null;
+            $('.invalid-feedback').each(function () {
+                $(this).html('');
+            });
         });
 
-        /*event hide pada modal adalah saat modal hendak hilang sepenuhnya
-        jika hidden saat sudah hilang sepenuhnya.*/
-
-
-        $('#modal_info').on('hidden.bs.modal', function (e) {
-            $('#edit-form .modal-body').find(':input:not(:disabled)').prop('disabled', true);
-            $('#edit-form .modal-body').find('select').prop('disabled', true);
-    })
-
-    /*ini fungsi buat modal input sama edit yang input formnya banyak bgt 
-    karena jelek kalau manjang dan perlu scroll scroll, jadi kita buat Multi step 
-    aja, silahkan di amati struktur htmlnya sama fungsi js dibawah ini
-    
-    MULTI STEP INPUT MODAL*/
-
-    let currentInputTab = {
-        nilai: 0
-    };
-
-    const tabInput = $(".tab")
-    const tabInputLength = tabInput.length - 1;
-    const prevBtnInput = $("#prevBtn");
-    const nextBtnInput = $("#nextBtn");
-    const forminput = $("#create-form");
-    const modalinput = "#createModal";
-
-    showTab(currentInputTab, tabInput, tabInputLength, prevBtnInput, nextBtnInput);
-
-    $('body').on('click', "#nextBtn", function () {
-        nextPrev(1, tabInput, tabInputLength, currentInputTab, forminput, modalinput, prevBtnInput,
-            nextBtnInput);
+        $(".modal").on('hide.bs.modal', function () {
+            $(this).find(":input").each(function () {
+                ($(this).hasClass('is-invalid')) ? $(this).removeClass('is-invalid'): null;
+            });
+            $('.invalid-feedback').each(function () {
+                $(this).html('');
+            });
+        })
     });
 
-    $('body').on('click', "#prevBtn", function () {
-        nextPrev(-1, tabInput, tabInputLength, currentInputTab, forminput, modalinput, prevBtnInput,
-            nextBtnInput);
-    });
+    /*MULTI STEP MODAL
+    buat input,edit & validasi harus sama idnya biar efisien,
+    kalau ada form selain itu baru buat / tambah lagi varnya disini*/
+    let form = {
+        0: {
+            currentTab: {
+                nilai: 0
+            },
+            tabElement: ".tab",
+            tabLength: $(".tab").length - 1,
+            prevBtn: "#prevBtn",
+            nextBtn: "#nextBtn",
+            formElement: document.getElementById("create-form"),
+            modalElement: "#createModal",
+            url: document.getElementById("create-form").getAttribute('data-url'),
+            stringSubmit: "Simpan Data",
+        },
+        1: {
+            currentTab: {
+                nilai: 0
+            },
+            tabElement: ".tab_edit",
+            tabLength: $(".tab_edit").length - 1,
+            prevBtn: "#prevBtn_edit",
+            nextBtn: "#nextBtn_edit",
+            formElement: document.getElementById("edit-form"),
+            modalElement: "#modal_info",
+            url: (document.getElementById("edit-form")) ? 
+            document.getElementById("edit-form").getAttribute('data-url') : "",
+            stringSubmit: "Simpan Data",
+        },
+        2: {
+            currentTab: {
+                nilai: 0
+            },
+            tabElement: ".tab_valid",
+            tabLength: $(".tab_valid").length - 1,
+            prevBtn: "#prevBtn_valid",
+            nextBtn: "#nextBtn_valid",
+            formElement: document.getElementById("validate-form"),
+            modalElement: "#validation_modal",
+            url: "", //updated on event validation modal show
+            stringSubmit: "Simpan Data",
+        },
+        3: {
+            currentTab: {
+                nilai: 0
+            },
+            tabElement: ".tabType",
+            tabLength: $(".tabType").length - 1,
+            prevBtn: "#prevBtnType",
+            nextBtn: "#nextBtnType",
+            formElement: document.getElementById("createTypeform"),
+            modalElement: "#ModalType",
+            url: (document.getElementById("createTypeform")) ? document.getElementById("createTypeform")
+                .getAttribute('data-url') : "",
+            stringSubmit: "Simpan Data",
+        },
+    }
 
-    //MULTI STEP EDIT MODAL
-    let currentEditTab = {
-        nilai: 0
-    };
+    for (let i = 0; i < Object.keys(form).length; i++) {
+        showTab(form[i].currentTab, form[i].tabElement,
+            form[i].tabLength, $(form[i].prevBtn), $(form[i].nextBtn), form[i].stringSubmit, form[i].modalElement);
+        $('body').on('click', form[i].nextBtn, function () {
+            validateFormAJAX(form[i].formElement, form[i].url, form[i].tabElement, form[i].currentTab,
+                nextfunction);
 
-    const tabEdit = $(".tab_edit")
-    const tabEditLength = tabEdit.length - 1;
-    const prevBtnEdit = $("#prevBtn_edit");
-    const nextBtnEdit = $("#nextBtn_edit");
-    const formEdit = $("#edit-form");
-    const modalEdit = "#modal_info";
-
-    showTab(currentEditTab, tabEdit, tabEditLength, prevBtnEdit, nextBtnEdit);
-
-    $('body').on('click', "#nextBtn_edit", function () {
-        nextPrev(1, tabEdit, tabEditLength, currentEditTab, formEdit, modalEdit, prevBtnEdit, nextBtnEdit);
-    });
-
-    $('body').on('click', "#prevBtn_edit", function () {
-        nextPrev(-1, tabEdit, tabEditLength, currentEditTab, formEdit, modalEdit, prevBtnEdit, nextBtnEdit);
-    });
-
+            function nextfunction(valid) {
+                let valid_cb = valid;
+                nextPrev(1, form[i].tabElement, form[i].tabLength,
+                    form[i].currentTab, form[i].formElement, form[i].modalElement,
+                    $(form[i].prevBtn), $(form[i].nextBtn), valid_cb, form[i].stringSubmit);
+            }
+        });
+        $('body').on('click', form[i].prevBtn, function () {
+            nextPrev(-1, form[i].tabElement, form[i].tabLength,
+                form[i].currentTab, form[i].formElement, form[i].modalElement,
+                $(form[i].prevBtn), $(form[i].nextBtn));
+        });
+    }
 
     // MULTIPLE DELETE FUNCTION
     $('.multiple-dlt-btn').on('click', function () {
@@ -107,20 +131,15 @@
         $('.fixed-create').toggleClass('d-none');
         $('.fixed-delete').toggleClass('d-none');
     });
-
     $('.fixed-delete').click(function () {
         var sel = $('.inp-cbx:checked').map(function (_, el) {
             return $(el).val();
         }).get();
-
         if (sel == "") {
-            popup_yellow("Tidak Ada Data Yang Dipilih !");
+            swaltoast("Tidak Ada Data Yang Dipilih !", 'warning');
         } else {
-            // alert(sel);
             $('.btn-ok').attr('href', ($(".fixed-delete .fixed-plugin-button").data('href') + sel));
-
             $('#confirm-delete').modal('show');
         }
     });
-
 </script>

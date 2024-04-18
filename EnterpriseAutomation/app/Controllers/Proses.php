@@ -33,4 +33,27 @@ class Proses extends BaseController
         return view("pages/proses.php", $data);
     }
     
+    public function validateSPK($id){
+        // lakukan validasi data spk
+        $validation =  \Config\Services::validation();
+        $validation->setRules([
+            'validation' => 'required',
+        ]);
+
+        $isDataValid = $validation->withRequest($this->request)->run();
+
+        // jika data vlid, maka simpan ke database
+        if($isDataValid){
+            $this->spk->update($id, [
+                'gbr_kerja' => $this->request->getPost('validation'),
+            ]);
+
+            session()->setFlashdata('validate_msg','success');
+            //return redirect('admin/news');
+        } else {
+            session()->setFlashdata('validate_msg','error');
+        }
+        // tampilkan form edit
+        return redirect()->back()->withInput();
+    }
 }

@@ -35,4 +35,10 @@ class LogistikModel extends Model
 
         return $logistikData;
     }
+
+    public function multipleDelete($id) {
+        $this->table('$this->table')
+        ->whereIn($this->primaryKey, $id)
+        ->delete();
+    }
 }
