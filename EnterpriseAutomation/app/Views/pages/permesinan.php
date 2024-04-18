@@ -17,14 +17,14 @@ $this->section('content');
     </div>
     <div class="sub-button shadow">
         <span class="badge shadow badge-sm bg-info">Tambah Mesin</span>
-        <a href="#" data-bs-toggle="modal" data-bs-target="#createModal">
-            <i class='fs-5 mt-1 text-white bx bxs-chip'></i>
+        <a data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class='fs-5 mt-1 text-white bx bx-hard-hat'></i>
         </a>
     </div>
     <div class="sub-button shadow">
         <span class="badge shadow badge-sm bg-info">Tambah No Mesin</span>
-        <a href="#" data-bs-toggle="modal" data-bs-target="#createModalType">
-            <i class='fs-5 mt-1 text-white bx bxs-cog'></i>
+        <a data-bs-toggle="modal" data-bs-target="#ModalType">
+            <i class='fs-5 mt-1 text-white bx bx-list-plus'></i>
         </a>
     </div>
 </div>
@@ -122,7 +122,7 @@ foreach($DataMesin as $Mesin){
                     </div>
                         <div class="h-60 d-flex align-items-end">
                             <button anim="ripple" class="d-flex justify-content-start ms-3 mt-1 btn btn-info"> 
-                            <span class="d-flex"><p class="text-xs my-auto fw-bold">Lihat Proses</p><i class="d-flex fs-5 ms-2 bx bx-right-arrow-alt"></i> </span</button>
+                            <span class="d-flex"><p class="text-sm my-auto fw-bold">Lihat Proses</p><i class="d-flex fs-5 ms-2 bx bx-right-arrow-alt"></i> </span</button>
                         </div>
                     </div>
                 </div>
@@ -143,27 +143,38 @@ echo "</div>\n";
 <!-- MODAL CREATE MESIN START -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" id="create-form" action="/Permesinan/createMesin" enctype="multipart/form-data">
-            <div class="modal-content">
-                <div class="bg-polman modal-header">
-                    <h5 class="text-white fw-bolder modal-title" id="exampleModalLabel">Tambah Data Mesin</h5>
-                    <!-- <button type="button" class="text-white opacity-10 btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button> -->
+        <form method="post" id="create-form" enctype="multipart/form-data"
+            data-url="<?=base_url().'Permesinan/createMesin'?>">
+            <?=csrf_field()?>
+            <div class=" modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Data Mesin</h5>
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                        <i class='text-dark fs-4 bx bx-x'></i>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Nama Mesin</label>
-                        <input type="text" name="nama_mesin" class="form-control" id="nama_mesin"
-                            placeholder="Masukan Nama Mesin">
-                    </div>
-                    <div class="mb-1">
-                        <label for="formFile" class="text-uppercase form-label">Upload Gambar Mesin</label>
-                        <input class="form-control" type="file" id="gambar_mesin" name="gambar_mesin">
+                    <div class="tab">
+                        <div class="mb-1 nama_mesin-div">
+                            <label for="" class="text-uppercase form-label">Nama Mesin</label>
+                            <div class="input-set">
+                                <i class='bx bx-hard-hat'></i>
+                                <input type="text" name="nama_mesin" class="form-control" id="nama_mesin"
+                                    placeholder="Masukan Nama Mesin">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 gambar_mesin-div">
+                            <label for="formFile" class="text-uppercase form-label">Upload Gambar Mesin</label>
+                            <input class="form-control" type="file" id="gambar_mesin" name="gambar_mesin">
+                            <div class="invalid-feedback"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                    <button type="submit" id="submitInput" name="submit" class="btn btn-info">Tambah</button>
+                    <button anim="ripple" type="button" class="btn btn-secondary m-0 me-2"
+                        id="prevBtn">Previous</button>
+                    <button anim="ripple" type="button" class="btn btn-info m-0" id="nextBtn">Next</button>
                 </div>
             </div>
         </form>
@@ -172,34 +183,47 @@ echo "</div>\n";
 <!-- MODAL CREATE MESIN END -->
 
 <!-- MODAL CREATE TYPE MESIN START -->
-<div class="modal fade" id="createModalType" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="ModalType" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" id="create-form" action="/Permesinan/createTypeMesin">
-            <div class="modal-content">
-                <div class="bg-polman modal-header">
-                    <h5 class="text-white fw-bolder modal-title" id="exampleModalLabel">Tambah Data Tipe Mesin</h5>
-                    <!-- <button type="button" class="text-white opacity-10 btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button> -->
+        <form method="post" id="createTypeform" data-url="<?=base_url().'Permesinan/createTypeMesin'?>">
+        <?=csrf_field()?>
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Data Tipe Mesin</h5>
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                        <i class='text-dark fs-4 bx bx-x'></i>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Nama Mesin</label>
-                        <select name="nama_mesin_select" class="form-select" id="nama_mesin_select">
-                            <?php for ($i = 0; $i < sizeof($DataMesin); $i++) {?>
-                            <option class="mb-1" value="<?=$DataMesin[$i]->nama_mesin?>">
-                                <?=$DataMesin[$i]->nama_mesin?></option>
-                            <?php }?>
-                        </select>
-                    </div>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Tipe Mesin</label>
-                        <input type="text" name="no_mesin" class="form-control" id="no_mesin"
-                            placeholder="Masukan Tipe / No Mesin">
+                    <div class="tabType">
+                        <div class="mb-1 nama_mesin_select-div">
+                            <label for="" class="text-uppercase form-label">Nama Mesin</label>
+                            <div class="input-set">
+                                <i class='bx bx-hard-hat'></i>
+                                <select name="nama_mesin_select" class="form-select" id="nama_mesin_select">
+                                    <?php for ($i = 0; $i < sizeof($DataMesin); $i++) {?>
+                                    <option class="" value="<?=$DataMesin[$i]->nama_mesin?>">
+                                        <?=$DataMesin[$i]->nama_mesin?></option>
+                                    <?php }?>
+                                </select>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 no_mesin-div">
+                            <label for="" class="text-uppercase form-label">Tipe Mesin</label>
+                            <div class="input-set">
+                                <i class='bx bx-list-plus'></i>
+                                <input type="text" name="no_mesin" class="form-control" id="no_mesin"
+                                    placeholder="Masukan Tipe / No Mesin">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                    <button type="submit" id="submitInput" name="submit" class="btn btn-info">Tambah</button>
+                    <button anim="ripple" type="button" class="btn btn-secondary m-0 me-2"
+                        id="prevBtnType">Previous</button>
+                    <button anim="ripple" type="button" class="btn btn-info m-0" id="nextBtnType">Next</button>
                 </div>
             </div>
         </form>
@@ -210,19 +234,21 @@ echo "</div>\n";
 <!-- MODAL DELETE START -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-polman">
-                <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Konfirmasi Hapus Data</h5>
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark fw-bolder" id="myModalLabel">Konfirmasi Hapus Data</h5>
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                    <i class='text-dark fs-4 bx bx-x'></i>
+                </button>
             </div>
-
             <div class="modal-body">
                 <p>Apakah anda yakin ingin menghapus data ini ?</p>
                 <p class="debug-url"></p>
             </div>
-
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                <a class="btn btn-danger btn-ok">Hapus</a>
+                <button anim="ripple" type="button" class="text-sm m-0 me-2 btn btn-light"
+                    data-bs-dismiss="modal">Kembali</button>
+                <a anim="ripple" class="text-sm btn btn-danger m-0 btn-ok">Hapus</a>
             </div>
         </div>
     </div>
@@ -232,31 +258,43 @@ echo "</div>\n";
 <!-- MODAL EDIT START -->
 <div class="modal fade" id="modal_info" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST" id="edit-form" action="/Permesinan/editMesin" enctype="multipart/form-data">
-            <div class="modal-content">
-                <div class="modal-header bg-polman">
-                    <h5 class="modal-title text-white fw-bolder" id="">Info Mesin</h5>
+        <form method="POST" id="edit-form" data-url="<?=base_url().'Permesinan/editMesin'?>"
+            enctype="multipart/form-data">
+            <?=csrf_field()?>
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark fw-bolder" id="">Info Mesin</h5>
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                        <i class='text-dark fs-4 bx bx-x'></i>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="edit_id_mesin" id="edit_id_mesin">
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Nama Mesin</label>
-                        <input type="text" name="edit_nama_mesin" class="form-control" 
-                        id="edit_nama_mesin" placeholder="Masukan Nama Mesin" disabled>
-                    </div>
-                    <div class="mb-1">
-                        <label class="text-uppercase form-label">Upload Gambar Mesin</label>
-                        <input class="form-control" type="file" id="edit_gambar_mesin" name="gambar_mesin" disabled>
+                    <div class="tab_edit">
+                        <input type="hidden" name="edit_id_mesin" id="edit_id_mesin">
+                        <div class="mb-1 edit_nama_mesin-div">
+                            <label for="" class="text-uppercase form-label">Nama Mesin</label>
+                            <div class="input-set">
+                                <i class='bx bx-hard-hat'></i>
+                                <input type="text" name="edit_nama_mesin" class="form-control" id="edit_nama_mesin"
+                                    placeholder="Masukan Nama Mesin">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_gambar_mesin-div">
+                            <label class="text-uppercase form-label">Upload Gambar Mesin</label>
+                            <input class="form-control" type="file" id="edit_gambar_mesin" name="edit_gambar_mesin">
+                            <div class="invalid-feedback"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="row w-100">
                         <div class="col text-start">
-                            <button type="button" class="btn btn-warning btn-edit-allow">Edit</button>
                         </div>
-                        <div class="col text-end">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                            <button type="submit" id="" name="submit" class="btn btn-info">Simpan</button>
+                        <div class="col text-end pe-0">
+                            <button anim="ripple" type="button" class="btn btn-secondary m-0 me-2"
+                                id="prevBtn_edit">Previous</button>
+                            <button anim="ripple" type="button" class="btn btn-info m-0" id="nextBtn_edit">Next</button>
                         </div>
                     </div>
                 </div>
@@ -272,16 +310,12 @@ echo "</div>\n";
 <script>
     $(document).ready(function () {
         $('.btn-edit').on('click', function () {
-            // get data from button edit
             const id_mesin = $(this).data('id_mesin');
             const nama_mesin = $(this).data('nama_mesin');
-
-            // Set data to Form Edit
             $('#edit_id_mesin').val(id_mesin);
             $('#edit_nama_mesin').val(nama_mesin);
-
-            // Call Modal Edit
             $('#modal_info').modal('show');
+
         });
     })
 </script>

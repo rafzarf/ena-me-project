@@ -73,14 +73,13 @@ composer latest version
 5. Gathering info yg ada di logbook info lengkap kontak hapis (untuk minggu ke - 4)
 6. **kalau ada penulisan script yang berulang & kurang efektif silahkan dibuat function**
 
-## NOTE FEATURE : 31/03/2024
+## NOTE FEATURE : 18/04/2024
 
 1. dashboard
 
 ```
-a. problem di google api calendar, cuman bertahan sampe beberapa hari, sisanya kehilangan akses & gkbisa liat event
-b. grafik jam permesinan harus include sleuruh mesin , pakai properti select option contoh mesin cnc , mesin bor dst
-c. pertimbangkan info lain yang diperlukan ditampilkan di dashboard
+a. grafik jam permesinan harus include sleuruh mesin , pakai properti select option contoh mesin cnc , mesin bor dst
+b. pertimbangkan info lain yang diperlukan ditampilkan di dashboard
 ```
 
 3. spk
@@ -117,8 +116,7 @@ done
 6. login & hierarcy sistem
 
 ```
-a. belum total
-b. cari info tentang program penambahan role
+done
 ```
 
 7. Visualization

@@ -4,25 +4,23 @@ namespace App\Controllers;
 use App\Models\OrderModel;
 use App\Models\SpkModel;
 
-class Order extends BaseController
-{
+class Order extends BaseController {
     protected $order;
     protected $dataOrder;
     protected $spk;
+    protected $validation;
     
     public function __construct() {
         $this->order = new OrderModel();
         $this->spk = new SpkModel();
+        $this->validation = \Config\Services::validation();
     }
 
     public function index($id) {
-
         $keyword = $this->request->getVar('keyword') ? $this->request->getVar('keyword') : "";
         $currentPage = $this->request->getVar('page') ? $this->request->getVar('page') : 1;
         $perPage = $this->request->getVar('entries') ? $this->request->getVar('entries') : 5;
-
         $no_spk = ($this->spk->getSPKDetail($id))[0]->no_spk;
-
         $dataOrder = [
             'title' => 'Order',
             'nav_active' => 2,
@@ -32,21 +30,125 @@ class Order extends BaseController
             'entries' => $perPage,
             'getSPK' => $this->spk->getSPKDetail($id),
         ];
-
         return view("/pages/order", $dataOrder);
     }
 
-        public function createOrder() {
-        // lakukan validasi
-        $validation =  \Config\Services::validation();
-        $validation->setRules([
-            'pengorder' => 'required',
-            'no_spk' => 'required',
-
+    public function createOrder() {
+        $this->validation->setRules([
+            'pengorder' => [
+                'label' => 'Pemesan',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Pemesan wajib diisi',
+                ]
+            ],
+            'tgl_created' => [
+                'label' => 'Tanggal Dibuat',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tanggal wajib diisi',
+                ]
+            ],
+            'unit_kerja' => [
+                'label' => 'Unit Kerja',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Unit Kerja wajib diisi',
+                ]
+            ],
+            'batas_waktu' => [
+                'label' => 'Batas Waktu',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Batas Waktu wajib diisi',
+                ]
+            ],
+            'disetujui' => [
+                'label' => 'Disetujui',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Wajib diisi',
+                ]
+            ],
+            'jml_satuan' => [
+                'label' => 'Jumlah',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Jumlah wajib diisi',
+                ]
+            ],
+            'nama_barang' => [
+                'label' => 'Nama Barang',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nama Barang wajib diisi',
+                ]
+            ],
+            'no_barang' => [
+                'label' => 'Nomor Barang',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nomor Barang wajib diisi',
+                ]
+            ],
+            'no_gambar' => [
+                'label' => 'Nomor Gambar',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nomor Gambar wajib diisi',
+                ]
+            ],
+            'tgl_penerima' => [
+                'label' => 'Tanggal Penerima',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tanggal Penerima wajib diisi',
+                ]
+            ],
+            'nama_penerima' => [
+                'label' => 'Nama Penerima',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nama Penerima wajib diisi',
+                ]
+            ],
+            'tgl_pembelian' => [
+                'label' => 'Tanggal Pembelian',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tanggal Pembelian wajib diisi',
+                ]
+            ],
+            'tgl_pesanan' => [
+                'label' => 'Tanggal Pesanan',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tanggal Pesanan wajib diisi',
+                ]
+            ],
+            'berat_barang' => [
+                'label' => 'Berat Barang',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Berat wajib diisi',
+                ]
+            ],
+            'nama_pelaksana' => [
+                'label' => 'Nama Pelaksana',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nama Pelaksana wajib diisi',
+                ]
+            ],
+            'no_spk' => [
+                'label' => 'Nomor SPK',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nomor SPK wajib diisi',
+                ]
+            ],
         ]); 
-        $isDataValid = $validation->withRequest($this->request)->run(); 
-
-        // Ambil data dari form
+        $isDataValid = $this->validation->withRequest($this->request)->run(); 
         if($isDataValid){
             $this->order->insert([
                 'pemesan' => ucwords(strtolower((string)$this->request->getPost('pengorder'))),
@@ -68,33 +170,123 @@ class Order extends BaseController
                 'catatan' => ucfirst(strtolower((string)$this->request->getPost('catatan'))),
                 'no_spk' => $this->request->getPost('no_spk')
             ]); 
-
-            // call swal fire
-            session()->setFlashdata('input_msg', 'Pesanan berhasil ditambahkan!');
+            $data = ['success' => true];
+            return $this->response->setJSON($data);
         } else {
-            session()->setFlashdata('input_msg', 'Pesanan gagal ditambahkan!');
+            return $this->response->setJSON($this->validation->getErrors()); 
         }
-
-
-    // tampilkan form create
-    // return view (/pages/order.php)
-    return redirect()->back()->withInput();
     }
 
-    public function editOrder()
-    {
-        // Ambil data order yang akan diedit
+    public function editOrder() {
         $id = $this->request->getPost('edit_id_orderlog');
-        
-        // Lakukan validasi, 
-        // jika data valid, maka simpan ke database
-        $validation =  \Config\Services::validation();
-        $validation->setRules([
-            'edit_pengorder' => 'required'
+        $this->validation->setRules([
+            'edit_pengorder' => [
+                'label' => 'Edit Pemesan',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Pemesan wajib diisi',
+                ]
+            ],
+            'edit_tgl_created' => [
+                'label' => 'Edit Tanggal Dibuat',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tanggal wajib diisi',
+                ]
+            ],
+            'edit_unit_kerja' =>  [
+                'label' => 'Edit Unit Kerja',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Unit Kerja wajib diisi',
+                ]
+            ],
+            'edit_batas_waktu' =>  [
+                'label' => 'Edit Batas Waktu',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Batas Waktu wajib diisi',
+                ]
+            ],
+            'edit_disetujui' => [
+                'label' => 'Edit Disetujui',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Wajib diisi',
+                ]
+            ],
+            'edit_jml_satuan' => [
+                'label' => 'Edit Jumlah',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Jumlah wajib diisi',
+                ]
+            ],
+            'edit_nama_barang' => [
+                'label' => 'Edit Nama Barang',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nama Barang wajib diisi',
+                ]
+            ],
+            'edit_no_barang' => [
+                'label' => 'Edit Nomor Barang',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nomor Barang wajib diisi',
+                ]
+            ],
+            'edit_no_gambar' => [
+                'label' => 'Edit Nomor Gambar',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nomor Gambar wajib diisi',
+                ]
+            ],
+            'edit_tgl_penerima' => [
+                'label' => 'Edit Tanggal Penerima',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tanggal Penerima wajib diisi',
+                ]
+            ],
+            'edit_nama_penerima' => [
+                'label' => 'Edit Nama Penerima',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nama Penerima wajib diisi',
+                ]
+            ],
+            'edit_tgl_pembelian' => [
+                'label' => 'Edit Tanggal Pembelian',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tanggal Pembelian wajib diisi',
+                ]
+            ],
+            'edit_tgl_pesanan' => [
+                'label' => 'Edit Tanggal Pesanan',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tanggal Pesanan wajib diisi',
+                ]
+            ],
+            'edit_berat_barang' => [
+                'label' => 'Edit Berat Barang',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Berat wajib diisi',
+                ]
+            ],
+            'edit_nama_pelaksana' => [
+                'label' => 'Edit Nama Pelaksana',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nama Pelaksana wajib diisi',
+                ]
+            ],
         ]);
-        $isDataValid = $validation->withRequest($this->request)->run();
-
-        //jika data valid, simpan ke database dan update
+        $isDataValid = $this->validation->withRequest($this->request)->run();
         if($isDataValid){
             $this->order->update($id, [
                 'pemesan' => ucwords(strtolower((string)$this->request->getPost('edit_pengorder'))),
@@ -115,52 +307,48 @@ class Order extends BaseController
                 'record_order' => $this->request->getPost('edit_record_order'),
                 'catatan' => ucwords(strtolower((string)$this->request->getPost('edit_catatan'))),
             ]);
-            session()->setFlashdata('edit_msg', 'Pesanan berhasil diubah!');
+            $data = ['success' => true];
+            return $this->response->setJSON($data);
         } else {
-            session()->setFlashdata('edit_msg', 'Pesanan gagal diubah!');
+            return $this->response->setJSON($this->validation->getErrors()); 
         }
-
-        // tampilkan form edit
-        return redirect()->back()->withInput();
     }
 
-
-    public function deleteOrder($id)
-    {
+    //METHOD DELETE & MULTIPLE DELETE
+    public function deleteOrder($id) {
         $this->order->delete($id);
         session()->setFlashdata('del_msg','success');
         return redirect()->back();
     }
 
-    public function bulkDelOrder($id){
+    public function bulkDelOrder($id) {
         $arrIds = explode(",", $id);
         $this->order->multipleDelete($arrIds);
         session()->setFlashdata('del_msg','success');
-
         return redirect()->back();
     }
 
-    public function validateSPK($id){
-        // lakukan validasi data spk
-        $validation =  \Config\Services::validation();
-        $validation->setRules([
-            'validation' => 'required',
+    //METHOD VALIDATE
+    public function validateSPK($id) {
+        $this->validation->setRules([
+            'validation' => [
+                'label' => 'Validasi',
+                'rules' => 'required|valid_url_strict[https]',
+                'errors' => [
+                    'required' => 'Link Validasi wajib diisi',
+                    'valid_url_strict' => 'Link Tidak Valid. Link harus berformat https://'
+                ]
+            ],
         ]);
-
-        $isDataValid = $validation->withRequest($this->request)->run();
-
-        // jika data vlid, maka simpan ke database
+        $isDataValid = $this->validation->withRequest($this->request)->run();
         if($isDataValid){
             $this->spk->update($id, [
                 'gbr_kerja' => $this->request->getPost('validation'),
             ]);
-
-            session()->setFlashdata('validate_msg','success');
-            //return redirect('admin/news');
+            $data = ['success' => true];
+            return $this->response->setJSON($data);
         } else {
-            session()->setFlashdata('validate_msg','error');
+            return $this->response->setJSON($this->validation->getErrors()); 
         }
-        // tampilkan form edit
-        return redirect()->back()->withInput();
     }
 }

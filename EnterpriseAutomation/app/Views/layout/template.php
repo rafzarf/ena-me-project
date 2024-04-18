@@ -4,7 +4,25 @@ if (!isset($nav_active)) {
     $nav_active = -1;
 }
 
-$animation = false;
+$role = (object) [
+    "admin" => (object) [
+        "Kajur" => "Kajur", 
+        "Sekjur" => "Sekjur",
+        "Kappc" => "Kappc",
+    ],
+    "operator" => (object) [
+        "Operator" => "Operator",
+        "Kalab" => "Kalab",
+    ],
+    "user" => (object) [
+        "Gudang" => "Gudang",
+        "Produksi" => "Produksi",
+    ],
+    "superuser" => (object) [
+        "Superuser" => "Superuser",
+    ],
+];
+$currentRole = session()->get('Role');
 
 ?>
 <!DOCTYPE html>
@@ -19,27 +37,17 @@ $animation = false;
     </title>
 
     <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Quicksand:wght@300..700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
         rel="stylesheet">
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
     <!-- Box Icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- CSS Files -->
     <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 </head>
 
 <body id="mainbody" class="g-sidenav-show  bg-gray-100">
-
     <div id="preloader">
         <div class="row align-items-center">
             <div class="col text-center">
@@ -50,7 +58,6 @@ $animation = false;
             </div>
         </div>
     </div>
-
     <aside
         class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-polman"
         id="sidenav-main">
@@ -59,7 +66,6 @@ $animation = false;
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="/" target="_self">
                 <img src="/assets/img/navimg.png" class="navbar-brand-img h-100" alt="logo">
-
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -68,16 +74,15 @@ $animation = false;
                 <li class="nav-item mb-3" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Klik menu ini untuk menampilkan informasi dari akun anda"
                     data-bs-custom-class="mytooltip">
-
                     <a class=" navi-item nav-link bg-gradient-info border-radius-md" href="/Profile">
-                        <div class="w-100 py-2 row">
-                            <div class="col-6">
-                                <img width="70px" src="/assets/img/profiles.jpg" class="shadow border-radius-md"
-                                    alt="Cant Load Profile Picture">
+                        <div class="w-100 py-2 row mx-0">
+                            <div class="col-auto px-0">
+                                <img width="70px" src="<?=base_url("assets/img/").session()->get('profile_picture')?>" class="shadow border-radius-md"
+                                    alt="">
                             </div>
-                            <div class="col-auto my-auto text-wrap">
-                                <p class="my-0 fw-bolder">PPC ME</p>
-                                <span>Ketua PPC</span>
+                            <div class="col ps-3 pe-0 my-auto">
+                                <p class="my-0 fw-bolder text-wrap"><?=session()->get('Name')?></p>
+                                <span class="text-wrap"><?=session()->get('Role')?></span>
                             </div>
                         </div>
                     </a>
@@ -90,12 +95,14 @@ $animation = false;
                             text-center me-2 d-flex align-items-center justify-content-center">
                             <i class='fs-6 text-dark bx bxs-dashboard'></i>
                         </div>
-
-
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                <li class="nav-item
+                <?php 
+                if(property_exists($role->operator, $currentRole)) echo "d-none";
+                if(property_exists($role->user, $currentRole)) echo "d-none";
+                ?>" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Menu ini digunakan untuk melakukan management data data SPK yang masuk ke sistem Enterprise ME"
                     data-bs-custom-class="mytooltip">
                     <a anim="ripple" class="nav-link  navi-item" href="/Spk">
@@ -106,16 +113,11 @@ $animation = false;
                         <span class="nav-link-text ms-1">SPK</span>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link  navi-item" href="/KelolaAkun">
-                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white 
-                            text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class='fs-6 text-dark bx bxs-user'></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Account</span>
-                    </a>
-                </li> -->
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Menu ini adalah visualisasi dari proses yang sedang terjadi 
+                <li class="nav-item
+                <?php 
+                if(property_exists($role->operator, $currentRole)) echo "d-none";
+                if(property_exists($role->user, $currentRole)) echo "d-none";
+                ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Menu ini adalah visualisasi dari proses yang sedang terjadi 
                 di ME, dapat digunakan untuk melakukan tracking SPK yang ada di Workshop ME"
                     data-bs-custom-class="mytooltip">
                     <a anim="ripple" class="nav-link  navi-item" href="/Visualization">
@@ -126,7 +128,10 @@ $animation = false;
                         <span class="nav-link-text ms-1">Visualization</span>
                     </a>
                 </li>
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                <li class="nav-item
+                <?php 
+                if(property_exists($role->admin, $currentRole)) echo "d-none";
+                ?>" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Menu ini digunakan untuk melakukan manajemen pada proses permesinan yang ada di ME"
                     data-bs-custom-class="mytooltip">
                     <a anim="ripple" class="nav-link  navi-item" href="/Permesinan">
@@ -137,7 +142,11 @@ $animation = false;
                         <span class="nav-link-text ms-1">Permesinan</span>
                     </a>
                 </li>
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                <li class="nav-item
+                <?php 
+                if(property_exists($role->admin, $currentRole)) echo "d-none";
+                if(property_exists($role->operator, $currentRole)) echo "d-none";
+                ?>" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Menu ini digunakan untuk melakukan manajemen terutama inventaris barang pada gudang ME"
                     data-bs-custom-class="mytooltip">
                     <a anim="ripple" class="nav-link  navi-item" href="/Gudang">
@@ -148,10 +157,24 @@ $animation = false;
                         <span class="nav-link-text ms-1">Gudang</span>
                     </a>
                 </li>
+                <li class="nav-item
+                <?php 
+                if(property_exists($role->operator, $currentRole)) echo "d-none";
+                if(property_exists($role->user, $currentRole)) echo "d-none";
+                ?>">
+                    <a class="nav-link  navi-item" href="/KelolaAkun">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white 
+                            text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class='fs-6 text-dark bx bxs-user'></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Account</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="sidenav-footer mx-3 ">
-            <a anim="ripple" class="btn btn-warning mt-3 w-100" href="/">Sign Out</a>
+            <a anim="ripple" class="text-sm btn mb-0 btn-warning mt-3 w-100"
+                href="<?=base_url('Login/logout')?>">Logout</a>
         </div>
     </aside>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -262,8 +285,8 @@ $animation = false;
         </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="/assets/js/core/popper.min.js"></script>
     <script src="/assets/js/core/bootstrap.min.js"></script>
@@ -344,10 +367,10 @@ $animation = false;
                     duration: 1,
                     onComplete() {
                         localStorage.setItem("load", true);
-                        console.log(localStorage.getItem("load"));
+                        //console.log(localStorage.getItem("load"));
                         setTimeout(() => {
                             localStorage.setItem("load", false);
-                            console.log(localStorage.getItem("load"));
+                            //console.log(localStorage.getItem("load"));
                         }, 1000);
                     }
                 })

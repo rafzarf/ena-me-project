@@ -3,9 +3,6 @@
 $this->section('content');
 
 ?>
-<!-- PASSING FLASH DATA FOR SWEETALERT2 -->
-<div data-flash="<?= session()->getFlashdata('validate_msg') ?>" class="data-valid d-none"> </div>
-
 <div class="row mt-4">
     <!-- CARD ORDER START -->
     <div class="col-lg-7">
@@ -35,20 +32,18 @@ $this->section('content');
                                 }
                                 
                                 if(!isset($getSPK[0]->gbr_kerja)) { 
-                                    echo '<a id="btn-validate" class="text-wrap my-auto w-100 py-2 btn btn-info" href="#"
+                                    echo '<a id="btn-validate" class="text-sm text-wrap my-auto w-100 py-2 btn btn-info" href="#"
                                     data-bs-toggle="modal" data-bs-target="#validation_modal"
-                                    data-href="/Order/validateSPK/'.$getSPK[0]->id_spk.'"
+                                    data-href="'.base_url().'Order/validateSPK/'.$getSPK[0]->id_spk.'"
                                     data-valid="'.$valid.'">Validasi</a>';
                                 } 
                                 else {
-                                    echo '<a id="btn-validate" class="text-wrap my-auto w-100 py-2 btn btn-success"
+                                    echo '<a id="btn-validate" class="text-sm text-wrap my-auto w-100 py-2 btn btn-success"
                                     href="#" data-bs-toggle="modal"
                                     data-bs-target="#validation_modal"
-                                    data-href="/Order/validateSPK/'.$getSPK[0]->id_spk.'" 
+                                    data-href="'.base_url().'Order/validateSPK/'.$getSPK[0]->id_spk.'" 
                                     data-valid="'.$valid.'">Info Validasi</a>';
                                 }?>
-
-
                             </div>
                         </div>
                         <div class="row">
@@ -129,12 +124,20 @@ $this->section('content');
                         <div
                             class="ms-md-auto pe-md-3 d-flex align-items-center justify-content-end ms-sm-auto me-lg-0 me-sm-3">
                             <form action="" id="searchbar" method="GET">
-                                <div class="input-group">
-                                    <input type="text" id="searchbox" class="form-control" placeholder="Type here..."
-                                        name="keyword">
-                                    <button anim="ripple" type="submit" class="searchicon px-3 py-auto btn m-0"><i
-                                            class='text-white fs-6 bx bx-search'></i>
-                                    </button>
+                                <div class="position-relative">
+                                    <div class="input-set">
+                                        <input type="text" id="searchbox" class="form-control"
+                                            placeholder="Type here..." name="keyword"
+                                            value="<?php if(isset($_GET['keyword'])) echo $_GET['keyword'];?>">
+                                        <?php 
+                                        if(empty($_GET['keyword'])) {
+                                            echo ' <button anim="ripple" type="button" class="arrowicon searchbtn btn m-0"><i
+                                            class="text-white fs-6 bx bx-search"></i> </button>';
+                                        } else {
+                                            echo '<button anim="ripple" type="button" class="bg-danger arrowicon searchdel btn m-0"><i
+                                            class="text-white fs-6 bx bxs-trash-alt"></i> </button>';
+                                        }?>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -146,26 +149,34 @@ $this->section('content');
                                 <i class="text-dark fs-3 bx bx-dots-vertical-rounded"></i>
                             </button>
                             <ul class="dropdown-menu">
-                                <li class="py-1 text-center mb-0">
-                                    <div class="btn-group dropstart">
-                                        <a type="button" class="ps-0 text-dark text-center dropdown-item"
+                                <li class="">
+                                    <div class="w-100 btn-group dropstart">
+                                        <a type="button" class="ps-0 d-flex text-dark dropdown-item"
                                             data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class='me-2 text-xxs bx bxs-left-arrow'></i>Data Per Halaman
+                                            <div class="row mx-0 w-100">
+                                                <div class="col">
+                                                    <span class="text-start">
+                                                        <i class='my-auto text-xxs bx bxs-left-arrow'></i></span>
+                                                </div>
+                                                <div class="col px-0">
+                                                    <span class="text-end">Data Per Halaman</span>
+                                                </div>
+                                            </div>
                                         </a>
                                         <ul class="dropdown-menu sub-menu">
-                                            <li><a class="text-dark text-center dropdown-item" href="?entries=5">5
+                                            <li><a class="text-dark text-center dropdown-item" href="?&entries=5">5
                                                 </a></li>
-                                            <li><a class="text-dark text-center dropdown-item" href="?entries=10">10
+                                            <li><a class="text-dark text-center dropdown-item" href="?&entries=10">10
                                                 </a>
                                             </li>
-                                            <li><a class="text-dark text-center dropdown-item" href="?entries=15">15
+                                            <li><a class="text-dark text-center dropdown-item" href="?&entries=15">15
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
                                 </li>
-                                <li class="py-1 mb-0">
-                                    <a class="multiple-dlt-btn ps-0 text-dark text-center dropdown-item" href="#">
+                                <li class="">
+                                    <a class="text-wrap multiple-dlt-btn ps-0 text-dark text-end dropdown-item">
                                         Multiple Delete Selection</a></li>
                                 </li>
                             </ul>
@@ -180,7 +191,8 @@ $this->section('content');
             <table class="table table-hover align-items-center">
                 <thead class="text-xs">
                     <tr>
-                        <th class="check-th d-none text-uppercase text-center text-dark font-weight-bolder opacity-10">
+                        <th
+                            class="sticky-left check-th d-none text-uppercase text-center text-dark font-weight-bolder opacity-10">
                         </th>
                         <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             No.
@@ -209,7 +221,7 @@ $this->section('content');
                 <tbody class="text-sm">
                     <?php $no = 1 + ($entries * ($current_page - 1)); foreach($getOrder as $dataOrder){?>
                     <tr>
-                        <td data-label="Select Data" class="text-dark text-center check-td d-none">
+                        <td data-label="Select Data" class="sticky-left stext-dark text-center check-td d-none">
                             <div class="checkbox-wrapper-46">
                                 <input class="shadow inp-cbx" id="cbx-46-<?=$dataOrder['id_orderlog']?>" type="checkbox"
                                     value="<?=$dataOrder['id_orderlog']?>">
@@ -336,120 +348,197 @@ $this->section('content');
 <!-- MODAL CREATE START -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" id="create-form" action="/Order/createOrder">
-            <div class="modal-content">
-                <div class="bg-polman modal-header">
-                    <h5 class="text-white fw-bolder modal-title" id="exampleModalLabel">Tambah Order</h5>
+        <form method="post" id="create-form" data-url="<?=base_url().'Order/createOrder'?>">
+            <?=csrf_field()?>
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Order</h5>
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                        <i class='text-dark fs-4 bx bx-x'></i>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="tab">
-                        <div class="mb-1">
+                        <div class="mb-1 pengorder-div">
                             <label for="" class="text-uppercase form-label">Pemesan</label>
-                            <input type="text" name="pengorder" class="form-control" id="pengorder"
-                                placeholder="Masukan Nama Pemesan">
+                            <div class="input-set">
+                                <i class='bx bx-user'></i>
+                                <input type="text" name="pengorder" class="form-control" id="pengorder"
+                                    placeholder="Masukan Nama Pemesan">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 tgl_created-div">
                             <label for="" class="text-uppercase form-label">Tanggal</label>
-                            <input type="text" name="tgl_created" class="dateselect form-control" id="tgl_create"
-                                placeholder="Masukkan Tanggal (YYYY/MM/DD)">
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="tgl_created" class="dateselect form-control" id="tgl_created"
+                                    placeholder="Masukkan Tanggal (YYYY/MM/DD)">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 unit_kerja-div">
                             <label for="" class="text-uppercase form-label">Unit Kerja</label>
-                            <input type="text" name="unit_kerja" class="form-control" id="unit_kerja"
-                                placeholder="Masukkan Unit Kerja">
+                            <div class="input-set">
+                                <i class='bx bx-hard-hat'></i>
+                                <input type="text" name="unit_kerja" class="form-control" id="unit_kerja"
+                                    placeholder="Masukkan Unit Kerja">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 batas_waktu-div">
                             <label for="" class="text-uppercase form-label">Batas Waktu</label>
-                            <input type="text" name="batas_waktu" class="dateselect form-control" id="batas_waktu"
-                                placeholder="Masukkan Batas Waktu (YYYY/MM/DD">
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="batas_waktu" class="dateselect form-control" id="batas_waktu"
+                                    placeholder="Masukkan Batas Waktu (YYYY/MM/DD">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
                     </div>
-
                     <div class="tab">
-                        <div class="mb-1">
+                        <div class="mb-1 disetujui-div">
                             <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
-                            <select name="disetujui" class="form-control" id="disetujui">
-                                <option value="1">Ya</option>
-                                <option value="0">Tidak</option>
-                            </select>
+                            <div class="input-set">
+                                <i class='bx bx-user-check'></i>
+                                <select name="disetujui" class="form-select" id="disetujui">
+                                    <option value="1">Ya</option>
+                                    <option value="0">Tidak</option>
+                                </select>
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 no_spk-div">
                             <label for="" class="text-uppercase form-label">No. Pembebanan</label>
-                            <input type="hidden" class="form-control" id="no_spk" name="no_spk"
-                                value="<?=$getSPK[0]->no_spk?>">
-
-                            <input type="text" class="form-control" id="" name="" value="<?=$getSPK[0]->no_spk?>"
-                                disabled>
+                            <div class="input-set">
+                                <i class='bx bx-list-ol'></i>
+                                <input type="hidden" class="form-control" id="no_spk" name="no_spk"
+                                    value="<?=$getSPK[0]->no_spk?>">
+                                <input type="text" class="form-control" id="" name="" value="<?=$getSPK[0]->no_spk?>"
+                                    disabled>
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 nama_barang-div">
                             <label for="" class="text-uppercase form-label">Nama Barang/Uraian/Ukuran</label>
-                            <input type="text" name="nama_barang" class="form-control" id="nama_barang"
-                                placeholder="Masukkan Nama Barang">
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="nama_barang" class="form-control" id="nama_barang"
+                                    placeholder="Masukkan Nama Barang">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 jml_satuan-div">
                             <label for="" class="text-uppercase form-label">Jumlah/Satuan</label>
-                            <input type="number" name="jml_satuan" class="form-control" id="jml_satuan"
-                                placeholder="Masukkan Jumlah">
+                            <div class="input-set">
+                                <i class='bx bx-basket'></i>
+                                <input type="number" name="jml_satuan" class="form-control" id="jml_satuan"
+                                    placeholder="Masukkan Jumlah" min="0">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
                     </div>
-
                     <div class="tab">
-                        <div class="mb-1">
+                        <div class="mb-1 no_barang-div">
                             <label for="" class="text-uppercase form-label">No. Barang</label>
-                            <input type="text" name="no_barang" class="form-control" id="no_barang"
-                                placeholder="Masukkan No.Barang">
+                            <div class="input-set">
+                                <i class='bx bx-tag-alt'></i>
+                                <input type="text" name="no_barang" class="form-control" id="no_barang"
+                                    placeholder="Masukkan No.Barang">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 no_gambar-div">
                             <label for="" class="text-uppercase form-label">No. Gambar</label>
-                            <input type="text" name="no_gambar" class="form-control" id="no_gambar"
-                                placeholder="Masukkan No.Gambar">
+                            <div class="input-set">
+                                <i class='bx bx-photo-album'></i>
+                                <input type="text" name="no_gambar" class="form-control" id="no_gambar"
+                                    placeholder="Masukkan No.Gambar">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 tgl_penerima-div">
                             <label for="" class="text-uppercase form-label">Tanggal Penerima</label>
-                            <input type="text" name="tgl_penerima" class="dateselect form-control" id="tgl_penerima"
-                                placeholder="Masukkan Tanggal Penerima">
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="tgl_penerima" class="dateselect form-control" id="tgl_penerima"
+                                    placeholder="Masukkan Tanggal Penerima">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <!-- ini klo mau pake ttd sign hrs pake ajax nanti formnya -->
-                        <div class="mb-1">
+                        <div class="mb-1 nama_penerima-div">
                             <label for="" class="text-uppercase form-label">Nama & Paraf Penerima</label>
-                            <input type="text" name="nama_penerima" class="form-control" id="nama_penerima"
-                                placeholder="Masukkan Nama Penerima">
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="nama_penerima" class="form-control" id="nama_penerima"
+                                    placeholder="Masukkan Nama Penerima">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
                     </div>
-
                     <div class="tab">
-                        <div class="mb-1">
+                        <div class="mb-1 berat_barang-div">
                             <label for="" class="text-uppercase form-label">Berat (Kg)</label>
-                            <input type="number" name="berat_barang" class="form-control" id="berat_barang"
-                                placeholder="Masukkan Berat Dalam Kilogram (Kg)">
+                            <div class="input-set">
+                                <i class='bx bx-package'></i>
+                                <input type="number" name="berat_barang" class="form-control" id="berat_barang"
+                                    placeholder="Masukkan Berat Dalam Kilogram (Kg)" min="0">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 tgl_pembelian-div">
                             <label for="" class="text-uppercase form-label">Tanggal Pelaporan/Pembelian</label>
-                            <input type="text" name="tgl_pembelian" class="dateselect form-control" id="tgl_pembelian"
-                                placeholder="Masukkan Tanggal Pelaporan">
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="tgl_pembelian" class="dateselect form-control"
+                                    id="tgl_pembelian" placeholder="Masukkan Tanggal Pelaporan">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 tgl_pesanan-div">
                             <label for="" class="text-uppercase form-label">Tanggal Pelaksana Pesanan</label>
-                            <input type="text" name="tgl_pesanan" class="dateselect form-control" id="tgl_pesanan"
-                                placeholder="Masukkan Tanggal Pelaksana Pesanan">
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="tgl_pesanan" class="dateselect form-control" id="tgl_pesanan"
+                                    placeholder="Masukkan Tanggal Pelaksana Pesanan">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <!-- ini klo mau pake ttd sign hrs pake ajax nanti formnya -->
-                        <div class="mb-1">
+                        <div class="mb-1 nama_pelaksana-div">
                             <label for="" class="text-uppercase form-label">Nama & Paraf Pelaksana Pesanan</label>
-                            <input type="text" name="nama_pelaksana" class="form-control" id="nama_pelaksana"
-                                placeholder="Masukkan Nama Pelaksana">
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="nama_pelaksana" class="form-control" id="nama_pelaksana"
+                                    placeholder="Masukkan Nama Pelaksana">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 catatan-div">
                             <label for="" class="text-uppercase form-label">Catatan</label>
-                            <textarea class="form-control" name="catatan" id="catatan"></textarea>
+                            <textarea class="form-control" name="catatan" id="catatan"
+                                placeholder="Tuliskan Catatan (Jika Diperlukan)"></textarea>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer">
-                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button> -->
-                    <button type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
-                    <button type="button" class="btn btn-info" id="nextBtn">Next</button>
+                    <div class="row w-100 m-0">
+                        <div class="col-auto ms-2 p-0 my-auto text-start tabnum">
+                            <div class="d-flex my-auto">
+                                <p class="d-flex fw-bold my-auto ">1/</p>
+                                <span class="d-flex fw-bold mt-2 my-auto text-xs">
+                                    <script type="text/javascript">
+                                        document.write(document.querySelectorAll(".tab").length)
+                                    </script>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col p-0 text-end">
+                            <button anim="ripple" type="button" class="btn m-0 btn-light text-sm me-2"
+                                id="prevBtn">Back</button>
+                            <button anim="ripple" type="button" class="btn m-0 btn-info" id="nextBtn">Next</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -460,37 +549,43 @@ $this->section('content');
 <!-- MODAL VALIDATION START -->
 <div class="modal fade" id="validation_modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST" id="validate-form" action="/Order/validateSPK">
-            <div class="modal-content">
-                <div class="modal-header bg-polman">
-                    <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Validasi</h5>
+        <form method="POST" id="validate-form" data-url="<?=base_url().'Order/validateSPK'?>">
+        <?=csrf_field()?>
+            <div class=" modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark fw-bolder" id="myModalLabel">Validasi</h5>
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                        <i class='text-dark fs-4 bx bx-x'></i>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-sm">Validasi diperlukan untuk melakukan ACC pada Project,
+                    <p class="bg-polman text-white p-3 rounded-2 text-sm">Validasi diperlukan untuk melakukan ACC pada
+                        Project,
                         silahkan lampirkan link gambar kerja. Link dapat berupa link google drive.</p>
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Link Gambar Kerja</label>
-                        <div class="input-group">
-                            <input type="text" id="validation_input" class="form-control"
-                                placeholder="Masukkan Link Gambar Kerja Disini" name="validation">
-                            <a anim="ripple" target="_blank" href="" type="button"
-                                class="arrowicon px-3 py-auto btn m-0"><i
-                                    class='text-white fs-5 bx bx-right-arrow-alt'></i>
-                            </a>
+                    <div class="tab_valid">
+                        <div class="mb-1 validation-div">
+                            <label for="" class="text-uppercase form-label">Link Gambar Kerja</label>
+                            <div class="input-set">
+                                <i class='bx bx-link'></i>
+                                <a anim="ripple" target="_blank" type="button" class="arrowicon btn m-0">
+                                    <i class='text-white fs-6 bx bx-link-external'></i>
+                                </a>
+                                <input type="text" id="validation" class="form-control"
+                                    placeholder="Masukkan Link Gambar Kerja Disini" name="validation">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <p class="debug-url-valid"></p>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="row w-100">
                         <div class="col text-start">
-                            <button anim="ripple" type="button" class="btn btn-warning btn-edit-valid">Edit</button>
                         </div>
-                        <div class="col text-end">
-                            <button anim="ripple" type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Kembali</button>
-                            <button anim="ripple" type="submit" name="submit"
-                                class="btn btn-info btn-valid">Simpan</button>
+                        <div class="col pe-0 text-end">
+                            <button anim="ripple" type="button" class="btn btn-secondary m-0 me-2"
+                                id="prevBtn_valid">Previous</button>
+                            <button anim="ripple" type="button" class="btn btn-info m-0"
+                                id="nextBtn_valid">Next</button>
                         </div>
                     </div>
                 </div>
@@ -504,19 +599,21 @@ $this->section('content');
 <!-- DELETE MODAL START -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-polman">
-                <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Konfirmasi Hapus Data</h5>
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark fw-bolder" id="myModalLabel">Konfirmasi Hapus Data</h5>
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                    <i class='text-dark fs-4 bx bx-x'></i>
+                </button>
             </div>
-
             <div class="modal-body">
                 <p>Apakah anda yakin ingin menghapus data ini ?</p>
                 <p class="debug-url"></p>
             </div>
-
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                <a class="btn btn-danger btn-ok">Hapus</a>
+                <button anim="ripple" type="button" class="text-sm m-0 me-2 btn btn-light"
+                    data-bs-dismiss="modal">Kembali</button>
+                <a class="text-sm btn btn-danger btn-ok m-0">Hapus</a>
             </div>
         </div>
     </div>
@@ -526,138 +623,193 @@ $this->section('content');
 <!-- EDIT MODAL START -->
 <div class="modal fade" id="modal_info" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST" id="edit-form" action="/Order/editOrder">
-            <div class="modal-content">
-                <div class="modal-header bg-polman">
-                    <h5 class="modal-title text-white fw-bolder" id="">Info Order</h5>
+        <form method="POST" id="edit-form" data-url="<?=base_url().'Order/editOrder'?>">
+        <?=csrf_field()?>
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark fw-bolder" id="">Info Order</h5>
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                        <i class='text-dark fs-4 bx bx-x'></i>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="tab_edit">
-                        <div class="mb-1">
+                        <div class="mb-1 edit_pengorder-div">
                             <label for="" class="text-uppercase form-label">Pemesan</label>
-                            <input type="text" name="edit_pengorder" class="form-control" id="edit_pengorder" disabled>
-                            <input type="hidden" name="edit_id_orderlog" class="form-control" id="edit_id_orderlog"
-                                disabled>
+                            <div class="input-set">
+                                <i class='bx bx-user'></i>
+                                <input type="text" name="edit_pengorder" class="form-control" id="edit_pengorder">
+                                <input type="hidden" name="edit_id_orderlog" class="form-control" id="edit_id_orderlog">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 edit_tgl_created-div">
                             <label for="" class="text-uppercase form-label">Tanggal</label>
-                            <input type="text" name="edit_tgl_created" class="dateselect form-control"
-                                id="edit_tgl_created" disabled>
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="edit_tgl_created" class="dateselect form-control"
+                                    id="edit_tgl_created">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 edit_unit_kerja-div">
                             <label for="" class="text-uppercase form-label">Unit Kerja</label>
-                            <input type="text" name="edit_unit_kerja" class="form-control" id="edit_unit_kerja"
-                                disabled>
+                            <div class="input-set">
+                                <i class='bx bx-hard-hat'></i>
+                                <input type="text" name="edit_unit_kerja" class="form-control" id="edit_unit_kerja">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 edit_batas_waktu-div">
                             <label for="" class="text-uppercase form-label">Batas Waktu</label>
-                            <input type="text" name="edit_batas_waktu" class="dateselect form-control"
-                                id="edit_batas_waktu" disabled>
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="edit_batas_waktu" class="dateselect form-control"
+                                    id="edit_batas_waktu">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="tab_edit">
+                    <div class="tab_edit edit_disetujui-div">
                         <div class="mb-1">
-                            <!-- <label for="" class="text-uppercase form-label">Disetujui</label>
-                            <input type="text" name="edit_disetujui" class="form-control" id="edit_disetujui"
-                            disabled> -->
-
                             <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
-                            <select name="edit_disetujui" class="form-control" id="edit_disetujui" disabled>
-                                <option value="1">Ya</option>
-                                <option value="0">Tidak</option>
-                            </select>
+                            <div class="input-set">
+                                <i class='bx bx-user-check'></i>
+                                <select name="edit_disetujui" class="form-select" id="edit_disetujui">
+                                    <option value="1">Ya</option>
+                                    <option value="0">Tidak</option>
+                                </select>
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 edit_no_spk-div">
                             <label for="" class="text-uppercase form-label">No. Pembebanan</label>
-                            <input type="text" name="edit_no_spk" class="form-control" id="edit_no_spk" disabled>
+                            <div class="input-set">
+                                <i class='bx bx-list-ol'></i>
+                                <input type="text" name="edit_no_spk" class="form-control" id="edit_no_spk" disabled>
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-
-                        <div class="mb-1">
+                        <div class="mb-1 edit_jml_satuan-div">
                             <label for="" class="text-uppercase form-label">Jumlah/Satuan</label>
-                            <input type="number" name="edit_jml_satuan" class="form-control" id="edit_jml_satuan"
-                                disabled>
+                            <div class="input-set">
+                                <i class='bx bx-basket'></i>
+                                <input type="number" name="edit_jml_satuan" class="form-control" id="edit_jml_satuan"
+                                    min="0">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 edit_nama_barang-div">
                             <label for="" class="text-uppercase form-label">Nama Barang/Uraian/Ukuran</label>
-                            <input type="text" name="edit_nama_barang" class="form-control" id="edit_nama_barang"
-                                disabled>
-                        </div>
-                    </div>
-                    <div class="tab_edit">
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-1">
-                                    <label for="" class="text-uppercase form-label">No.Barang</label>
-                                    <input type="text" class="form-control" name="edit_no_barang" id="edit_no_barang"
-                                        disabled>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-1">
-                                    <label for="" class="text-uppercase form-label">No.Gambar</label>
-                                    <input type="text" class="form-control" name="edit_no_gambar" id="edit_no_gambar"
-                                        disabled>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-1">
-                                    <label for="" class="text-uppercase form-label">Tanggal Penerima</label>
-                                    <input type="text" name="edit_tgl_penerima" class="dateselect form-control"
-                                        id="edit_tgl_penerima" disabled>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-1">
-                                    <label for="" class="text-uppercase form-label">Nama & Paraf Penerima</label>
-                                    <input type="text" name="edit_nama_penerima" class="form-control"
-                                        id="edit_nama_penerima" disabled>
-                                </div>
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="edit_nama_barang" class="form-control" id="edit_nama_barang">
+                                <div class="invalid-feedback"></div>
                             </div>
                         </div>
                     </div>
                     <div class="tab_edit">
-                        <div class="mb-1">
+                        <div class="mb-1 edit_no_barang-div">
+                            <label for="" class="text-uppercase form-label">No.Barang</label>
+                            <div class="input-set">
+                                <i class='bx bx-tag-alt'></i>
+                                <input type="text" class="form-control" name="edit_no_barang" id="edit_no_barang">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_no_gambar-div">
+                            <label for="" class="text-uppercase form-label">No.Gambar</label>
+                            <div class="input-set">
+                                <i class='bx bx-photo-album'></i>
+                                <input type="text" class="form-control" name="edit_no_gambar" id="edit_no_gambar">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_tgl_penerima-div">
+                            <label for="" class="text-uppercase form-label">Tanggal Penerima</label>
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="edit_tgl_penerima" class="dateselect form-control"
+                                    id="edit_tgl_penerima">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_nama_penerima-div">
+                            <label for="" class="text-uppercase form-label">Nama & Paraf Penerima</label>
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="edit_nama_penerima" class="form-control"
+                                    id="edit_nama_penerima">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab_edit">
+                        <div class="mb-1 edit_berat_barang-div">
                             <label for="" class="text-uppercase form-label">Berat (Kg)</label>
-                            <input type="number" name="edit_berat_barang" class="form-control" id="edit_berat_barang"
-                                disabled>
+                            <div class="input-set">
+                                <i class='bx bx-package'></i>
+                                <input type="number" name="edit_berat_barang" class="form-control"
+                                    id="edit_berat_barang" min="0">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 edit_tgl_pembelian-div">
                             <label for="" class="text-uppercase form-label">Tanggal Pelaporan/Pembelian</label>
-                            <input type="text" name="edit_tgl_pembelian" class="dateselect form-control"
-                                id="edit_tgl_pembelian" disabled>
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="edit_tgl_pembelian" class="dateselect form-control"
+                                    id="edit_tgl_pembelian">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <!-- ini maksudnya tgl apa di database ? record order kah ? -->
-                        <!-- <div class="mb-1">
+                        <div class="mb-1 edit_tgl_pesanan-div">
                             <label for="" class="text-uppercase form-label">Tanggal Pelaksana Pesanan</label>
-                            <input type="text" class="dateselect form-control" name="edit_tgl_pelaksana"
-                                id="edit_tgl_pelaksana" disabled>
-                        </div> -->
-                        <div class="mb-1">
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="edit_tgl_pesanan" class="dateselect form-control"
+                                    id="edit_tgl_pesanan" placeholder="Masukkan Tanggal Pelaksana Pesanan">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_nama_pelaksana-div">
                             <label for="" class="text-uppercase form-label">Nama & Paraf Pelaksana
                                 Pesanan</label>
-                            <input type="text" name="edit_nama_pelaksana" class="form-control" id="edit_nama_pelaksana"
-                                disabled>
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="edit_nama_pelaksana" class="form-control"
+                                    id="edit_nama_pelaksana">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-1 edit_catatan-div">
                             <label for="" class="text-uppercase form-label">Catatan</label>
-                            <textarea class="form-control" name="edit_catatan" id="edit_catatan" disabled> </textarea>
+                            <textarea class="form-control" name="edit_catatan" id="edit_catatan"
+                                placeholder="Tuliskan Catatan (Jika Diperlukan)"></textarea>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                 </div>
-
                 <div class="modal-footer">
-                    <div class="row w-100">
-                        <div class="col text-start">
-                            <button type="button" class="btn btn-warning btn-edit-allow">Edit</button>
+                    <div class="row w-100 m-0">
+                        <div class="col-auto ms-2 p-0 my-auto text-start tabnum">
+                            <div class="d-flex my-auto">
+                                <p class="d-flex fw-bold my-auto ">1/</p>
+                                <span class="d-flex fw-bold mt-2 my-auto text-xs">
+                                    <script type="text/javascript">
+                                        document.write(document.querySelectorAll(".tab_edit").length)
+                                    </script>
+                                </span>
+                            </div>
                         </div>
-                        <div class="col text-end">
-                            <button type="button" class="btn btn-secondary" id="prevBtn_edit">Previous</button>
-                            <button type="button" class="btn btn-info" id="nextBtn_edit">Next</button>
+                        <div class="col p-0 text-end">
+                            <button anim="ripple" type="button" class="btn m-0 btn-light text-sm me-2"
+                                id="prevBtn_edit">Back</button>
+                            <button anim="ripple" type="button" class="btn m-0 btn-info" id="nextBtn_edit">Next</button>
                         </div>
                     </div>
                 </div>
+            </div>
         </form>
     </div>
 </div>
@@ -668,57 +820,31 @@ $this->section('content');
 
 include "footerjs.php"
 
-
 ?>
 
 <script>
     let arrlength = $(".status_validate").data('valid').length;
     if (arrlength > 0) {
         $(".status_validate span").html("STATUS : TERVALIDASI").addClass('bg-gradient-success');
-
     } else {
         $(".status_validate span").html("STATUS : BELUM TERVALIDASI").addClass('bg-gradient-secondary');
     }
 
-    // Creating response and call Sweet alert 
-    const valid_response = $('.data-valid');
-    response(valid_response, "Validasi Berhasil Ditambahkan", "Validasi Gagal Ditambahkan");
-
     $(document).ready(function () {
-
-
         //modal validation
         $('#validation_modal').on('show.bs.modal', function (e) {
-            $(this).find('#validate-form').attr('action', $(e.relatedTarget).data('href'));
+            form[2].url = $(e.relatedTarget).data('href');
             if ($(e.relatedTarget).data('valid')) {
-                $(".arrowicon").css('display', 'inline-block').attr('href', $(e
-                    .relatedTarget).data(
+                $("#validation_modal .arrowicon").css('display', 'inline-block').attr('href', $(e.relatedTarget).data(
                     'valid'));
-                $(".btn-edit-valid").css('display', 'inline-block');
-                $('#validation_input').val($(e.relatedTarget).data('valid')).prop(
-                        'disabled', true)
-                    .addClass('border-tb-none');
+                $('#validation').val($(e.relatedTarget).data('valid'));
             } else {
-                $(".arrowicon").css('display', 'none');
-                $(".btn-edit-valid").css('display', 'none');
-                $('#validation_input').val($(e.relatedTarget).data('valid')).prop(
-                        'disabled', false)
-                    .removeClass('border-tb-none');
+                $("#validation_modal .arrowicon").css('display', 'none');
+                $('#validation').val($(e.relatedTarget).data('valid'));
             }
-            //debugging url
-            // $('.debug-url-valid').html('Delete URL: <strong>' + $(this).find('#validate-form').attr(
-            //         'action') +
-            //     '</strong>');
-        });
-
-        //button edit pada modal edit dan validasi
-        $(".btn-edit-valid").click(function () {
-            $('#validate-form').find(':input(:disabled)').prop('disabled', false);
         });
 
         $('.btn-edit').on('click', function () {
-
-            // Get data from button edit
             const id_orderlog = $(this).data('id_orderlog');
             const pengorder = $(this).data('pengorder');
             const tgl_created = $(this).data('tgl_created');
@@ -759,7 +885,6 @@ include "footerjs.php"
             $('#edit_record_order').val(record_order);
             $('#edit_nama_pelaksana').val(nama_pelaksana);
             $('#edit_catatan').val(catatan);
-
 
             // Call Modal Edit
             $('#modal_info').modal('show');
