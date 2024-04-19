@@ -125,4 +125,4 @@ done
 a. belum kebayang kaya gimana, tapi perlu cari info tataletak secepatnya
 ```
 
-untuk relational yang memakai id__worker ditidiakan dulu di db, mengingat kita baru bikin hierarcy sistem di akhir. biar gak error dan gak ribet aja.
+untuk relational yang memakai id__worker ditidiakan dulu di db, mengingat kita baru bikin hierarcy sistem di akhir. Biar gak error dan gak ribet aja.
