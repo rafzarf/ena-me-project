@@ -97,7 +97,7 @@ done
 5. Proses
 
 ```
-a. bingung tinggal di proses ini formnya harus gimana [perlu pembicaraan lebih lanjut]
+done
 ```
 
 4. Permesinan
