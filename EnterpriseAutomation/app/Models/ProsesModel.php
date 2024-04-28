@@ -7,31 +7,28 @@ class ProsesModel extends Model
     /**
      * table name
      */
-    protected $table = "form_proses";
+    protected $table = "proses";
     protected $primaryKey = "id_proses_start";
-
     /**
      * allowed Field
      */
     protected $allowedFields = [
-        'komponen',
-        'kuantitas',
+        'nama_mesin',
+        'nama_komponen',
         'durasi_waktu',
-        'nama_pembuat',	
-        'tgl_pembuat',
+        'id_spk',
     ];
 
     public function search($keyword,$id) {
         if($keyword){
             $prosesdata = $this->table($this->table)
-            ->getWhere(['id_spk' => $id])
-            ->like('no_order', $keyword)
-            ->orLike('komponen', $keyword)
-            ->orLike('nama_pembuat', $keyword)
-            ->orLike('tgl_pembuatan', $keyword);
+            ->where(['id_spk' => $id])
+            ->like('nama_mesin', $keyword)
+            ->orLike('nama_komponen', $keyword)
+            ->orLike('durasi_waktu', $keyword);
         } else {
             $prosesdata = $this->table($this->table)
-            ->getWhere(['id_spk' => $id]);
+            ->where(['id_spk' => $id]);
         }
 
         return $prosesdata;

@@ -21,7 +21,7 @@ $this->section('content');
     </div>
     <div class="sub-button shadow">
         <span class="badge badge-sm bg-info">Tambah Permesinan</span>
-        <a href="#" data-bs-toggle="modal" data-bs-target="#confirm-delete">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#ModalType">
             <i class='fs-5 mt-1 text-white bx bxs-wrench'></i>
         </a>
     </div>
@@ -40,6 +40,9 @@ $this->section('content');
                             <h3 class="text-dark lh-1 ms-3 my-auto">Proses<br>
                                 <span class="text-sm lh-1 text-dark text-start"> No.SPK :
                                     <?= $getSPK[0]->no_spk ?>
+                                </span><br>
+                                <span class="text-sm lh-1 text-dark text-start"> Nama Produk :
+                                    <?= $getSPK[0]->nama_produk ?>
                                 </span>
                             </h3>
                         </div>
@@ -160,12 +163,12 @@ $this->section('content');
                                 </th>
                                 <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                                     Komponen</th>
-                                <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
-                                    No.Sec</th>
+                                <!-- <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
+                                    No.Sec</th> -->
                                 <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                                     Permesinan</th>
-                                <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
-                                    No.Gambar</th>
+                                <!-- <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
+                                    No.Gambar</th> -->
                                 <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                                     Waktu(jam)</th>
                                 <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
@@ -174,18 +177,92 @@ $this->section('content');
                             </tr>
                         </thead>
                         <tbody class="text-sm">
+                            <?php 
+                            $no = 1 + ($entries * ($current_page - 1));
+                            foreach($getProses as $data){
+                            ?>
                             <tr>
-                                <td data-label="No" class="text-dark text-center">1</td>
-                                <td data-label="No.SPK" class="text-dark text-center">Pencekam Crank Shaft
+                            <td data-label="Select Data" class="sticky-left stext-dark text-center check-td d-none">
+                            <div class="checkbox-wrapper-46">
+                                <input class="shadow inp-cbx" id="cbx-46-<?=$data['id_proses_start']?>" type="checkbox"
+                                    value="<?=$data['id_proses_start']?>">
+                                <label class="cbx" for="cbx-46-<?=$data['id_proses_start']?>"><span>
+                                        <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                        </svg></span><span class="ps-0"></span>
+                                </label>
+                            </div>
+                        </td>
+                                <td data-label="No" class="text-dark text-center"><?= $no;?></td>
+                                <td data-label="nama_komponen" class="text-dark text-center"> <?= $data['nama_komponen']; ?>
                                 </td>
-                                <td data-label="Pengorder" class="text-dark text-center">1</td>
-                                <td data-label="Batas Waktu" class="text-dark text-center">Milling</td>
-                                <td data-label="No" class="text-dark text-center">G-0003</td>
-                                <td data-label="No.SPK" class="text-dark text-center">5</td>
-                                <td data-label="Pengorder" class="text-dark text-center">
+                                <td data-label="nama_mesin" class="text-dark text-center"><?= $data['nama_mesin']; ?></td>
+                                <td data-label="durasi_waktu" class="text-dark text-center"><?= $data['durasi_waktu']; ?></td>
+                                <!-- <td data-label="No" class="text-dark text-center">G-0003</td> -->
+                                <!-- <td data-label="No.SPK" class="text-dark text-center">5</td> -->
+                                <td data-label="status" class="text-dark text-center">
                                     <span class="badge badge-sm bg-gradient-success">Selesai</span>
                                 </td>
+                                <td data-label="Option" class="text-dark text-center">
+                            <div class="btn-group dropstart">
+                                <button class="btn btn-mesin mb-0" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" data-boundary="window">
+                                    <i class="fs-5 bx text-dark bx-dots-vertical-rounded"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right p-1 position-fixed">
+                                    <li class="mb-0">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal_info"
+                                            class="btn-edit dropdown-item"
+                                            data-id_proses_start="<?=$data['id_proses_start']?>"
+                                            data-nama_komponen="<?=$data['nama_komponen']?>"
+                                            data-nama_mesin="<?=$data['nama_mesin']?>"
+                                            data-durasi_waktu="<?=$data['durasi_waktu']?>"
+                                            data-id_spk="<?=$data['id_spk']?>"
+                                         >
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 text-center bx bxs-info-circle 
+                                            btn bg-gradient-info px-2 py-1'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Info
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Tampilkan info
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mb-0">
+                                        <a href="#" data-href="/Proses/deleteProses/<?=$data['id_proses_start']?>"
+                                            data-bs-toggle="modal" data-bs-target="#confirm-delete"
+                                            class="dropdown-item">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 bx bxs-trash px-2 py-1 btn bg-gradient-danger'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Hapus
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Hapus Data
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
                             </tr>
+                            <?php $no++;}?>
                         </tbody>
                     </table>
                 </div>
@@ -207,53 +284,225 @@ $this->section('content');
     </div>
 </div>
 
+<!-- MODAL CREATE START -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" action="/Spk/createSPK">
-            <div class="modal-content">
-                <div class="bg-polman modal-header">
-                    <h5 class="text-white fw-bolder modal-title" id="exampleModalLabel">Tambah Komponen</h5>
-                    <!-- <button type="button" class="text-white opacity-10 btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button> -->
-
+        <form method="post" id="create-form" data-url="<?=base_url().'Proses/createKomponen'?>">
+            <?=csrf_field()?>
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Komponen</h5>
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                        <i class='text-dark fs-4 bx bx-x'></i>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-1">
-                        <label for="" class="text-uppercase form-label">Nama Komponen</label>
-                        <input type="text" name="pengorder" class="form-control" id="pengorder">
+                    <div class="tab">
+                        <div class="mb-1 no_spk-div">
+                            <label for="" class="text-uppercase form-label">No. SPK</label>
+                            <div class="input-set">
+                                <i class='bx bx-list-ol'></i>
+                                <input type="hidden" class="form-control" id="no_spk" name="no_spk"
+                                    value="<?=$getSPK[0]->no_spk?>">
+                                <input type="text" class="form-control" id="" name="" value="<?=$getSPK[0]->no_spk?>"
+                                    disabled>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 nama_komponen-div">
+                            <label for="" class="text-uppercase form-label">Nama Komponen</label>
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="nama_komponen" class="form-control" id="nama_komponen"
+                                    placeholder="Masukkan Nama Komponen">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                    <button type="submit" name="submit" class="btn btn-info">Tambah</button>
+                    <div class="row w-100 m-0">
+                        <div class="col-auto ms-2 p-0 my-auto text-start tabnum">
+                            <div class="d-flex my-auto">
+                                <p class="d-flex fw-bold my-auto ">1/</p>
+                                <span class="d-flex fw-bold mt-2 my-auto text-xs">
+                                    <script type="text/javascript">
+                                        document.write(document.querySelectorAll(".tab").length)
+                                    </script>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col p-0 text-end">
+                            <button anim="ripple" type="button" class="btn m-0 btn-light text-sm me-2"
+                                id="prevBtn">Back</button>
+                            <button anim="ripple" type="button" class="btn m-0 btn-info" id="nextBtn">Next</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
+<!-- CREATE MODAL END -->
+
+<div class="modal fade" id="ModalType" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" id="createTypeform" data-url="<?=base_url().'Proses/createProses'?>">
+        <?=csrf_field()?>
+            <div class="modal-content">
+                <div class="modal-header bg-polman">
+                    <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Tambah Permesinan</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="tabType">
+                    <div class="mb-1 id_spk-div">
+                            <label for="" class="text-uppercase form-label">No. Pembebanan</label>
+                            <div class="input-set">
+                                <i class='bx bx-list-ol'></i>
+                                <input type="hidden" class="form-control" id="id_spk" name="id_spk"
+                                    value="<?=$getSPK[0]->id_spk?>">
+                                <input type="text" class="form-control" id="" name="" value="<?=$getSPK[0]->no_spk?>"
+                                    disabled>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 nama_komponen-div">
+                            <label for="" class="text-uppercase form-label">Nama Komponen</label>
+                            <div class="input-set">
+                                <i class='bx bx-list-ol'></i>
+                                <select name="nama_komponen" class="form-select" id="selector_komponen">
+                                    <?php foreach ($getKomponen as $nama_komponen) : ?>
+                                        <option value="<?= $nama_komponen ?>">
+                                            <?= $nama_komponen ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-1 nama_mesin-div">
+                            <label for="" class="text-uppercase form-label">Proses Permesinan</label>
+                            <div class="input-set">
+                                <i class='bx bx-list-ol'></i>
+                                <select name="nama_mesin" class="form-select" id="selector_mesin">
+                                <?php for ($i = 0; $i < sizeof($DataMesin); $i++) {?>
+                                    <option class="" value="<?=$DataMesin[$i]->nama_mesin?>">
+                                        <?=$DataMesin[$i]->nama_mesin?></option>
+                                    <?php }?>
+                                </select>
+                            </div>
+                        </div>
+            
+                        <div class="mb-1">
+                            <label for="" class="text-uppercase form-label">Durasi</label>
+                            <input type="text" name="durasi_waktu" class="form-control" id="durasi_waktu">
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="modal-footer">
+                    <button anim="ripple" type="button" class="btn btn-secondary m-0 me-2"
+                        id="prevBtnType">Previous</button>
+                    <button anim="ripple" type="button" class="btn btn-info m-0" id="nextBtnType">Next</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- DELETE MODAL START -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-polman">
-                <h5 class="modal-title text-white fw-bolder" id="myModalLabel">Tambah Permesinan</h5>
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark fw-bolder" id="myModalLabel">Konfirmasi Hapus Data</h5>
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                    <i class='text-dark fs-4 bx bx-x'></i>
+                </button>
             </div>
-
             <div class="modal-body">
-                <div class="mb-1">
-                    <label for="" class="text-uppercase form-label">Nama Komponen</label>
-                    <input type="text" name="pengorder" class="form-control" id="pengorder">
-                </div>
-                <div class="mb-1">
-                    <label for="" class="text-uppercase form-label">Proses Permesinan</label>
-                    <input type="text" name="pengorder" class="form-control" id="pengorder">
-                </div>
+                <p>Apakah anda yakin ingin menghapus data ini ?</p>
+                <p class="debug-url"></p>
             </div>
-
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                <a class="btn btn-info">Tambah</a>
+                <button anim="ripple" type="button" class="text-sm m-0 me-2 btn btn-light"
+                    data-bs-dismiss="modal">Kembali</button>
+                <a class="text-sm btn btn-danger btn-ok m-0">Hapus</a>
             </div>
         </div>
+    </div>
+</div>
+<!-- DELETE MODAL END -->
+
+<div class="modal fade" id="modal_info" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" id="edit-form" data-url="<?=base_url().'Proses/editProses'?>">
+        <?=csrf_field()?>
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark fw-bolder" id="">Info Mesin</h5>
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                        <i class='text-dark fs-4 bx bx-x'></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab_edit">
+                    <input type="hidden" name="edit_id_proses_start" id="edit_id_proses_start">
+                        <div class="mb-1 edit_nama_komponen-div">
+                            <label for="" class="text-uppercase form-label">Nama Komponen</label>
+                            <div class="input-set">
+                                <i class='bx bx-list-ol'></i>
+                                <select name="edit_nama_komponen" class="form-select" id="selector_komponen">
+                                    <?php foreach ($getKomponen as $nama_komponen) : ?>
+                                        <option value="<?= $nama_komponen ?>">
+                                            <?= $nama_komponen ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_nama_mesin-div">
+                            <label for="" class="text-uppercase form-label">Proses Permesinan</label>
+                            <div class="input-set">
+                                <i class='bx bx-list-ol'></i>
+                                <select name="edit_nama_mesin" class="form-select" id="selector_mesin">
+                                <?php for ($i = 0; $i < sizeof($DataMesin); $i++) {?>
+                                    <option class="" value="<?=$DataMesin[$i]->nama_mesin?>">
+                                        <?=$DataMesin[$i]->nama_mesin?></option>
+                                    <?php }?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_durasi_waktu-div">
+                            <label for="" class="text-uppercase form-label">Durasi</label>
+                            <div class="input-set">
+                                <i class='bx bx-hard-hat'></i>
+                                <input type="text" name="edit_durasi_waktu" class="form-control" id="edit_durasi_waktu">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row w-100 m-0">
+                        <div class="col-auto ms-2 p-0 my-auto text-start tabnum">
+                            <div class="d-flex my-auto">
+                                <p class="d-flex fw-bold my-auto ">1/</p>
+                                <span class="d-flex fw-bold mt-2 my-auto text-xs">
+                                    <script type="text/javascript">
+                                        document.write(document.querySelectorAll(".tab_edit").length)
+                                    </script>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col p-0 text-end">
+                            <button anim="ripple" type="button" class="btn m-0 btn-light text-sm me-2"
+                                id="prevBtn_edit">Back</button>
+                            <button anim="ripple" type="button" class="btn m-0 btn-info" id="nextBtn_edit">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -352,6 +601,23 @@ include "footerjs.php"
             $('#validate-form').find(':input(:disabled)').prop('disabled', false);
         });
     });
+
+    $('.btn-edit').on('click', function () {
+            const id_proses_start = $(this).data('id_proses_start');
+            const nama_komponen = $(this).data('nama_komponen');
+            const nama_mesin = $(this).data('nama_mesin');
+            const durasi_waktu = $(this).data('durasi_waktu');
+            const id_spk = $(this).data('id_spk');
+            // Set data to Form Edit
+            $('#edit_id_proses_start').val(id_proses_start);
+            $('#edit_nama_komponen').val(nama_komponen);
+            $('#edit_nama_mesin').val(nama_mesin);
+            $('#edit_durasi_waktu').val(durasi_waktu);
+            $('#edit_id_spk').val(id_spk);
+
+            // Call Modal Edit
+            $('#modal_info').modal('show');
+        });
 
     var ctx = document.getElementById("pieChart");
     var myChart = new Chart(ctx, {
