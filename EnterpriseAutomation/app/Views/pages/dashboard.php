@@ -16,13 +16,17 @@ $role = (object) [
 ];
 $currentRole = session()->get('Role');
 
+
+foreach($dataGrafik as $data) {
+    $mesin[] = $data->nama_mesin;
+    $jam[] = $data->total_jam;
+}
+
 ?><div class="mt-5">
     <!-- < !-- inner section -->
 
-    <input type="hidden" class="googledata" 
-    data-client="<?=$gcalData[0]['CLIENT_ID']?>"
-    data-api="<?=$gcalData[0]['API_KEY']?>" 
-    data-gcal="<?=$gcalData[0]['GCAL_ID']?>">
+    <input type="hidden" class="googledata" data-client="<?=$gcalData[0]['CLIENT_ID']?>"
+        data-api="<?=$gcalData[0]['API_KEY']?>" data-gcal="<?=$gcalData[0]['GCAL_ID']?>">
 
     <div class="row">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -100,17 +104,15 @@ $currentRole = session()->get('Role');
     </div>
     <div class="row mt-4">
         <div class="col-lg-7">
-            <div class="card z-index-2">
-                <div class="card-header pb-0">
-                    <div class="my-auto text-start d-flex">
-                        <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
-                            <i class='fs-4 bx bxs-bar-chart-alt-2'></i>
-                        </div>
-                        <h6 class="text-dark d-flex ms-3 my-auto poppins-bold">Jumlah Jam Permesinan</h6>
+            <div class="card bg-gradient-dark z-index-2">
+                <div class="card-body p-4">
+                    <div class="my-auto text-start">
+                        <h6 class="text-white badge bg-gradient-secondary my-auto poppins-bold">
+                            Jumlah Jam Permesinan</h6>
                     </div>
-                </div>
-                <div class="card-body p-3">
-                    <div class="chart"><canvas id="chart-line" class="chart-canvas" height="300"></canvas></div>
+                    <div id="chart">
+                        <canvas id="chart-bars" class="chart-canvas" height="400"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -653,7 +655,7 @@ include "footerjs.php"
 
 <script>
     $('#st').timepicker({
-        'scrollDefault': 'now'
+        
     });
     $('#et').timepicker({});
     const CLIENT_ID = $(".googledata").data('client');
@@ -890,124 +892,78 @@ include "footerjs.php"
 
 
     // CHART JS
-    var ctx2 = document.getElementById("chart-line").getContext("2d");
-    var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+    var ctx = document.getElementById("chart-bars").getContext("2d");
 
-    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
-    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
-
-    var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
-    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
-
-    new Chart(ctx2, {
-
-            type: "line",
-            data: {
-
-                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                datasets: [{
-                        label: "Jam Permesinan",
-                        tension: 0.4,
-                        borderWidth: 0,
-                        pointRadius: 0,
-                        borderColor: "#cb0c9f",
-                        borderWidth: 3,
-                        backgroundColor: gradientStroke1,
-                        fill: true,
-                        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-                        maxBarThickness: 6
-                    }
-
-                    ,
-                ],
-            }
-
-            ,
-            options: {
-
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: <?= json_encode($mesin) ?>,
+            datasets: [{
+                label: "Total Jam Permesinan",
+                tension: 0.4,
+                borderWidth: 0,
+                borderRadius: 4,
+                borderSkipped: false,
+                backgroundColor: "#fff",
+                data: <?= json_encode($jam) ?>,
+                maxBarThickness: 6
+            }, ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
                         display: false,
-                    }
-                }
-
-                ,
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                }
-
-                ,
-                scales: {
-                    y: {
-                        grid: {
-                            drawBorder: false,
-                            display: true,
-                            drawOnChartArea: true,
-                            drawTicks: false,
-                            borderDash: [5, 5]
-                        }
-
-                        ,
-                        ticks: {
-
-                            display: true,
-                            padding: 10,
-                            color: '#b2b9bf',
-                            font: {
-                                size: 11,
-                                family: "Quicksand",
-                                style: 'normal',
-                                lineHeight: 2
-                            }
-
-                            ,
-                        }
-                    }
-
-                    ,
-                    x: {
-                        grid: {
-                            drawBorder: false,
-                            display: false,
-                            drawOnChartArea: false,
-                            drawTicks: false,
-                            borderDash: [5, 5]
-                        }
-
-                        ,
-                        ticks: {
-
-                            display: true,
-                            color: '#b2b9bf',
-                            padding: 20,
-                            font: {
-                                size: 11,
-                                family: "Quicksand",
-                                style: 'normal',
-                                lineHeight: 2
-                            }
-
-                            ,
-                        }
-                    }
-
-                    ,
-                }
-
-                ,
-            }
-
-            ,
-        }
-
-    );
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 500,
+                        beginAtZero: true,
+                        padding: 15,
+                        font: {
+                            size: 14,
+                            family: "Plus Jakarta Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: "#fff"
+                    },
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false
+                    },
+                    ticks: {
+                        padding: 15,
+                        font: {
+                            size: 14,
+                            family: "Plus Jakarta Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: "#fff"
+                    },
+                },
+            },
+        },
+    });
 </script>
 
 <?=$this->endSection();?>

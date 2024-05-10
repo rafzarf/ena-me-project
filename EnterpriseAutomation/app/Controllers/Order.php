@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Models\OrderModel;
 use App\Models\SpkModel;
+use Dompdf\Dompdf;
 
 class Order extends BaseController {
     protected $order;
@@ -84,68 +85,87 @@ class Order extends BaseController {
                     'required' => 'Nama Barang wajib diisi',
                 ]
             ],
-            'no_barang' => [
-                'label' => 'Nomor Barang',
+            'uraian' => [
+                'label' => 'Uraian Barang',
                 'rules' => 'required',
                 'errors' => [
-                    'required' => 'Nomor Barang wajib diisi',
+                    'required' => 'Uraian Barang wajib diisi',
                 ]
             ],
-            'no_gambar' => [
-                'label' => 'Nomor Gambar',
+            'ukuran' => [
+                'label' => 'Ukuran Barang',
                 'rules' => 'required',
                 'errors' => [
-                    'required' => 'Nomor Gambar wajib diisi',
+                    'required' => 'Ukuran Barang wajib diisi',
                 ]
             ],
-            'tgl_penerima' => [
-                'label' => 'Tanggal Penerima',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Tanggal Penerima wajib diisi',
-                ]
-            ],
-            'nama_penerima' => [
-                'label' => 'Nama Penerima',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Nama Penerima wajib diisi',
-                ]
-            ],
-            'tgl_pembelian' => [
-                'label' => 'Tanggal Pembelian',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Tanggal Pembelian wajib diisi',
-                ]
-            ],
-            'tgl_pesanan' => [
-                'label' => 'Tanggal Pesanan',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Tanggal Pesanan wajib diisi',
-                ]
-            ],
-            'berat_barang' => [
-                'label' => 'Berat Barang',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Berat wajib diisi',
-                ]
-            ],
-            'nama_pelaksana' => [
-                'label' => 'Nama Pelaksana',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Nama Pelaksana wajib diisi',
-                ]
-            ],
+            // 'no_barang' => [
+            //     'label' => 'Nomor Barang',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Nomor Barang wajib diisi',
+            //     ]
+            // ],
+            // 'no_gambar' => [
+            //     'label' => 'Nomor Gambar',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Nomor Gambar wajib diisi',
+            //     ]
+            // ],
+            // 'tgl_penerima' => [
+            //     'label' => 'Tanggal Penerima',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Tanggal Penerima wajib diisi',
+            //     ]
+            // ],
+            // 'nama_penerima' => [
+            //     'label' => 'Nama Penerima',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Nama Penerima wajib diisi',
+            //     ]
+            // ],
+            // 'tgl_pembelian' => [
+            //     'label' => 'Tanggal Pembelian',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Tanggal Pembelian wajib diisi',
+            //     ]
+            // ],
+            // 'tgl_pesanan' => [
+            //     'label' => 'Tanggal Pesanan',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Tanggal Pesanan wajib diisi',
+            //     ]
+            // ],
+            // 'berat_barang' => [
+            //     'label' => 'Berat Barang',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Berat wajib diisi',
+            //     ]
+            // ],
+            // 'nama_pelaksana' => [
+            //     'label' => 'Nama Pelaksana',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Nama Pelaksana wajib diisi',
+            //     ]
+            // ],
             'no_spk' => [
                 'label' => 'Nomor SPK',
                 'rules' => 'required',
                 'errors' => [
                     'required' => 'Nomor SPK wajib diisi',
                 ]
+            ],
+             // verification submit only pada tab terakhir
+            'curr_tab' => [
+                'label' => 'Tab Validation',
+                'rules' => 'matches[end_tab]',
             ],
         ]); 
         $isDataValid = $this->validation->withRequest($this->request)->run(); 
@@ -158,6 +178,8 @@ class Order extends BaseController {
                 'disetujui' => $this->request->getPost('disetujui'),
                 'jml_satuan' => $this->request->getPost('jml_satuan'),
                 'nama_barang' => ucwords(strtolower((string)$this->request->getPost('nama_barang'))),
+                'uraian' => ucwords(strtolower((string)$this->request->getPost('uraian'))),
+                'ukuran' => ucwords(strtolower((string)$this->request->getPost('ukuran'))),
                 'no_barang' => $this->request->getPost('no_barang'),
                 'no_gambar' => ucwords(strtolower((string)$this->request->getPost('no_gambar'))),
                 'tgl_penerima' => $this->request->getPost('tgl_penerima'),
@@ -229,62 +251,76 @@ class Order extends BaseController {
                     'required' => 'Nama Barang wajib diisi',
                 ]
             ],
-            'edit_no_barang' => [
-                'label' => 'Edit Nomor Barang',
+            'edit_uraian' => [
+                'label' => 'Edit Uraian Barang',
                 'rules' => 'required',
                 'errors' => [
-                    'required' => 'Nomor Barang wajib diisi',
+                    'required' => 'Uraian Barang wajib diisi',
                 ]
             ],
-            'edit_no_gambar' => [
-                'label' => 'Edit Nomor Gambar',
+            'edit_ukuran' => [
+                'label' => 'Edit Ukuran Barang',
                 'rules' => 'required',
                 'errors' => [
-                    'required' => 'Nomor Gambar wajib diisi',
+                    'required' => 'Ukuran Barang wajib diisi',
                 ]
             ],
-            'edit_tgl_penerima' => [
-                'label' => 'Edit Tanggal Penerima',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Tanggal Penerima wajib diisi',
-                ]
-            ],
-            'edit_nama_penerima' => [
-                'label' => 'Edit Nama Penerima',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Nama Penerima wajib diisi',
-                ]
-            ],
-            'edit_tgl_pembelian' => [
-                'label' => 'Edit Tanggal Pembelian',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Tanggal Pembelian wajib diisi',
-                ]
-            ],
-            'edit_tgl_pesanan' => [
-                'label' => 'Edit Tanggal Pesanan',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Tanggal Pesanan wajib diisi',
-                ]
-            ],
-            'edit_berat_barang' => [
-                'label' => 'Edit Berat Barang',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Berat wajib diisi',
-                ]
-            ],
-            'edit_nama_pelaksana' => [
-                'label' => 'Edit Nama Pelaksana',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Nama Pelaksana wajib diisi',
-                ]
-            ],
+            // 'edit_no_barang' => [
+            //     'label' => 'Edit Nomor Barang',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Nomor Barang wajib diisi',
+            //     ]
+            // ],
+            // 'edit_no_gambar' => [
+            //     'label' => 'Edit Nomor Gambar',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Nomor Gambar wajib diisi',
+            //     ]
+            // ],
+            // 'edit_tgl_penerima' => [
+            //     'label' => 'Edit Tanggal Penerima',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Tanggal Penerima wajib diisi',
+            //     ]
+            // ],
+            // 'edit_nama_penerima' => [
+            //     'label' => 'Edit Nama Penerima',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Nama Penerima wajib diisi',
+            //     ]
+            // ],
+            // 'edit_tgl_pembelian' => [
+            //     'label' => 'Edit Tanggal Pembelian',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Tanggal Pembelian wajib diisi',
+            //     ]
+            // ],
+            // 'edit_tgl_pesanan' => [
+            //     'label' => 'Edit Tanggal Pesanan',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Tanggal Pesanan wajib diisi',
+            //     ]
+            // ],
+            // 'edit_berat_barang' => [
+            //     'label' => 'Edit Berat Barang',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Berat wajib diisi',
+            //     ]
+            // ],
+            // 'edit_nama_pelaksana' => [
+            //     'label' => 'Edit Nama Pelaksana',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Nama Pelaksana wajib diisi',
+            //     ]
+            // ],
         ]);
         $isDataValid = $this->validation->withRequest($this->request)->run();
         if($isDataValid){
@@ -296,6 +332,8 @@ class Order extends BaseController {
                 'disetujui' => $this->request->getPost('edit_disetujui'),
                 'jml_satuan' => $this->request->getPost('edit_jml_satuan'),
                 'nama_barang' => ucwords(strtolower((string)$this->request->getPost('edit_nama_barang'))),
+                'uraian' => ucwords(strtolower((string)$this->request->getPost('edit_uraian'))),
+                'ukuran' => ucwords(strtolower((string)$this->request->getPost('edit_ukuran'))),
                 'no_barang' => $this->request->getPost('edit_no_barang'),
                 'no_gambar' => ucwords(strtolower((string)$this->request->getPost('edit_no_gambar'))),
                 'tgl_penerima' => $this->request->getPost('edit_tgl_penerima'),
@@ -350,5 +388,27 @@ class Order extends BaseController {
         } else {
             return $this->response->setJSON($this->validation->getErrors()); 
         }
+    }
+
+    public function GeneratePdfOrder()
+    {
+        $filename = date('y-m-d-H-i-s'). '-Form_Order_ME';
+
+        $HTML = "";
+
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+
+        // load HTML content
+        $dompdf->loadHtml(view('pdf_view'));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+
+        // render html as PDF
+        $dompdf->render();
+
+        // output the generated pdf
+        $dompdf->stream($filename);
     }
 }

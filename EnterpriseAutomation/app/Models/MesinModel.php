@@ -17,13 +17,23 @@ class MesinModel extends Model
         'nama_mesin',
         'no_mesin',
         'gambar_mesin',
+        'total_jam',
     ];
 
     public function getDataMesin() {
         return $this->table('$this->table')
-        ->select('id_mesin, nama_mesin , gambar_mesin')
+        ->select('id_mesin, nama_mesin , gambar_mesin, total_jam')
         ->where('no_mesin', NULL)
         ->orderBy('nama_mesin', 'ASC')
+        ->get()->getResult();
+    }
+
+    public function getKodeMesin($nama_mesin) {
+        return $this->table('$this->table')
+        ->select('no_mesin')
+        ->where('no_mesin !=', NULL)
+        ->where('nama_mesin', $nama_mesin)
+        ->orderBy('no_mesin', 'ASC')
         ->get()->getResult();
     }
 
@@ -38,4 +48,13 @@ class MesinModel extends Model
 
         return $MesinData;
     }
+    
+    public function saveHour($mesin , $hour) {
+        $db = \Config\Database::connect();
+        $db->table('mesin')
+        ->where('no_mesin', NULL)
+        ->where('nama_mesin', $mesin)
+        ->update($hour);
+    }
+
 }

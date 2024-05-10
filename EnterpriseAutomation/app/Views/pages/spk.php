@@ -106,11 +106,15 @@ $this->section('content');
                         <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             No.Order</th>
                         <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
+                            Nama Produk</th>
+                        <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             Pengorder</th>
                         <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             Batas Waktu</th>
                         <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
                             Validasi</th>
+                            <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
+                            Status</th>
                         <th class="text-uppercase text-center text-dark font-weight-bolder opacity-10">
 
                         </th>
@@ -135,6 +139,7 @@ $this->section('content');
                         </td>
                         <td data-label="No.Penawaran" class=" text-dark text-center"><?= $dataSPK['no_penawar'];?></td>
                         <td data-label="No.Order" class=" text-dark text-center"><?= $dataSPK['no_order'];?></td>
+                        <td data-label="Nama Produk" class=" text-dark text-center"><?= $dataSPK['nama_produk'];?></td>
                         <td data-label="Pengorder" class="text-dark text-center"><?= $dataSPK['pengorder'];?></td>
                         <td data-label="Batas Waktu" class="text-dark text-center"><?= $dataSPK['tgl_selesai'];?></td>
                         <td data-label="Validasi" class="text-dark text-center">
@@ -148,6 +153,20 @@ $this->section('content');
                             }?>">
                                 <span class="status_validate badge badge-sm"></span>
                             </a>
+                        </td>
+                        <td data-label="Status" class="text-dark text-center">
+                        <span class="status_validate badge badge-sm <?php 
+                        if($dataSPK['status'] == "Menunggu") {
+                            echo "bg-gradient-polman";
+                        } else if($dataSPK['status'] == "Diproses") {
+                            echo "bg-gradient-warning";
+                        } else if($dataSPK['status'] == "Selesai") {
+                            echo "bg-gradient-success";
+                        }
+                        
+                        ?> badge-sm ">
+                        <?= $dataSPK['status'];?>
+                        </span>
                         </td>
                         <td data-label="Option" class="text-dark text-center">
                             <div class="btn-group dropstart">
@@ -165,7 +184,9 @@ $this->section('content');
                                             data-namaprod="<?= $dataSPK['nama_produk']?>"
                                             data-jml="<?= $dataSPK['jml_pesanan']?>"
                                             data-penawaran="<?= $dataSPK['no_penawar']?>"
-                                            data-order="<?= $dataSPK['no_order']?>" data-upm="<?= $dataSPK['tgl_upm']?>"
+                                            data-order="<?= $dataSPK['no_order']?>" 
+                                            data-upm="<?= $dataSPK['tgl_upm']?>"
+                                            data-status="<?= $dataSPK['status']?>"
                                             data-href="/Spk/editSPK/">
                                             <div class="row mt-2">
                                                 <div class="col-auto">
@@ -288,6 +309,7 @@ $this->section('content');
                 </div>
                 <div class="modal-body">
                     <div class="tab">
+                        <input type="hidden" class="form-control" id="status" name="status" value="Menunggu">
                         <div class="mb-1 pengorder-div">
                             <label for="" class="text-uppercase form-label">Pemesan</label>
                             <div class="input-set">
@@ -592,7 +614,6 @@ $this->section('content');
                         </div>
                     </div>
                 </div>
-
                 <div class="modal-footer">
                     <div class="row w-100">
                         <div class="col pe-0 text-end">

@@ -5,7 +5,6 @@ $data = array($title , $nav_active);
 $this->extend("layout/template.php", $data);
 
 $this->section('content');
-
 ?>
 
 <!-- CARD START -->
@@ -143,7 +142,7 @@ $this->section('content');
                         <td data-label="Status" class="text-dark text-center">
                             <span class="status_barang badge badge-sm 
                             <?php 
-                            if($data['status'] == 'Tersedia') {
+                            if($data['status'] == 'Diterima') {
                                 echo 'bg-gradient-success';
                             } else {
                                 echo 'bg-gradient-secondary';
@@ -318,12 +317,16 @@ $this->section('content');
                             <div class="input-set">
                                 <i class='bx bx-info-circle'></i>
                                 <select name="status" class="form-select" id="selector_status">
-                                    <option value="Tersedia">Tersedia</option>
                                     <option value="Tidak Tersedia">Tidak Tersedia</option>
+                                    <option value="Diterima">Diterima</option>
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
+                        <!-- verification untuk submit only ketika sudah mencapai tab akhir, perlu buat
+                        form input yg non mandatory -->
+                        <input type="hidden" name="curr_tab" class="curr_tab">
+                        <input type="hidden" name="end_tab" class="end_tab">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -443,8 +446,8 @@ $this->section('content');
                             <div class="input-set">
                                 <i class='bx bx-info-circle'></i>
                             <select name="edit_status" class="form-select" id="edit_selector_status">
-                                <option value="Tersedia">Tersedia</option>
                                 <option value="Tidak Tersedia">Tidak Tersedia</option>
+                                <option value="Diterima">Diterima</option>
                             </select>
                             <div class="invalid-feedback"></div>
                             </div>

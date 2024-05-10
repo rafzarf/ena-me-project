@@ -33,7 +33,6 @@ class Spk extends BaseController
 
     // METHOD CREATE
     public function createSPK(){
-
         $this->validation->setRules([
             'pengorder' => [
                 'label' => 'Pemesan',
@@ -114,6 +113,7 @@ class Spk extends BaseController
                 'tgl_upm' => $this->request->getPost('tgl_upm'),
                 'no_penawar' => $this->request->getPost('no_penawar'),
                 'no_order' => $this->request->getPost('no_order'),
+                'status' => ucwords(strtolower((string)$this->request->getPost('status'))),
             ]);
 
             //REDIRECT PAGE DENGAN LOGIC BACKEND 

@@ -57,7 +57,8 @@
             nextBtn: "#nextBtn",
             formElement: document.getElementById("create-form"),
             modalElement: "#createModal",
-            url: document.getElementById("create-form").getAttribute('data-url'),
+            url: (document.getElementById("create-form")) ? 
+            document.getElementById("create-form").getAttribute('data-url') : "",
             stringSubmit: "Simpan Data",
         },
         1: {
@@ -131,6 +132,7 @@
         $('.fixed-create').toggleClass('d-none');
         $('.fixed-delete').toggleClass('d-none');
     });
+    
     $('.fixed-delete').click(function () {
         var sel = $('.inp-cbx:checked').map(function (_, el) {
             return $(el).val();
