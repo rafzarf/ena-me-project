@@ -27470,6 +27470,12 @@ table .sticky-top {
     text-align: right !important;
   }
 
+  .table.table-operator td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    text-align: left !important;
+  }
+
   .table.table-mesin td::before {
     /*
       * aria-label has no advantage, it won't be read inside a table content: attr(aria-label);
@@ -27488,6 +27494,12 @@ table .sticky-top {
 .btn-mesin {
   --bs-btn-color: white !important;
   box-shadow: 0 0 0 0 !important;
+}
+
+.btn-profile {
+  position: fixed;
+  right: 0;
+  z-index: 2;
 }
 
 .table-mesin .card-body {
@@ -27915,4 +27927,71 @@ body {
 
 .createKey p.text-sm {
   font-size: 0.8rem !important;
+}
+
+.mesin-pict {
+  width: 8rem !important;
+  height: 8rem !important;
+  border: 2px solid white;
+}
+
+.fixdiv {
+  width: 900px !important;
+}
+
+.line-mesin {
+  width: 800px;
+  height: 15px;
+  border-radius: 5rem;
+}
+
+.line-mesin-vert {
+  width: 10px;
+  height: 35px;
+  border-radius: 5rem;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  position: relative;
+  bottom: -15px;
+}
+
+.line-mesin-vert2 {
+  width: 10px;
+  height: 35px;
+  border-radius: 5rem;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.mx-pkg {
+  margin: 0px 3.2rem;
+}
+
+.ui-timepicker-viewport {
+  overflow-y: visible !important;
+}
+
+.Minetooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.Minetooltip .tooltiptext {
+  visibility: hidden;
+  width: 22rem;
+  background-color: #fff;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.Minetooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }

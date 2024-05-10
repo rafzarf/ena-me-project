@@ -35,6 +35,8 @@ function response(dataflash, successText, errorText) {
 
 function showTab(currentTab, tabElement, tabLength, prevBtnElement, nextBtnElement, stringsubmit,ModalElement) {
     $(ModalElement).find(".tabnum p").html((currentTab.nilai+1) + "/");
+    $(".curr_tab").val(currentTab.nilai+1);
+    $(".end_tab").val($(tabElement).length);
     $(tabElement).eq(currentTab.nilai).css("display", "block");
     if (currentTab.nilai == 0) {
         prevBtnElement.css("display", "none");
@@ -69,8 +71,6 @@ function validateFormAJAX(formElement, link, tabElement, currentTab, callback) {
     feedback = $('.invalid-feedback');
     y = $(tabElement).eq(currentTab.nilai).find("input");
     var data = new FormData(formElement);
-    //var data = formElement.serialize();
-    console.log(data);
     $.ajax({
         type: 'POST',
         url: link,
@@ -97,7 +97,7 @@ function validateFormAJAX(formElement, link, tabElement, currentTab, callback) {
                     });
                 }
             }
-            console.log(data);
+            
             //console.log(valid);
             callback(valid);
         },

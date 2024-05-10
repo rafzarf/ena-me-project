@@ -122,7 +122,7 @@ class KelolaAkun extends BaseController{
                     'required' => 'Nama wajib diisi',
                 ]
             ],
-    ]);
+        ]);
         $isDataValid = $this->validation->withRequest($this->request)->run();
         if($isDataValid){
             $this->akun->update($id, [
@@ -189,6 +189,37 @@ class KelolaAkun extends BaseController{
             $this->akun->update($id, [
                 "Password" => password_hash((string)$this->request->getPost('Password_edit'), PASSWORD_DEFAULT),
             ]);
+
+            //REDIRECT PAGE DENGAN LOGIC FRONTEND, PAKE AJAX, SENT RESPONSE BUAT BISA RELOAD DI JS
+            $data = ['success' => true];
+            return $this->response->setJSON($data);
+        } else {
+            return $this->response->setJSON($this->validation->getErrors()); 
+        }
+    }
+
+    //METHOD EDIT NAME
+    public function editName() {
+        $id = $this->request->getPost('id_worker_name');
+        $this->validation->setRules([
+            'Name_edit' => [
+                'label' => 'Edit Name',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nama wajib diisi',
+                ]
+            ],
+        ]);
+        $isDataValid = $this->validation->withRequest($this->request)->run();
+        if($isDataValid){
+            $this->akun->update($id, [
+                "Name" => ucwords(strtolower((string)$this->request->getPost('Name_edit'))),
+            ]);
+
+            $sessionData = [
+                'Name' => ucwords(strtolower((string)$this->request->getPost('Name_edit'))),
+            ];
+            session()->set($sessionData);
 
             //REDIRECT PAGE DENGAN LOGIC FRONTEND, PAKE AJAX, SENT RESPONSE BUAT BISA RELOAD DI JS
             $data = ['success' => true];

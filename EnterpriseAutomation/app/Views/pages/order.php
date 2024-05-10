@@ -5,7 +5,7 @@ $this->section('content');
 ?>
 <div class="row mt-4">
     <!-- CARD ORDER START -->
-    <div class="col-lg-7">
+    <div class="col">
         <div class="card z-index-2">
             <div class="card-header pb-0">
                 <div class="row mx-0 w-100">
@@ -17,6 +17,9 @@ $this->section('content');
                             <h3 class="text-dark lh-1 ms-3 my-auto">Order<br>
                                 <span class="text-sm lh-1 text-dark text-start"> No.SPK :
                                     <?= $getSPK[0]->no_spk ?>
+                                </span><br>
+                                <span class="text-sm lh-1 text-dark text-start"> Nama Produk :
+                                    <?= $getSPK[0]->nama_produk ?>
                                 </span>
                             </h3>
                         </div>
@@ -64,7 +67,7 @@ $this->section('content');
     <!-- CARD ORDER END -->
 
     <!-- CARD BATAS WAKTU START -->
-    <div class="col-lg-5 mt-4 mt-lg-0">
+    <!-- <div class="col-lg-5 mt-4 mt-lg-0">
         <?php 
         
         $epoch = time();
@@ -105,7 +108,7 @@ $this->section('content');
 
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- CARD BATAS WAKTU END -->
 </div>
 
@@ -201,7 +204,11 @@ $this->section('content');
                             Jumlah</th>
                         <th
                             class="sticky-left text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
-                            Nama Barang/ Uraian/ Ukuran</th>
+                            Nama Barang</th>
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
+                            Uraian</th>
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
+                            Ukuran</th>
                         <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             No.Barang</th>
                         <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
@@ -234,8 +241,12 @@ $this->section('content');
                         </td>
                         <td data-label="No" class="text-dark text-center"><?= $no;?></td>
                         <td data-label="Jumlah" class="text-dark text-center"><?= $dataOrder['jml_satuan'] ?></td>
-                        <td data-label="Nama Barang/Uraian/Ukuran" class="sticky-left text-dark text-center">
+                        <td data-label="Nama Barang" class="sticky-left text-dark text-center">
                             <?= $dataOrder['nama_barang'] ?></td>
+                        <td data-label="Uraian" class="text-dark text-center">
+                            <?= $dataOrder['uraian'] ?></td>
+                        <td data-label="Ukuran" class="text-dark text-center">
+                            <?= $dataOrder['ukuran'] ?></td>
                         <td data-label="No.Barang" class="text-dark text-center"><?= $dataOrder['no_barang'] ?></td>
                         <td data-label="No.Gambar" class="text-dark text-center"><?= $dataOrder['no_gambar'] ?></td>
                         <td data-label="Tanggal Penerima" class="text-dark text-center">
@@ -264,6 +275,8 @@ $this->section('content');
                                             data-no_spk="<?=$dataOrder['no_spk']?>"
                                             data-jml_satuan="<?=$dataOrder['jml_satuan']?>"
                                             data-nama_barang="<?=$dataOrder['nama_barang']?>"
+                                            data-uraian="<?=$dataOrder['uraian']?>"
+                                            data-ukuran="<?=$dataOrder['ukuran']?>"
                                             data-no_barang="<?=$dataOrder['no_barang']?>"
                                             data-no_gambar="<?=$dataOrder['no_gambar']?>"
                                             data-tgl_penerima="<?=$dataOrder['tgl_penerima']?>"
@@ -395,8 +408,6 @@ $this->section('content');
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab">
                         <div class="mb-1 disetujui-div">
                             <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
                             <div class="input-set">
@@ -408,6 +419,9 @@ $this->section('content');
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
+                    </div>
+                    <div class="tab">
+
                         <div class="mb-1 no_spk-div">
                             <label for="" class="text-uppercase form-label">No. Pembebanan</label>
                             <div class="input-set">
@@ -420,11 +434,29 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 nama_barang-div">
-                            <label for="" class="text-uppercase form-label">Nama Barang/Uraian/Ukuran</label>
+                            <label for="" class="text-uppercase form-label">Nama Barang</label>
                             <div class="input-set">
                                 <i class='bx bx-rename'></i>
                                 <input type="text" name="nama_barang" class="form-control" id="nama_barang"
                                     placeholder="Masukkan Nama Barang">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 uraian-div">
+                            <label for="" class="text-uppercase form-label">Uraian</label>
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="uraian" class="form-control" id="uraian"
+                                    placeholder="Masukkan Uraian Barang">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 ukuran-div">
+                            <label for="" class="text-uppercase form-label">Ukuran (PxLxT)</label>
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="ukuran" class="form-control" id="ukuran"
+                                    placeholder="Masukkan Ukuran Barang">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -519,6 +551,10 @@ $this->section('content');
                                 placeholder="Tuliskan Catatan (Jika Diperlukan)"></textarea>
                             <div class="invalid-feedback"></div>
                         </div>
+                        <!-- verification untuk submit only ketika sudah mencapai tab akhir, perlu buat
+                        form input yg non mandatory -->
+                        <input type="hidden" name="curr_tab" class="curr_tab">
+                        <input type="hidden" name="end_tab" class="end_tab">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -550,7 +586,7 @@ $this->section('content');
 <div class="modal fade" id="validation_modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <form method="POST" id="validate-form" data-url="<?=base_url().'Order/validateSPK'?>">
-        <?=csrf_field()?>
+            <?=csrf_field()?>
             <div class=" modal-content p-3">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark fw-bolder" id="myModalLabel">Validasi</h5>
@@ -624,7 +660,7 @@ $this->section('content');
 <div class="modal fade" id="modal_info" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <form method="POST" id="edit-form" data-url="<?=base_url().'Order/editOrder'?>">
-        <?=csrf_field()?>
+            <?=csrf_field()?>
             <div class="modal-content p-3">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark fw-bolder" id="">Info Order</h5>
@@ -669,19 +705,21 @@ $this->section('content');
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab_edit edit_disetujui-div">
-                        <div class="mb-1">
-                            <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
-                            <div class="input-set">
-                                <i class='bx bx-user-check'></i>
-                                <select name="edit_disetujui" class="form-select" id="edit_disetujui">
-                                    <option value="1">Ya</option>
-                                    <option value="0">Tidak</option>
-                                </select>
-                                <div class="invalid-feedback"></div>
+                        <div class="edit_disetujui-div">
+                            <div class="mb-1">
+                                <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
+                                <div class="input-set">
+                                    <i class='bx bx-user-check'></i>
+                                    <select name="edit_disetujui" class="form-select" id="edit_disetujui">
+                                        <option value="1">Ya</option>
+                                        <option value="0">Tidak</option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="tab_edit">
                         <div class="mb-1 edit_no_spk-div">
                             <label for="" class="text-uppercase form-label">No. Pembebanan</label>
                             <div class="input-set">
@@ -700,10 +738,28 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 edit_nama_barang-div">
-                            <label for="" class="text-uppercase form-label">Nama Barang/Uraian/Ukuran</label>
+                            <label for="" class="text-uppercase form-label">Nama Barang</label>
                             <div class="input-set">
                                 <i class='bx bx-rename'></i>
                                 <input type="text" name="edit_nama_barang" class="form-control" id="edit_nama_barang">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_uraian-div">
+                            <label for="" class="text-uppercase form-label">Uraian</label>
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="edit_uraian" class="form-control" id="edit_uraian"
+                                    placeholder="Masukkan Uraian Barang">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_ukuran-div">
+                            <label for="" class="text-uppercase form-label">Ukuran (PxLxT)</label>
+                            <div class="input-set">
+                                <i class='bx bx-rename'></i>
+                                <input type="text" name="edit_ukuran" class="form-control" id="edit_ukuran"
+                                    placeholder="Masukkan Ukuran Barang">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -835,7 +891,8 @@ include "footerjs.php"
         $('#validation_modal').on('show.bs.modal', function (e) {
             form[2].url = $(e.relatedTarget).data('href');
             if ($(e.relatedTarget).data('valid')) {
-                $("#validation_modal .arrowicon").css('display', 'inline-block').attr('href', $(e.relatedTarget).data(
+                $("#validation_modal .arrowicon").css('display', 'inline-block').attr('href', $(e
+                    .relatedTarget).data(
                     'valid'));
                 $('#validation').val($(e.relatedTarget).data('valid'));
             } else {
@@ -854,6 +911,8 @@ include "footerjs.php"
             const no_spk = $(this).data('no_spk');
             const jml_satuan = $(this).data('jml_satuan');
             const nama_barang = $(this).data('nama_barang');
+            const uraian = $(this).data('uraian');
+            const ukuran = $(this).data('ukuran');
             const no_barang = $(this).data('no_barang');
             const no_gambar = $(this).data('no_gambar');
             const tgl_penerima = $(this).data('tgl_penerima');
@@ -875,6 +934,8 @@ include "footerjs.php"
             $('#edit_no_spk').val(no_spk);
             $('#edit_jml_satuan').val(jml_satuan);
             $('#edit_nama_barang').val(nama_barang);
+            $('#edit_uraian').val(uraian);
+            $('#edit_ukuran').val(ukuran);
             $('#edit_no_barang').val(no_barang);
             $('#edit_no_gambar').val(no_gambar);
             $('#edit_tgl_penerima').val(tgl_penerima);

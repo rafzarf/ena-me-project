@@ -16,21 +16,43 @@ class ProsesModel extends Model
         'nama_mesin',
         'nama_komponen',
         'durasi_waktu',
-        'id_spk',
+        'no_spk',
+        'jml_komponen',
+        'status',
+        'no_mesin',
     ];
 
-    public function search($keyword,$id) {
+    public function search($keyword, $no_spk) {
         if($keyword){
             $prosesdata = $this->table($this->table)
-            ->where(['id_spk' => $id])
+            ->where(['no_spk' => $no_spk])
             ->like('nama_mesin', $keyword)
             ->orLike('nama_komponen', $keyword)
-            ->orLike('durasi_waktu', $keyword);
+            ->orderBy('nama_komponen', 'ASC');
         } else {
             $prosesdata = $this->table($this->table)
-            ->where(['id_spk' => $id]);
+            ->where(['no_spk' => $no_spk])
+            ->orderBy('nama_komponen', 'ASC');
         }
-
         return $prosesdata;
+    }
+
+    public function multipleDelete($id) {
+        $this->table('$this->table')
+        ->whereIn($this->primaryKey, $id)
+        ->delete();
+    }
+
+    public function returnCountAll($spk) {
+        return $this->table('$this->table')
+        ->where('no_spk', $spk)
+        ->countAllResults();
+    }
+
+    public function returnFinishCount($spk) {
+        return $this->table('$this->table')
+        ->where('no_spk', $spk)
+        ->where('status' , "Selesai")
+        ->countAllResults();
     }
 }

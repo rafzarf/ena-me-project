@@ -26,7 +26,9 @@ class OrderModel extends Model {
         'nama_pelaksana',
         'record_order',
         'catatan',
-        'no_spk'
+        'no_spk',
+        'uraian',
+        'ukuran',
     ];
 
     public function search($keyword , $no_spk) {
@@ -39,6 +41,8 @@ class OrderModel extends Model {
                 ->orLike('disetujui', $keyword)
                 ->orLike('jml_satuan', $keyword)
                 ->orLike('nama_barang', $keyword)
+                ->orLike('uraian', $keyword)
+                ->orLike('ukuran', $keyword)
                 ->orLike('no_barang', $keyword)
                 ->orLike('no_gambar', $keyword)
                 ->orLike('tgl_penerima', $keyword)

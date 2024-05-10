@@ -121,8 +121,11 @@ foreach($DataMesin as $Mesin){
                         </div>
                     </div>
                         <div class="h-60 d-flex align-items-end">
-                            <button anim="ripple" class="d-flex justify-content-start ms-3 mt-1 btn btn-info"> 
-                            <span class="d-flex"><p class="text-sm my-auto fw-bold">Lihat Proses</p><i class="d-flex fs-5 ms-2 bx bx-right-arrow-alt"></i> </span</button>
+                            <a href="'.base_url()."permesinan/".$Mesin->nama_mesin.'" anim="ripple" class="d-flex justify-content-start ms-3 mt-1 btn btn-info"> 
+                            <span class="d-flex">
+                                <p class="text-sm my-auto fw-bold">Lihat Proses</p>
+                                <i class="d-flex fs-5 ms-2 bx bx-right-arrow-alt"></i>
+                            </span></a>
                         </div>
                     </div>
                 </div>

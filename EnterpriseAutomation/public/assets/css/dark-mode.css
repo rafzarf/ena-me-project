@@ -73,7 +73,9 @@
 
 [data-theme="dark"] .modal-body,
 [data-theme="dark"] .modal-footer,
-[data-theme="dark"] .modal-content {
+[data-theme="dark"] .modal-content ,
+[data-theme="dark"] .operator-menu.bg-light,
+[data-theme="dark"] .Minetooltip .tooltiptext {
     background-color: #1c1e26 !important;
 }
 

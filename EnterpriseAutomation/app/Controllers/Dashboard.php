@@ -3,16 +3,19 @@
 namespace App\Controllers;
 use App\Models\GCalendarModel;
 use App\Models\SpkModel;
+use App\Models\MesinModel;
 
 class Dashboard extends BaseController {
 
     protected $spk;
     protected $gcal;
+    protected $mesin;
     protected $validation;
 
     public function __construct() {
         $this->spk = new SpkModel();
         $this->gcal = new GCalendarModel();
+        $this->mesin = new MesinModel();
         $this->validation = \Config\Services::validation();
     }
 
@@ -21,6 +24,7 @@ class Dashboard extends BaseController {
         $data = [
             'title' => 'Dashboard',
             'nav_active' => 1,
+            'dataGrafik' => $this->mesin->getDataMesin(),
             'gcalData' => $this->gcal->findAll()
         ];
 

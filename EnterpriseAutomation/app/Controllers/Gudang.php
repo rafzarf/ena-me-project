@@ -59,26 +59,17 @@ class Gudang extends BaseController
                     'required' => 'Batas Waktu wajib diisi',
                 ]
             ],
-            'nama_penerima' => [
-                'label' => 'Nama Penerima',
-                'rules' => 'required',
-                'errors'=> [
-                    'required' => 'Nama Penerima wajib diisi',
-                ]
-            ],
-            'tempat_simpan' =>[
-                'label' => 'Lokasi Penyimpanan',
-                'rules' => 'required',
-                'errors'=> [
-                    'required' => 'Lokasi Penyimpanan wajib diisi',
-                ]
-            ],
             'jml_komponen' => [
                 'label' => 'Jumlah',
                 'rules' => 'required|decimal',
                 'errors'=> [
                     'required' => 'Jumlah wajib diisi',
                 ]
+            ],
+            // verification submit only pada tab terakhir
+            'curr_tab' => [
+                'label' => 'Tab Validation',
+                'rules' => 'matches[end_tab]',
             ],
         ]);
         $isDataValid = $this->validation->withRequest($this->request)->run();

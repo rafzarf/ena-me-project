@@ -24,6 +24,7 @@ class SpkModel extends Model
         'no_spk',
         'no_penawar',
         'no_order',
+        'status',
     ];
     
     // buat generate nomor spk , order dan penawaran
@@ -45,6 +46,20 @@ class SpkModel extends Model
         return $this->table('$this->table')
         ->getWhere([$this->primaryKey => $id])
         ->getResult();
+    }
+
+    //get() detailed data SPK by id 
+    public function getDetailbySPK($spk) {
+        return $this->table('$this->table')
+        ->where('no_spk' , $spk)
+        ->get()->getResult();
+    }
+
+    public function getID($no_spk) {
+        return $this->table('$this->table')
+        ->select('id_spk')
+        ->where('no_spk' , $no_spk)
+        ->get()->getResult();
     }
 
     //buat kebutuhan input di logistik , biar bisa select berdasarkan no SPK yang sudah ada.
@@ -70,6 +85,7 @@ class SpkModel extends Model
             ->like('no_spk', $keyword)
             ->orLike('no_penawar', $keyword)
             ->orLike('no_order', $keyword)
+            ->orLike('nama_produk', $keyword)
             ->orLike('tgl_selesai', $keyword)
             ->orLike('tgl_penyerahan', $keyword)
             ->orLike('tgl_upm', $keyword)
@@ -80,5 +96,4 @@ class SpkModel extends Model
 
         return $spkdata;
     }
-
 }

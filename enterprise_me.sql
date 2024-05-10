@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.3.0-dev+20230111.1d37607132
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2024 at 03:40 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.1.17
+-- Generation Time: May 10, 2024 at 11:03 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,26 +37,28 @@ CREATE TABLE `form_order_logistik` (
   `disetujui` varchar(255) NOT NULL,
   `jml_satuan` int(11) NOT NULL,
   `nama_barang` varchar(255) NOT NULL,
+  `uraian` varchar(255) DEFAULT NULL,
+  `ukuran` varchar(255) DEFAULT NULL,
   `no_barang` varchar(255) NOT NULL,
   `no_gambar` varchar(255) NOT NULL,
-  `tgl_penerima` date NOT NULL,
+  `tgl_penerima` date DEFAULT NULL,
   `nama_penerima` varchar(255) NOT NULL,
-  `tgl_pembelian` date NOT NULL,
+  `tgl_pembelian` date DEFAULT NULL,
   `tgl_pesanan` date NOT NULL,
-  `berat_barang` int(11) NOT NULL,
+  `berat_barang` int(11) DEFAULT NULL,
   `nama_pelaksana` varchar(255) NOT NULL,
   `record_order` varchar(255) DEFAULT NULL,
   `catatan` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `form_order_logistik`
 --
 
-INSERT INTO `form_order_logistik` (`id_orderlog`, `no_spk`, `pemesan`, `tanggal_created`, `unit_kerja`, `batas_waktu`, `disetujui`, `jml_satuan`, `nama_barang`, `no_barang`, `no_gambar`, `tgl_penerima`, `nama_penerima`, `tgl_pembelian`, `tgl_pesanan`, `berat_barang`, `nama_pelaksana`, `record_order`, `catatan`) VALUES
-(6, 'PM240051', 'Rachmat Syaiful', '2024-04-01', 'Milling', '2024-04-02', '1', 2, 'Arduino', '1', 'G0003', '2024-04-01', 'Sri Asih', '2024-04-03', '2024-04-04', 1, 'Sakamoto', NULL, ''),
-(9, 'PM240050', 'Asdad', '2024-04-13', 'Asdsad', '2024-05-04', '1', 2, 'Asdsadsa', 'asdsad', 'Asdsadsdada', '2024-04-27', 'Asdadsddsadsa', '2024-04-13', '2024-04-10', 1, 'Asdas', NULL, ''),
-(11, 'PM240051', 'Kurniawan', '2024-04-24', 'Ae', '2024-04-25', '1', 1, 'Gear', 'B.005', 'G.005', '2024-04-24', 'Irfan', '2024-04-24', '2024-04-25', 1, 'Awan', NULL, '');
+INSERT INTO `form_order_logistik` (`id_orderlog`, `no_spk`, `pemesan`, `tanggal_created`, `unit_kerja`, `batas_waktu`, `disetujui`, `jml_satuan`, `nama_barang`, `uraian`, `ukuran`, `no_barang`, `no_gambar`, `tgl_penerima`, `nama_penerima`, `tgl_pembelian`, `tgl_pesanan`, `berat_barang`, `nama_pelaksana`, `record_order`, `catatan`) VALUES
+(12, 'PM240000', 'Pt.jaya Abadi', '2024-05-17', 'Me', '2024-05-24', '1', 1, 'Arduino', '2', '2x5x3', '11', '11', '2024-05-16', 'Gundala P', '2024-05-10', '2024-05-11', 1, 'Rafza', NULL, ''),
+(14, 'PM240000', 'Pt.jaya Abadi', '2024-05-11', 'Me', '2024-05-31', '1', 2, 'Arduino Mega 2560', '89', '20x10x9', '', '', '0000-00-00', '', NULL, '0000-00-00', NULL, '', NULL, ''),
+(15, 'PM240000', 'Pt.jaya Abadi', '2024-05-10', 'Me', '2024-05-24', '1', 1, 'Bracket Arduino', '1', '2x5x15', '', '', '0000-00-00', '', '0000-00-00', '0000-00-00', 0, '', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -69,7 +71,7 @@ CREATE TABLE `google_calendar` (
   `API_KEY` varchar(255) NOT NULL,
   `GCAL_ID` varchar(255) NOT NULL,
   `CLIENT_ID` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `google_calendar`
@@ -86,19 +88,19 @@ INSERT INTO `google_calendar` (`id`, `API_KEY`, `GCAL_ID`, `CLIENT_ID`) VALUES
 
 CREATE TABLE `komponen` (
   `id_komponen` int(11) NOT NULL,
-  `nama_komponen` varchar(50) NOT NULL,
-  `no_spk` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `nama_komponen` varchar(255) NOT NULL,
+  `no_spk` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `komponen`
 --
 
 INSERT INTO `komponen` (`id_komponen`, `nama_komponen`, `no_spk`) VALUES
-(1, 'Balok', 'PM240051'),
-(2, 'Segitiga', 'PM240051'),
-(3, 'Prisma', 'PM240051'),
-(4, 'circle', 'PM240051');
+(14, 'As Roda', 'PM240000'),
+(15, 'Crank Shaft', 'PM240000'),
+(16, 'Balok', 'PM240000'),
+(17, 'Balok', 'PM240102');
 
 -- --------------------------------------------------------
 
@@ -110,26 +112,28 @@ CREATE TABLE `mesin` (
   `id_mesin` int(11) NOT NULL,
   `nama_mesin` varchar(255) NOT NULL,
   `no_mesin` varchar(255) DEFAULT NULL,
-  `gambar_mesin` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `gambar_mesin` varchar(255) DEFAULT NULL,
+  `total_jam` double DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `mesin`
 --
 
-INSERT INTO `mesin` (`id_mesin`, `nama_mesin`, `no_mesin`, `gambar_mesin`) VALUES
-(4, 'Bubut', NULL, 'bubut_1.jpg'),
-(5, 'Bubut', '002', NULL),
-(6, 'Bor', NULL, 'bor_1.png'),
-(7, 'Cnc Milling', NULL, 'cncmil_2.png'),
-(10, 'Cnc Bubut', NULL, '093112600_1574929209-New_Project__3_.jpg'),
-(17, 'External Grinding', NULL, 'eksgrind_1.jpg'),
-(18, 'Internal Grinding', NULL, 'internalgrind_1.jpg'),
-(19, 'Heat Treatment', NULL, 'heat_1.jpg'),
-(20, 'Quality Control', NULL, 'qc_1.png'),
-(21, 'Milling Manual', NULL, 'mil_1.png'),
-(24, 'Bor', '003', NULL),
-(25, 'Cnc Bubut', '004', NULL);
+INSERT INTO `mesin` (`id_mesin`, `nama_mesin`, `no_mesin`, `gambar_mesin`, `total_jam`) VALUES
+(4, 'Bubut', NULL, 'bubut_1.jpg', 0),
+(5, 'Bubut', '002', NULL, 0),
+(6, 'Bor', NULL, 'bor_1.png', 0),
+(7, 'Cnc Milling', NULL, 'cncmil_2.png', 0),
+(10, 'Cnc Bubut', NULL, '093112600_1574929209-New_Project__3_.jpg', 0),
+(17, 'External Grinding', NULL, 'eksgrind_1.jpg', 0),
+(18, 'Internal Grinding', NULL, 'internalgrind_1.jpg', 1.7280555555556),
+(19, 'Heat Treatment', NULL, 'heat_1.jpg', 0),
+(20, 'Quality Control', NULL, 'qc_1.png', 0),
+(21, 'Milling Manual', NULL, 'mil_1.png', 0.0058333333333333),
+(24, 'Bor', '003', NULL, 0),
+(25, 'Cnc Bubut', '004', NULL, 0),
+(27, 'Quality Control', 'Qc-001', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -139,15 +143,30 @@ INSERT INTO `mesin` (`id_mesin`, `nama_mesin`, `no_mesin`, `gambar_mesin`) VALUE
 
 CREATE TABLE `pengerjaan` (
   `id_pengerjaan` int(11) NOT NULL,
-  `id_spk` int(11) NOT NULL,
   `id_prosesstart` int(11) NOT NULL,
-  `id_mesin` int(11) NOT NULL,
-  `tgl_selesai` int(11) NOT NULL,
-  `progress` int(11) NOT NULL,
+  `nama_mesin` varchar(255) NOT NULL,
+  `no_mesin` varchar(255) DEFAULT NULL,
+  `nama_komponen` varchar(255) NOT NULL,
+  `nama_produk` varchar(255) NOT NULL,
+  `no_spk` varchar(50) NOT NULL,
+  `tgl_mulai` datetime DEFAULT NULL,
+  `tgl_selesai` datetime DEFAULT NULL,
+  `status` varchar(255) NOT NULL,
   `jml_barang` int(11) NOT NULL,
   `wkt_pengerjaan` int(11) NOT NULL,
-  `id_worker` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `pelaksana` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pengerjaan`
+--
+
+INSERT INTO `pengerjaan` (`id_pengerjaan`, `id_prosesstart`, `nama_mesin`, `no_mesin`, `nama_komponen`, `nama_produk`, `no_spk`, `tgl_mulai`, `tgl_selesai`, `status`, `jml_barang`, `wkt_pengerjaan`, `pelaksana`) VALUES
+(20, 27, 'Cnc Bubut', '004', 'As Roda', 'Mikrokontroller', 'PM240000', '2024-05-10 07:13:33', NULL, 'Diproses', 2, 3, 'Superuser'),
+(21, 28, 'Cnc Bubut', '004', 'As Roda', 'Mikrokontroller', 'PM240000', '2024-05-10 07:19:07', NULL, 'Diproses', 2, 2, 'Superuser'),
+(22, 29, 'Cnc Bubut', '004', 'Crank Shaft', 'Mikrokontroller', 'PM240000', NULL, NULL, 'Menunggu', 1, 5, NULL),
+(23, 30, 'Cnc Bubut', '004', 'Balok', 'Gearbox', 'PM240102', NULL, NULL, 'Menunggu', 1, 2, NULL),
+(24, 36, 'Quality Control', 'Qc-001', 'Crank Shaft', 'Mikrokontroller', 'PM240000', '2024-05-10 15:22:44', NULL, 'Diproses', 1, 1, 'Superuser');
 
 -- --------------------------------------------------------
 
@@ -157,21 +176,25 @@ CREATE TABLE `pengerjaan` (
 
 CREATE TABLE `proses` (
   `id_proses_start` int(11) NOT NULL,
-  `id_spk` int(11) NOT NULL,
-  `nama_mesin` varchar(50) NOT NULL,
-  `nama_komponen` varchar(50) NOT NULL,
-  `durasi_waktu` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `no_spk` varchar(50) NOT NULL,
+  `nama_mesin` varchar(255) NOT NULL,
+  `no_mesin` varchar(255) DEFAULT NULL,
+  `nama_komponen` varchar(255) NOT NULL,
+  `durasi_waktu` int(11) NOT NULL,
+  `jml_komponen` int(11) NOT NULL,
+  `status` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `proses`
 --
 
-INSERT INTO `proses` (`id_proses_start`, `id_spk`, `nama_mesin`, `nama_komponen`, `durasi_waktu`) VALUES
-(1, 52, 'Cnc Milling', 'Balok', 4),
-(2, 52, 'Cnc Milling', 'Prisma', 7),
-(3, 52, 'Bor', 'Balok', 1),
-(4, 52, 'Bubut', 'circle', 1);
+INSERT INTO `proses` (`id_proses_start`, `no_spk`, `nama_mesin`, `no_mesin`, `nama_komponen`, `durasi_waktu`, `jml_komponen`, `status`) VALUES
+(27, 'PM240000', 'Cnc Bubut', '004', 'As Roda', 3, 2, 'Diproses'),
+(28, 'PM240000', 'Cnc Bubut', '004', 'As Roda', 2, 2, 'Diproses'),
+(29, 'PM240000', 'Cnc Bubut', '004', 'Crank Shaft', 5, 1, 'Menunggu'),
+(30, 'PM240102', 'Cnc Bubut', '004', 'Balok', 2, 1, 'Menunggu'),
+(36, 'PM240000', 'Quality Control', 'Qc-001', 'Crank Shaft', 1, 1, 'Diproses');
 
 -- --------------------------------------------------------
 
@@ -190,29 +213,17 @@ CREATE TABLE `spk` (
   `tgl_upm` date DEFAULT NULL,
   `no_penawar` varchar(255) DEFAULT NULL,
   `no_order` varchar(255) DEFAULT NULL,
-  `no_spk` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `no_spk` varchar(50) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `spk`
 --
 
-INSERT INTO `spk` (`id_spk`, `pengorder`, `tgl_selesai`, `tgl_penyerahan`, `nama_produk`, `jml_pesanan`, `gbr_kerja`, `tgl_upm`, `no_penawar`, `no_order`, `no_spk`) VALUES
-(51, 'Rachmat Syaiful M', '2024-04-27', '2024-04-11', 'Mikrokontroller', 1, 'https://cdn-icons-png.flaticon.com/512/5968/5968332.png', '2024-05-04', 'Q24.0050', '0050/PTR/II/2024', 'PM240050'),
-(52, 'Thomas Shelby', '2024-05-11', '2024-03-08', 'Shaft', 89, 'https://upload.wikimedia.org/wikipedia/commons/3/38/Arduino_Uno_-_R3.jpg', '2024-04-27', 'Q24.0051', '0051/PTR/II/2024', 'PM240051'),
-(53, 'Agung', '2024-03-23', '2024-03-08', 'Jubah', 68, NULL, '2024-04-25', 'Q24.0052', '0052/PTR/II/2024', 'PM240052'),
-(58, 'Ipman', '2024-03-18', '2024-03-13', 'Gearbox', 1, NULL, '2024-03-27', 'Q24.0053', '0053/PTR/II/2024', 'PM240053'),
-(59, 'Yang Chen', '2024-03-28', '2024-03-13', 'Pesawat', 22, 'https://samehadaku.show/undead-unluck-episode-22/', '2024-03-18', 'Q24.0058', '0058/PTR/II/2024', 'PM240058'),
-(60, 'korra', '2024-04-15', '2024-03-20', 'panah', 1, 'https://cdn.oneesports.id/cdn-data/wp-content/uploads/sites/2/2020/05/MLBB_PopolandKupa.jpg', '2024-04-02', 'Q24.0059', '0059/PTR/II/2024', 'PM240059'),
-(61, 'Kol', '2024-04-25', '2024-02-26', 'Panah', 1, NULL, '2024-03-26', 'Q24.0060', '0060/PTR/II/2024', 'PM240060'),
-(69, 'Adsadsa', '2024-04-27', '2024-04-13', 'Fffff', 1, NULL, '2024-05-04', 'Q24.0061', '0061/PTR/II/2024', 'PM240061'),
-(70, 'Kontol', '2024-04-27', '2024-04-24', 'Asdsad', 1, NULL, '2024-05-04', 'Q24.0069', '0069/PTR/II/2024', 'PM240069'),
-(71, 'Kolpri', '2024-04-27', '2024-04-11', 'Asd', 1, NULL, '2024-04-20', 'Q24.0070', '0070/PTR/II/2024', 'PM240070'),
-(72, 'Koko', '2024-04-27', '2024-04-19', 'Bracket Arduino', 1, 'https://cdn-icons-png.flaticon.com/512/5968/5968332.png', '2024-05-04', 'Q24.0071', '0071/PTR/II/2024', 'PM240071'),
-(74, 'Kolp', '2024-04-27', '2024-04-20', 'Kolll', 3, NULL, '2024-05-11', 'Q24.0073', '0073/PTR/II/2024', 'PM240073'),
-(75, 'Asdasda', '2024-05-11', '2024-04-27', 'Asdasdasdasd', 1, NULL, '2024-05-04', 'Q24.0074', '0074/PTR/II/2024', 'PM240074'),
-(76, 'Adasdasd', '2024-04-26', '2024-04-10', 'Aasdasdasd', 1, NULL, '2024-05-11', 'Q24.0075', '0075/PTR/II/2024', 'PM240075'),
-(97, 'Dsf', '2024-04-25', '2024-04-11', 'Ret', 1, NULL, '2024-06-01', 'Q24.0076', '0076/PTR/II/2024', 'PM240076');
+INSERT INTO `spk` (`id_spk`, `pengorder`, `tgl_selesai`, `tgl_penyerahan`, `nama_produk`, `jml_pesanan`, `gbr_kerja`, `tgl_upm`, `no_penawar`, `no_order`, `no_spk`, `status`) VALUES
+(102, 'Rachmat Syaiful Mujab', '2024-05-11', '2024-05-09', 'Mikrokontroller', 1, 'https://upload.wikimedia.org/wikipedia/commons/3/38/Arduino_Uno_-_R3.jpg', '2024-05-25', 'Q24.0000', '0000/PTR/II/2024', 'PM240000', 'Diproses'),
+(103, 'Pt.jaya Abadi', '2024-05-18', '2024-05-10', 'Gearbox', 1, NULL, '2024-05-25', 'Q24.0102', '0102/PTR/II/2024', 'PM240102', 'Menunggu');
 
 -- --------------------------------------------------------
 
@@ -229,14 +240,7 @@ CREATE TABLE `stok_gudang` (
   `nama_barang` varchar(255) NOT NULL,
   `tempat_simpan` varchar(255) NOT NULL,
   `jml_komponen` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `stok_gudang`
---
-
-INSERT INTO `stok_gudang` (`id_stoklogistik`, `no_spk`, `nama_penerima`, `status`, `batas_waktu`, `nama_barang`, `tempat_simpan`, `jml_komponen`) VALUES
-(6, 'PM240059', 'Rachmat Syaiful Mujab', 'Tersedia', '2024-04-25', 'Arduino', 'Rak A', 10);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -251,7 +255,7 @@ CREATE TABLE `worker` (
   `Name` varchar(255) NOT NULL,
   `Role` varchar(255) DEFAULT NULL,
   `profile_picture` varchar(255) DEFAULT 'profiles.jpg'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `worker`
@@ -272,7 +276,7 @@ INSERT INTO `worker` (`id_worker`, `Username`, `Password`, `Name`, `Role`, `prof
 --
 ALTER TABLE `form_order_logistik`
   ADD PRIMARY KEY (`id_orderlog`),
-  ADD KEY `no_spk` (`no_spk`);
+  ADD KEY `form_order_logistik_ibfk_2` (`no_spk`);
 
 --
 -- Indexes for table `google_calendar`
@@ -284,45 +288,48 @@ ALTER TABLE `google_calendar`
 -- Indexes for table `komponen`
 --
 ALTER TABLE `komponen`
-  ADD PRIMARY KEY (`id_komponen`);
+  ADD PRIMARY KEY (`id_komponen`),
+  ADD KEY `no_spk` (`no_spk`);
 
 --
 -- Indexes for table `mesin`
 --
 ALTER TABLE `mesin`
-  ADD PRIMARY KEY (`id_mesin`);
+  ADD PRIMARY KEY (`id_mesin`),
+  ADD UNIQUE KEY `no_mesin` (`no_mesin`);
 
 --
 -- Indexes for table `pengerjaan`
 --
 ALTER TABLE `pengerjaan`
   ADD PRIMARY KEY (`id_pengerjaan`),
-  ADD KEY `id_mesin` (`id_mesin`),
-  ADD KEY `id_prosesstart` (`id_prosesstart`),
-  ADD KEY `id_spk` (`id_spk`),
-  ADD KEY `id_worker` (`id_worker`);
+  ADD KEY `pengerjaan_ibfk_2` (`id_prosesstart`),
+  ADD KEY `no_spk` (`no_spk`),
+  ADD KEY `no_mesin` (`no_mesin`);
 
 --
 -- Indexes for table `proses`
 --
 ALTER TABLE `proses`
-  ADD PRIMARY KEY (`id_proses_start`);
+  ADD PRIMARY KEY (`id_proses_start`),
+  ADD KEY `no_spk` (`no_spk`),
+  ADD KEY `no_mesin` (`no_mesin`);
 
 --
 -- Indexes for table `spk`
 --
 ALTER TABLE `spk`
   ADD PRIMARY KEY (`id_spk`),
-  ADD UNIQUE KEY `no_spk` (`no_spk`),
   ADD UNIQUE KEY `no_order` (`no_order`) USING BTREE,
-  ADD UNIQUE KEY `no_penawar` (`no_penawar`);
+  ADD UNIQUE KEY `no_penawar` (`no_penawar`) USING BTREE,
+  ADD UNIQUE KEY `no_spk` (`no_spk`) USING BTREE;
 
 --
 -- Indexes for table `stok_gudang`
 --
 ALTER TABLE `stok_gudang`
   ADD PRIMARY KEY (`id_stoklogistik`),
-  ADD KEY `no_spk` (`no_spk`);
+  ADD KEY `stok_gudang_ibfk_1` (`no_spk`);
 
 --
 -- Indexes for table `worker`
@@ -338,43 +345,43 @@ ALTER TABLE `worker`
 -- AUTO_INCREMENT for table `form_order_logistik`
 --
 ALTER TABLE `form_order_logistik`
-  MODIFY `id_orderlog` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_orderlog` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `komponen`
 --
 ALTER TABLE `komponen`
-  MODIFY `id_komponen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_komponen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `mesin`
 --
 ALTER TABLE `mesin`
-  MODIFY `id_mesin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_mesin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `pengerjaan`
 --
 ALTER TABLE `pengerjaan`
-  MODIFY `id_pengerjaan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pengerjaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `proses`
 --
 ALTER TABLE `proses`
-  MODIFY `id_proses_start` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_proses_start` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `spk`
 --
 ALTER TABLE `spk`
-  MODIFY `id_spk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id_spk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `stok_gudang`
 --
 ALTER TABLE `stok_gudang`
-  MODIFY `id_stoklogistik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_stoklogistik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `worker`
@@ -390,22 +397,34 @@ ALTER TABLE `worker`
 -- Constraints for table `form_order_logistik`
 --
 ALTER TABLE `form_order_logistik`
-  ADD CONSTRAINT `form_order_logistik_ibfk_2` FOREIGN KEY (`no_spk`) REFERENCES `spk` (`no_spk`);
+  ADD CONSTRAINT `form_order_logistik_ibfk_2` FOREIGN KEY (`no_spk`) REFERENCES `spk` (`no_spk`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `komponen`
+--
+ALTER TABLE `komponen`
+  ADD CONSTRAINT `komponen_ibfk_1` FOREIGN KEY (`no_spk`) REFERENCES `spk` (`no_spk`);
 
 --
 -- Constraints for table `pengerjaan`
 --
 ALTER TABLE `pengerjaan`
-  ADD CONSTRAINT `pengerjaan_ibfk_1` FOREIGN KEY (`id_mesin`) REFERENCES `mesin` (`id_mesin`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `pengerjaan_ibfk_2` FOREIGN KEY (`id_prosesstart`) REFERENCES `form_proses` (`id_proses_start`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `pengerjaan_ibfk_3` FOREIGN KEY (`id_spk`) REFERENCES `spk` (`id_spk`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `pengerjaan_ibfk_4` FOREIGN KEY (`id_worker`) REFERENCES `worker` (`id_worker`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `pengerjaan_ibfk_2` FOREIGN KEY (`id_prosesstart`) REFERENCES `proses` (`id_proses_start`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pengerjaan_ibfk_3` FOREIGN KEY (`no_spk`) REFERENCES `spk` (`no_spk`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pengerjaan_ibfk_4` FOREIGN KEY (`no_mesin`) REFERENCES `mesin` (`no_mesin`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `proses`
+--
+ALTER TABLE `proses`
+  ADD CONSTRAINT `proses_ibfk_1` FOREIGN KEY (`no_spk`) REFERENCES `spk` (`no_spk`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `proses_ibfk_2` FOREIGN KEY (`no_mesin`) REFERENCES `mesin` (`no_mesin`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `stok_gudang`
 --
 ALTER TABLE `stok_gudang`
-  ADD CONSTRAINT `stok_gudang_ibfk_1` FOREIGN KEY (`no_spk`) REFERENCES `spk` (`no_spk`);
+  ADD CONSTRAINT `stok_gudang_ibfk_1` FOREIGN KEY (`no_spk`) REFERENCES `spk` (`no_spk`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
