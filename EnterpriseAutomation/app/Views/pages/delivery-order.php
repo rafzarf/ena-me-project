@@ -298,11 +298,11 @@ $this->section('content');
 <!-- Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" id="create-form" data-url="<?=base_url().'Spk/createSPK'?>">
+        <form method="post" id="create-form" data-url="<?=base_url().'DeliveryOrder/createDeliverOrder'?>">
             <?=csrf_field()?>
             <div class="modal-content p-3">
                 <div class="modal-header">
-                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah SPK</h5>
+                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Delivery Order</h5>
                     <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
                         <i class='text-dark fs-4 bx bx-x'></i>
                     </button>
@@ -310,27 +310,15 @@ $this->section('content');
                 <div class="modal-body">
                     <div class="tab">
                         <input type="hidden" class="form-control" id="status" name="status" value="Menunggu">
-                        <div class="mb-1 pengorder-div">
-                            <label for="" class="text-uppercase form-label">Pemesan</label>
+                        <div class="mb-1 no_order-div">
+                            <label for="" class="text-uppercase form-label">No Order</label>
                             <div class="input-set">
                                 <i class='bx bx-user'></i>
-                                <input type="text" name="pengorder" class="form-control" id="pengorder"
+                                <input type="text" name="no_order" class="form-control" id="no_order"
                                     placeholder="Masukan Nama Pemesan" autofocus>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1">
-                            <label for="" class="text-uppercase form-label">No.Pesanan (No.spk)</label>
-                            <div class="input-set">
-                                <i class='bx bx-list-ol'></i>
-                                <input type="hidden" class="form-control" id="no_spk" name="no_spk"
-                                    value="PM<?=substr(date("Y"), -2);?><?=str_pad(($latest_id), 4, '0', STR_PAD_LEFT);?>">
-                                <input type="text" class="form-control" id="disp_no_spk" name=""
-                                    value="PM<?=substr(date("Y"), -2);?><?=str_pad(($latest_id), 4, '0', STR_PAD_LEFT);?>"
-                                    disabled>
-                            </div>
-                        </div>
-
                         <div class="mb-1">
                             <label for="" class="text-uppercase form-label">No.Penawaran</label>
                             <div class="input-set">

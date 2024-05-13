@@ -2,7 +2,7 @@
 
 use CodeIgniter\Model;
 
-class SpkModel extends Model
+class DoModel extends Model
 {
     /**
      * table name
@@ -14,17 +14,15 @@ class SpkModel extends Model
      * allowed Field
      */
     protected $allowedFields = [
-        'pengorder',
-        'tgl_selesai',
-        'tgl_penyerahan',
-        'nama_produk',	
-        'jml_pesanan',
-        'gbr_kerja',
-        'tgl_upm',
-        'no_do',
-        'no_penawar',
         'no_order',
-        'status',
+        'tanggal_kirim',
+        'nama_barang_jadi',
+        'bahan',
+        'total_kirim',
+        'sisa_kirim',
+        'keteranganan',
+        'catatan',
+        'status_persetujuan',
     ];
     
     // buat generate nomor spk , order dan penawaran
@@ -82,14 +80,15 @@ class SpkModel extends Model
     public function search($keyword) {
         if($keyword){
             $dodata = $this->table($this->table)
-            ->like('no_do', $keyword)
-            ->orLike('no_penawar', $keyword)
-            ->orLike('no_order', $keyword)
-            ->orLike('nama_produk', $keyword)
-            ->orLike('tgl_selesai', $keyword)
-            ->orLike('tgl_penyerahan', $keyword)
-            ->orLike('tgl_upm', $keyword)
-            ->orLike('pengorder', $keyword);
+            ->like('no_order', $keyword)
+            ->orlike('tanggal_kirim', $keyword)
+            ->orlike('nama_barang_jadi', $keyword)
+            ->orlike('bahan', $keyword)
+            ->orlike('total_kirim', $keyword)
+            ->orlike('sisa_kirim', $keyword)
+            ->orlike('keteranganan', $keyword)
+            ->orlike('catatan', $keyword)
+            ->orlike('status_persetujuan', $keyword);
         } else {
             $dodata = $this;
         }
