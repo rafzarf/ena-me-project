@@ -247,6 +247,26 @@ $this->section('content');
                                         </a>
                                     </li>
                                     <li class="mb-0">
+                                        <a href="/proses/<?=$dataSPK['id_spk']?>" class="dropdown-item">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 bx bx-package text-center 
+                                                    btn bg-gradient-warning py-1 px-2'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            DO
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Delivery Order
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mb-0">
                                         <a href="#" data-href="/Spk/deleteSPK/<?=$dataSPK['id_spk']?>"
                                             data-bs-toggle="modal" data-bs-target="#confirm-delete"
                                             class="dropdown-item">
