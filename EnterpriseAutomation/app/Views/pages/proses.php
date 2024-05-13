@@ -102,7 +102,7 @@ $this->section('content');
                 <h1 class="text-dark fw-light mb-4 mb-lg-0">
                     <?php 
                 if(!empty($finishCount) AND !empty($count)) {
-                    echo ($finishCount / $count) * 100 ;
+                    echo sprintf('%.2f', ($finishCount / $count) * 100);;
                 } else {
                     echo 0;
                 }

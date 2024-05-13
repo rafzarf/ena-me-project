@@ -27976,7 +27976,7 @@ body {
   display: inline-block;
 }
 
-.Minetooltip .tooltiptext {
+/* .Minetooltip .tooltiptext {
   visibility: hidden;
   width: 22rem;
   background-color: #fff;
@@ -27994,4 +27994,16 @@ body {
 .Minetooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}  */
+
+.Minetooltip .tooltiptext {
+  width: 23rem;
+  background-color: #eee;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  display: none;
 }
