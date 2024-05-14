@@ -30,7 +30,7 @@ class DoModel extends Model
     // terlalu dipikirin
     public function getLastId() {
         $db = db_connect();
-        $query = $db->query('SELECT MAX(id_spk) AS lastid FROM spk LIMIT 1;');
+        $query = $db->query('SELECT MAX(id_do) AS lastid FROM spk LIMIT 1;');
         $row = $query->getLastRow();
         if (isset($row)) {
             return $row->lastid;

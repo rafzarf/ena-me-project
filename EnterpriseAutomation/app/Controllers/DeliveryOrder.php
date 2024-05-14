@@ -34,14 +34,6 @@ class DeliverOrder extends BaseController
    // METHOD CREATE
    public function createDeliverOrder(){
        $this->validation->setRules([
-           'no_order' => [
-               'label' => 'Nomor Order',
-               'rules' => 'required|is_unique[deliver_order.no_order]',
-               'errors' => [
-                   'required' => 'Nomor Order wajib diisi',
-                   'is_unique' => 'Nomor Order sudah ada',
-               ]
-           ],
            'tanggal_kirim' => [
                'label' => 'Tanggal Kirim',
                'rules' => 'required',
@@ -102,7 +94,7 @@ class DeliverOrder extends BaseController
        $isDataValid = $this->validation->withRequest($this->request)->run();
        if($isDataValid){
            $this->deliverOrder->insert([
-               "no_order" => $this->request->getPost('no_order'),
+               "no_order" => $this->generateNoOrder(), // Generates no_order from spk table
                "tanggal_kirim" => $this->request->getPost('tanggal_kirim'),
                "nama_barang_jadi" => ucwords(strtolower((string)$this->request->getPost('nama_barang_jadi'))),
                "bahan" => ucwords(strtolower((string)$this->request->getPost('bahan'))),
@@ -112,13 +104,24 @@ class DeliverOrder extends BaseController
                "catatan" => ucwords(strtolower((string)$this->request->getPost('catatan'))),
                "status_persetujuan" => ucwords(strtolower((string)$this->request->getPost('status_persetujuan'))),
            ]);
-
            $data = ['success' => true];
            return $this->response->setJSON($data);
        } else {
            return $this->response->setJSON($this->validation->getErrors()); 
        }
    }
+
+   private function generateNoOrder() {
+    // Logic to generate no_order from spk table
+    $db = db_connect();
+    $query = $db->query('SELECT MAX(no_order) AS last_order FROM spk LIMIT 1;');
+    $row = $query->getLastRow();
+    if (isset($row->last_order)) {
+        return $row->last_order + 1; 
+    } else {
+        return 1;
+    }
+ }
    
    public function editDeliverOrder() {
     $id = $this->request->getPost('id');

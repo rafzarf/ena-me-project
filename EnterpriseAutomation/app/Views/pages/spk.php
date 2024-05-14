@@ -247,7 +247,7 @@ $this->section('content');
                                         </a>
                                     </li>
                                     <li class="mb-0">
-                                        <a href="/proses/<?=$dataSPK['id_spk']?>" class="dropdown-item">
+                                        <a href="/delivery-order/<?=$dataSPK['id_spk']?>" class="dropdown-item">
                                             <div class="row mt-2">
                                                 <div class="col-auto">
                                                     <i class='fs-4 bx bx-package text-center 
