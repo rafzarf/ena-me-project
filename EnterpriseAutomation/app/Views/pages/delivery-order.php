@@ -236,7 +236,7 @@ $this->section('content');
                                 </label>
                             </div>
                         </td>
-                        <td data-label="No" class="text-dark text-center"><?= $no;?></td>
+                        <td data-label="no" class="text-dark text-center"><?= $no;?></td>
                         <td data-label="no_order" class="text-dark text-center"><?= $dataDeliverOrder['no_order'] ?></td>
                         <td data-label="tangal_kirim" class="sticky-left text-dark text-center">
                             <?= $dataDeliverOrder['nama_barang'] ?></td>
@@ -261,27 +261,17 @@ $this->section('content');
                                     <li class="mb-0">
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal_info"
                                             class="btn-edit dropdown-item"
-                                            data-id_orderlog="<?=$dataOrder['id_orderlog']?>"
-                                            data-pengorder="<?=$dataOrder['pemesan']?>"
-                                            data-tgl_created="<?=$dataOrder['tanggal_created']?>"
-                                            data-unit_kerja="<?=$dataOrder['unit_kerja']?>"
-                                            data-batas_waktu="<?=$dataOrder['batas_waktu']?>"
-                                            data-disetujui="<?=$dataOrder['disetujui']?>"
-                                            data-no_spk="<?=$dataOrder['no_spk']?>"
-                                            data-jml_satuan="<?=$dataOrder['jml_satuan']?>"
-                                            data-nama_barang="<?=$dataOrder['nama_barang']?>"
-                                            data-uraian="<?=$dataOrder['uraian']?>"
-                                            data-ukuran="<?=$dataOrder['ukuran']?>"
-                                            data-no_barang="<?=$dataOrder['no_barang']?>"
-                                            data-no_gambar="<?=$dataOrder['no_gambar']?>"
-                                            data-tgl_penerima="<?=$dataOrder['tgl_penerima']?>"
-                                            data-nama_penerima="<?=$dataOrder['nama_penerima']?>"
-                                            data-tgl_pembelian="<?=$dataOrder['tgl_pembelian']?>"
-                                            data-berat_barang="<?=$dataOrder['berat_barang']?>"
-                                            data-tgl_pesanan="<?=$dataOrder['tgl_pesanan']?>"
-                                            data-record_order="<?=$dataOrder['record_order']?>"
-                                            data-nama_pelaksana="<?=$dataOrder['nama_pelaksana']?>"
-                                            data-catatan="<?=$dataOrder['catatan']?>">
+                                            data-id_do="<?=$dataDeliverOrder['id_do']?>"
+                                            data-no_order="<?=$dataDeliverOrder['no_order']?>"
+                                            data-tanggal_kirim="<?=$dataDeliverOrder['tanggal_kirim']?>"
+                                            data-nama_barang_jadi="<?=$dataDeliverOrder['nama_barang_jadi']?>"
+                                            data-bahan="<?=$dataDeliverOrder['bahan']?>"
+                                            data-total_kirim="<?=$dataDeliverOrder['total_kirim']?>"
+                                            data-sisa_kirim="<?=$dataDeliverOrder['sisa_kirim']?>"
+                                            data-keteranganan="<?=$dataDeliverOrder['keteranganan']?>"
+                                            data-catatan="<?=$dataDeliverOrder['catatan']?>"
+                                            data-status_persetujuan="<?=$dataDeliverOrder['status_persetujuan']?>"
+
                                             <div class="row mt-2">
                                                 <div class="col-auto">
                                                     <i class='fs-4 text-center bx bxs-info-circle 
@@ -360,50 +350,86 @@ $this->section('content');
             <?=csrf_field()?>
             <div class="modal-content p-3">
                 <div class="modal-header">
-                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Order</h5>
+                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Delivery Order</h5>
                     <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
                         <i class='text-dark fs-4 bx bx-x'></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="tab">
-                        <div class="mb-1 pengorder-div">
-                            <label for="" class="text-uppercase form-label">Pemesan</label>
+                        <div class="mb-1 no_order-div">
+                            <label for="" class="text-uppercase form-label">No Order</label>
                             <div class="input-set">
                                 <i class='bx bx-user'></i>
-                                <input type="text" name="pengorder" class="form-control" id="pengorder"
-                                    placeholder="Masukan Nama Pemesan">
+                                <input type="text" name="no_order" class="form-control" id="no_order"
+                                    placeholder="Masukan No Order">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1 tgl_created-div">
-                            <label for="" class="text-uppercase form-label">Tanggal</label>
+                        <div class="mb-1 tanggal_kirim-div">
+                            <label for="" class="text-uppercase form-label">Tanggal Kirim</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
-                                <input type="text" name="tgl_created" class="dateselect form-control" id="tgl_created"
+                                <input type="text" name="tanggal_kirim" class="dateselect form-control" id="tanggal_kirim"
                                     placeholder="Masukkan Tanggal (YYYY/MM/DD)">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1 unit_kerja-div">
-                            <label for="" class="text-uppercase form-label">Unit Kerja</label>
+                        <div class="mb-1 nama_barang_jadi-div">
+                            <label for="" class="text-uppercase form-label">Nama Barang Jadi</label>
                             <div class="input-set">
                                 <i class='bx bx-hard-hat'></i>
-                                <input type="text" name="unit_kerja" class="form-control" id="unit_kerja"
-                                    placeholder="Masukkan Unit Kerja">
+                                <input type="text" name="nama_barang_jadi" class="form-control" id="nama_barang_jadi"
+                                    placeholder="Masukkan Nama Barang Jadi">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1 batas_waktu-div">
-                            <label for="" class="text-uppercase form-label">Batas Waktu</label>
+                        <div class="mb-1 bahan-div">
+                            <label for="" class="text-uppercase form-label">Bahan</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
-                                <input type="text" name="batas_waktu" class="dateselect form-control" id="batas_waktu"
-                                    placeholder="Masukkan Batas Waktu (YYYY/MM/DD">
+                                <input type="text" name="bahan" class="form-control" id="bahan"
+                                    placeholder="Masukkan Nama Bahan">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1 disetujui-div">
+                        <div class="mb-1 total_kirim-div">
+                            <label for="" class="text-uppercase form-label">Total Kirim</label>
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="total_kirim" class="form-control" id="total_kirim"
+                                    placeholder="Masukkan Total Kirim">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 sisa_kirim-div">
+                            <label for="" class="text-uppercase form-label">Sisa Kirim</label>
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="sisa_kirim" class="form-control" id="sisa_kirim"
+                                    placeholder="Masukkan Sisa Kirim">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 keterangan-div">
+                            <label for="" class="text-uppercase form-label">Keterangan</label>
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="keterangan" class="form-control" id="keterangan"
+                                    placeholder="Masukkan Nama Keterangan">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 catatan-div">
+                            <label for="" class="text-uppercase form-label">Catatan</label>
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="catatan" class="form-control" id="catatan"
+                                    placeholder="Masukkan Catatan">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 status_persetujuan-div">
                             <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
                             <div class="input-set">
                                 <i class='bx bx-user-check'></i>
@@ -415,137 +441,6 @@ $this->section('content');
                             </div>
                         </div>
                     </div>
-                    <div class="tab">
-
-                        <div class="mb-1 no_spk-div">
-                            <label for="" class="text-uppercase form-label">No. Pembebanan</label>
-                            <div class="input-set">
-                                <i class='bx bx-list-ol'></i>
-                                <input type="hidden" class="form-control" id="no_spk" name="no_spk"
-                                    value="<?=$getSPK[0]->no_spk?>">
-                                <input type="text" class="form-control" id="" name="" value="<?=$getSPK[0]->no_spk?>"
-                                    disabled>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 nama_barang-div">
-                            <label for="" class="text-uppercase form-label">Nama Barang</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="nama_barang" class="form-control" id="nama_barang"
-                                    placeholder="Masukkan Nama Barang">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 uraian-div">
-                            <label for="" class="text-uppercase form-label">Uraian</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="uraian" class="form-control" id="uraian"
-                                    placeholder="Masukkan Uraian Barang">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 ukuran-div">
-                            <label for="" class="text-uppercase form-label">Ukuran (PxLxT)</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="ukuran" class="form-control" id="ukuran"
-                                    placeholder="Masukkan Ukuran Barang">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 jml_satuan-div">
-                            <label for="" class="text-uppercase form-label">Jumlah/Satuan</label>
-                            <div class="input-set">
-                                <i class='bx bx-basket'></i>
-                                <input type="number" name="jml_satuan" class="form-control" id="jml_satuan"
-                                    placeholder="Masukkan Jumlah" min="0">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab">
-                        <div class="mb-1 no_barang-div">
-                            <label for="" class="text-uppercase form-label">No. Barang</label>
-                            <div class="input-set">
-                                <i class='bx bx-tag-alt'></i>
-                                <input type="text" name="no_barang" class="form-control" id="no_barang"
-                                    placeholder="Masukkan No.Barang">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 no_gambar-div">
-                            <label for="" class="text-uppercase form-label">No. Gambar</label>
-                            <div class="input-set">
-                                <i class='bx bx-photo-album'></i>
-                                <input type="text" name="no_gambar" class="form-control" id="no_gambar"
-                                    placeholder="Masukkan No.Gambar">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 tgl_penerima-div">
-                            <label for="" class="text-uppercase form-label">Tanggal Penerima</label>
-                            <div class="input-set">
-                                <i class='bx bx-calendar'></i>
-                                <input type="text" name="tgl_penerima" class="dateselect form-control" id="tgl_penerima"
-                                    placeholder="Masukkan Tanggal Penerima">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 nama_penerima-div">
-                            <label for="" class="text-uppercase form-label">Nama & Paraf Penerima</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="nama_penerima" class="form-control" id="nama_penerima"
-                                    placeholder="Masukkan Nama Penerima">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab">
-                        <div class="mb-1 berat_barang-div">
-                            <label for="" class="text-uppercase form-label">Berat (Kg)</label>
-                            <div class="input-set">
-                                <i class='bx bx-package'></i>
-                                <input type="number" name="berat_barang" class="form-control" id="berat_barang"
-                                    placeholder="Masukkan Berat Dalam Kilogram (Kg)" min="0">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 tgl_pembelian-div">
-                            <label for="" class="text-uppercase form-label">Tanggal Pelaporan/Pembelian</label>
-                            <div class="input-set">
-                                <i class='bx bx-calendar'></i>
-                                <input type="text" name="tgl_pembelian" class="dateselect form-control"
-                                    id="tgl_pembelian" placeholder="Masukkan Tanggal Pelaporan">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 tgl_pesanan-div">
-                            <label for="" class="text-uppercase form-label">Tanggal Pelaksana Pesanan</label>
-                            <div class="input-set">
-                                <i class='bx bx-calendar'></i>
-                                <input type="text" name="tgl_pesanan" class="dateselect form-control" id="tgl_pesanan"
-                                    placeholder="Masukkan Tanggal Pelaksana Pesanan">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 nama_pelaksana-div">
-                            <label for="" class="text-uppercase form-label">Nama & Paraf Pelaksana Pesanan</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="nama_pelaksana" class="form-control" id="nama_pelaksana"
-                                    placeholder="Masukkan Nama Pelaksana">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 catatan-div">
-                            <label for="" class="text-uppercase form-label">Catatan</label>
-                            <textarea class="form-control" name="catatan" id="catatan"
-                                placeholder="Tuliskan Catatan (Jika Diperlukan)"></textarea>
-                            <div class="invalid-feedback"></div>
-                        </div>
                         <!-- verification untuk submit only ketika sudah mencapai tab akhir, perlu buat
                         form input yg non mandatory -->
                         <input type="hidden" name="curr_tab" class="curr_tab">
