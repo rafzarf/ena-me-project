@@ -198,7 +198,10 @@ $this->section('content');
                             class="sticky-left check-th d-none text-uppercase text-center text-dark font-weight-bolder opacity-10">
                         </th>
                         <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
-                            No.
+                            No. 
+                        </th>
+                        <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
+                            No. Order
                         </th>
                         <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             Tanggal Kirim</th>
@@ -224,9 +227,9 @@ $this->section('content');
                     <tr>
                         <td data-label="Select Data" class="sticky-left stext-dark text-center check-td d-none">
                             <div class="checkbox-wrapper-46">
-                                <input class="shadow inp-cbx" id="cbx-46-<?=$dataOrder['id_orderlog']?>" type="checkbox"
-                                    value="<?=$dataOrder['id_orderlog']?>">
-                                <label class="cbx" for="cbx-46-<?=$dataOrder['id_orderlog']?>"><span>
+                                <input class="shadow inp-cbx" id="cbx-46-<?=$dataOrder['id_do']?>" type="checkbox"
+                                    value="<?=$dataDeliverOrder['id_do']?>">
+                                <label class="cbx" for="cbx-46-<?=$dataDeliverOrder['id_do']?>"><span>
                                         <svg width="12px" height="10px" viewbox="0 0 12 10">
                                             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                         </svg></span><span class="ps-0"></span>
@@ -234,22 +237,20 @@ $this->section('content');
                             </div>
                         </td>
                         <td data-label="No" class="text-dark text-center"><?= $no;?></td>
-                        <td data-label="Jumlah" class="text-dark text-center"><?= $dataOrder['jml_satuan'] ?></td>
-                        <td data-label="Nama Barang" class="sticky-left text-dark text-center">
-                            <?= $dataOrder['nama_barang'] ?></td>
-                        <td data-label="Uraian" class="text-dark text-center">
-                            <?= $dataOrder['uraian'] ?></td>
-                        <td data-label="Ukuran" class="text-dark text-center">
-                            <?= $dataOrder['ukuran'] ?></td>
-                        <td data-label="No.Barang" class="text-dark text-center"><?= $dataOrder['no_barang'] ?></td>
-                        <td data-label="No.Gambar" class="text-dark text-center"><?= $dataOrder['no_gambar'] ?></td>
-                        <td data-label="Tanggal Penerima" class="text-dark text-center">
-                            <?= $dataOrder['tgl_penerima'] ?></td>
-                        <td data-label="Nama Penerima" class="text-dark text-center"><?= $dataOrder['nama_penerima'] ?>
+                        <td data-label="no_order" class="text-dark text-center"><?= $dataDeliverOrder['no_order'] ?></td>
+                        <td data-label="tangal_kirim" class="sticky-left text-dark text-center">
+                            <?= $dataDeliverOrder['nama_barang'] ?></td>
+                        <td data-label="nama_barang_jadi" class="text-dark text-center">
+                            <?= $dataDeliverOrder['nama_barang_jadi'] ?></td>
+                        <td data-label="bahan" class="text-dark text-center">
+                            <?= $dataDeliverOrder['bahan'] ?></td>
+                        <td data-label="total_kirim" class="text-dark text-center"><?= $dataDeliverOrder['total_kirim'] ?></td>
+                        <td data-label="sisa_kirim" class="text-dark text-center"><?= $dataDeliverOrder['sisa_kirim'] ?></td>
+                        <td data-label="keterangan" class="text-dark text-center">
+                            <?= $dataDeliverOrder['keterangan'] ?></td>
+                        <td data-label="catatan" class="text-dark text-center"><?= $dataDeliverOrder['catatan'] ?>
                         </td>
-                        <td data-label="Berat(kg)" class="text-dark text-center"><?= $dataOrder['berat_barang'] ?></td>
-                        <td data-label="Tanggal Pelaporan/Pembelian" class="text-dark text-center">
-                            <?= $dataOrder['tgl_pembelian'] ?></td>
+                        <td data-label="Berat(kg)" class="text-dark text-center"><?= $dataDeliverOrder['status_persetujuan'] ?></td>
                         <td data-label="Option" class="text-dark text-center">
                             <div class="btn-group dropstart">
                                 <button class="btn btn-mesin mb-0" type="button" data-bs-toggle="dropdown"
@@ -896,50 +897,26 @@ include "footerjs.php"
         });
 
         $('.btn-edit').on('click', function () {
-            const id_orderlog = $(this).data('id_orderlog');
-            const pengorder = $(this).data('pengorder');
-            const tgl_created = $(this).data('tgl_created');
-            const unit_kerja = $(this).data('unit_kerja');
-            const batas_waktu = $(this).data('batas_waktu');
-            const disetujui = $(this).data('disetujui');
-            const no_spk = $(this).data('no_spk');
-            const jml_satuan = $(this).data('jml_satuan');
-            const nama_barang = $(this).data('nama_barang');
-            const uraian = $(this).data('uraian');
-            const ukuran = $(this).data('ukuran');
-            const no_barang = $(this).data('no_barang');
-            const no_gambar = $(this).data('no_gambar');
-            const tgl_penerima = $(this).data('tgl_penerima');
-            const nama_penerima = $(this).data('nama_penerima');
-            const tgl_pembelian = $(this).data('tgl_pembelian');
-            const berat_barang = $(this).data('berat_barang');
-            const tgl_pesanan = $(this).data('tgl_pesanan');
-            const record_order = $(this).data('record_order');
-            const nama_pelaksana = $(this).data('nama_pelaksana');
+            const no_order = $(this).data('no_order');
+            const tanggal_kirim = $(this).data('tanggal_kirim');
+            const nama_barang_jadi = $(this).data('nama_barang_jadi');
+            const bahan = $(this).data('bahan');
+            const total_kirim = $(this).data('total_kirim');
+            const sisa_kirim = $(this).data('sisa_kirim');
+            const keteranganan = $(this).data('keteranganan');
             const catatan = $(this).data('catatan');
+            const status_persetujuan = $(this).data('status_persetujuan');
 
             // Set data to Form Edit
-            $('#edit_id_orderlog').val(id_orderlog);
-            $('#edit_pengorder').val(pengorder);
-            $('#edit_tgl_created').val(tgl_created);
-            $('#edit_unit_kerja').val(unit_kerja);
-            $('#edit_batas_waktu').val(batas_waktu);
-            $('#edit_disetujui').val(disetujui);
-            $('#edit_no_spk').val(no_spk);
-            $('#edit_jml_satuan').val(jml_satuan);
-            $('#edit_nama_barang').val(nama_barang);
-            $('#edit_uraian').val(uraian);
-            $('#edit_ukuran').val(ukuran);
-            $('#edit_no_barang').val(no_barang);
-            $('#edit_no_gambar').val(no_gambar);
-            $('#edit_tgl_penerima').val(tgl_penerima);
-            $('#edit_nama_penerima').val(nama_penerima);
-            $('#edit_tgl_pembelian').val(tgl_pembelian);
-            $('#edit_berat_barang').val(berat_barang);
-            $('#edit_tgl_pesanan').val(tgl_pesanan);
-            $('#edit_record_order').val(record_order);
-            $('#edit_nama_pelaksana').val(nama_pelaksana);
+            $('#edit_no_order').val(no_order);
+            $('#edit_tanggal_kirim').val(tanggal_kirim);
+            $('#edit_nama_barang_jadi').val(nama_barang_jadi);
+            $('#edit_bahan').val(bahan);
+            $('#edit_total_kirim').val(total_kirim);
+            $('#edit_sisa_kirim').val(sisa_kirim);
+            $('#edit_keteranganan').val(keteranganan);
             $('#edit_catatan').val(catatan);
+            $('#edit_status_persetujuan').val(status_persetujuan);
 
             // Call Modal Edit
             $('#modal_info').modal('show');
