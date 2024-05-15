@@ -34,6 +34,13 @@ class DeliverOrder extends BaseController
    // METHOD CREATE
    public function createDeliverOrder(){
        $this->validation->setRules([
+            'no_order' => [
+                'label' => 'Masukkan Nomor Order',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nomor Order wajib diisi',
+                ]
+            ],
            'tanggal_kirim' => [
                'label' => 'Tanggal Kirim',
                'rules' => 'required',

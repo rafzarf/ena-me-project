@@ -231,6 +231,7 @@ $this->section('content');
     </a>
 </div>
 
+
 <!-- FLOATING ACTION BUTTON END -->
 
 <!-- MODAL CREATE START -->
@@ -283,6 +284,8 @@ $this->section('content');
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
+                    </div>
+                    <div class = "tab">
                         <div class="mb-1 total_kirim-div">
                             <label for="" class="text-uppercase form-label">Total Kirim</label>
                             <div class="input-set">
@@ -442,7 +445,7 @@ $this->section('content');
     <div class="modal-dialog">
         <form method="POST" id="edit-form" data-url="<?=base_url().'DeliverOrder/editDeliverOrder'?>">
             <?=csrf_field()?>
-            < class="modal-content p-3">
+            <div class="modal-content p-3">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark fw-bolder" id="">Info  Delivery Order</h5>
                     <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
@@ -487,6 +490,8 @@ $this->section('content');
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
+                    </div>
+                    <div class = "tab_edit">
                         <div class="mb-1 edit_total_kirim-div">
                             <label for="" class="text-uppercase form-label">Total Kirim</label>
                             <div class="input-set">
@@ -553,6 +558,51 @@ $this->section('content');
                             <button anim="ripple" type="button" class="btn m-0 btn-light text-sm me-2"
                                 id="prevBtn_edit">Back</button>
                             <button anim="ripple" type="button" class="btn m-0 btn-info" id="nextBtn_edit">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="validation_modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" id="validate-form" data-url="<?=base_url().'Spk/validateSPK'?>">
+        <?=csrf_field()?>
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark fw-bolder" id="myModalLabel">Validasi</h5>
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                        <i class='text-dark fs-4 bx bx-x'></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="bg-polman text-white p-3 rounded-2 text-sm">Validasi diperlukan untuk melakukan ACC pada
+                        Project,
+                        silahkan lampirkan link gambar kerja. Link dapat berupa link google drive.</p>
+                    <div class="tab_valid">
+                        <div class="mb-1 validation-div">
+                            <label for="" class="text-uppercase form-label">Link Gambar Kerja</label>
+                            <div class="input-set">
+                                <i class='bx bx-link'></i>
+                                <a anim="ripple" target="_blank" type="button" class="arrowicon btn m-0">
+                                    <i class='text-white fs-6 bx bx-link-external'></i>
+                                </a>
+                                <input type="text" id="validation" class="form-control"
+                                    placeholder="Masukkan Link Gambar Kerja Disini" name="validation">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row w-100">
+                        <div class="col pe-0 text-end">
+                            <button anim="ripple" type="button" class="btn btn-secondary m-0 me-2"
+                                id="prevBtn_valid">Previous</button>
+                            <button anim="ripple" type="button" class="btn m-0 btn-info"
+                                id="nextBtn_valid">Next</button>
                         </div>
                     </div>
                 </div>
