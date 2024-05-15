@@ -3,47 +3,6 @@
 $this->section('content');
 
 ?>
-<div class="row mt-4">
-    <!-- CARD ORDER START -->
-    <div class="col">
-        <div class="card z-index-2">
-            <div class="card-header pb-0">
-                <div class="row mx-0 w-100">
-                    <div class="col ps-0 d-flex">
-                        <div class="icon my-auto icon-shape bg-gradient-warning shadow text-center border-radius-md">
-                            <i class='fs-4 bx bxs-cart-alt'></i>
-                        </div>
-                        <div class="d-flex">
-                            <h3 class="text-dark lh-1 ms-3 my-auto">Delivery Order<br>
-                                <span class="text-sm lh-1 text-dark text-start"> No. Order : 123456 </span><br>
-                                <span class="text-sm lh-1 text-dark text-start"> Nama Barang : Example Product </span>
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="col-auto pe-0 my-auto">
-                        <div class="row">
-                            <div class="text-end text-lg-center">
-                                <a id="btn-validate" class="text-sm text-wrap my-auto w-100 py-2 btn btn-info" href="#" data-bs-toggle="modal" data-bs-target="#validation_modal" data-href="#" data-valid="">Validasi</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="text-end text-lg-center mt-3">
-                                <div data-valid="" class="text-wrap status_validate">
-                                    <span class="py-2 h-100 badge badge-sm bg-gradient-secondary">STATUS : BELUM TERVALIDASI</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body p-3">
-            </div>
-        </div>
-    </div>
-    <!-- CARD ORDER END -->
-</div>
-
-
 <!-- TABEL DATA ORDER START -->
 <div class="card mt-4">
     <div class="card-header pb-1 pe-0">
@@ -202,8 +161,7 @@ $this->section('content');
                                             data-sisa_kirim="<?=$dataDeliverOrder['sisa_kirim']?>"
                                             data-keterangan="<?=$dataDeliverOrder['keterangan']?>"
                                             data-catatan="<?=$dataDeliverOrder['catatan']?>"
-                                            data-status_persetujuan="<?=$dataDeliverOrder['status_persetujuan']?>"
-
+                                            data-status_persetujuan="<?=$dataDeliverOrder['status_persetujuan']?>">
                                             <div class="row mt-2">
                                                 <div class="col-auto">
                                                     <i class='fs-4 text-center bx bxs-info-circle 
@@ -223,7 +181,7 @@ $this->section('content');
                                         </a>
                                     </li>
                                     <li class="mb-0">
-                                        <a href="#" data-href="/Order/deleteDeliverOrder/<?=$dataDeliverOrder['id_do']?>"
+                                        <a href="#" data-href="/DeliverOrder/deleteDeliverOrder/<?= $dataDeliverOrder['id_do']?>"
                                             data-bs-toggle="modal" data-bs-target="#confirm-delete"
                                             class="dropdown-item">
                                             <div class="row mt-2">
@@ -234,10 +192,10 @@ $this->section('content');
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="text-sm text-dark fw-bold mb-1">
                                                             Hapus
-                                                        </h6>
                                                         <p class="text-xs text-wob text-dark mb-0 ">
                                                             Hapus Data
                                                         </p>
+                                                        </h6>
                                                     </div>
                                                 </div>
                                             </div>
