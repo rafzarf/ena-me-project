@@ -291,7 +291,7 @@ $this->section('content');
                                         </a>
                                     </li>
                                     <li class="mb-0">
-                                        <a href="#" data-href="/Order/deleteOrder/<?=$dataOrder['id_orderlog']?>"
+                                        <a href="#" data-href="/Order/deleteDeliverOrder/<?=$dataDeliverOrder['id_do']?>"
                                             data-bs-toggle="modal" data-bs-target="#confirm-delete"
                                             class="dropdown-item">
                                             <div class="row mt-2">
@@ -346,7 +346,7 @@ $this->section('content');
 <!-- MODAL CREATE START -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" id="create-form" data-url="<?=base_url().'Order/createOrder'?>">
+        <form method="post" id="create-form" data-url="<?=base_url().'DeliverOrder/createDeliverOrder'?>">
             <?=csrf_field()?>
             <div class="modal-content p-3">
                 <div class="modal-header">
@@ -434,8 +434,9 @@ $this->section('content');
                             <div class="input-set">
                                 <i class='bx bx-user-check'></i>
                                 <select name="disetujui" class="form-select" id="disetujui">
-                                    <option value="1">Ya</option>
-                                    <option value="0">Tidak</option>
+                                <option value="approved">Approved</option>
+                                <option value="pending">Pending</option>
+                                <option value="rejected">Rejected</option>
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
@@ -475,7 +476,7 @@ $this->section('content');
 <!-- MODAL VALIDATION START -->
 <div class="modal fade" id="validation_modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST" id="validate-form" data-url="<?=base_url().'Order/validateSPK'?>">
+        <form method="POST" id="validate-form" data-url="<?=base_url().'DeliverOrder/validateDeliverOrder'?>">
             <?=csrf_field()?>
             <div class=" modal-content p-3">
                 <div class="modal-header">
@@ -549,190 +550,100 @@ $this->section('content');
 <!-- EDIT MODAL START -->
 <div class="modal fade" id="modal_info" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST" id="edit-form" data-url="<?=base_url().'Order/editOrder'?>">
+        <form method="POST" id="edit-form" data-url="<?=base_url().'DeliverOrder/editDeliverOrder'?>">
             <?=csrf_field()?>
-            <div class="modal-content p-3">
+            < class="modal-content p-3">
                 <div class="modal-header">
-                    <h5 class="modal-title text-dark fw-bolder" id="">Info Order</h5>
+                    <h5 class="modal-title text-dark fw-bolder" id="">Info  Delivery Order</h5>
                     <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
                         <i class='text-dark fs-4 bx bx-x'></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="tab_edit">
-                        <div class="mb-1 edit_pengorder-div">
-                            <label for="" class="text-uppercase form-label">Pemesan</label>
+                        <div class="mb-1 edit_no_order-div">
+                            <label for="" class="text-uppercase form-label">No Order</label>
                             <div class="input-set">
                                 <i class='bx bx-user'></i>
-                                <input type="text" name="edit_pengorder" class="form-control" id="edit_pengorder">
-                                <input type="hidden" name="edit_id_orderlog" class="form-control" id="edit_id_orderlog">
+                                <input type="text" name="edit_no_order" class="form-control" id="edit_no_order"
+                                    placeholder="Masukan No Order">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1 edit_tgl_created-div">
-                            <label for="" class="text-uppercase form-label">Tanggal</label>
+                        <div class="mb-1 edit_tanggal_kirim-div">
+                            <label for="" class="text-uppercase form-label">Tanggal Kirim</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
-                                <input type="text" name="edit_tgl_created" class="dateselect form-control"
-                                    id="edit_tgl_created">
+                                <input type="text" name="edit_tanggal_kirim" class="dateselect form-control" id="edit_tanggal_kirim"
+                                    placeholder="Masukkan Tanggal (YYYY/MM/DD)">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1 edit_unit_kerja-div">
-                            <label for="" class="text-uppercase form-label">Unit Kerja</label>
+                        <div class="mb-1 edit_nama_barang_jadi-div">
+                            <label for="" class="text-uppercase form-label">Nama Barang Jadi</label>
                             <div class="input-set">
                                 <i class='bx bx-hard-hat'></i>
-                                <input type="text" name="edit_unit_kerja" class="form-control" id="edit_unit_kerja">
+                                <input type="text" name="edit_nama_barang_jadi" class="form-control" id="edit_nama_barang_jadi"
+                                    placeholder="Masukkan Nama Barang Jadi">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1 edit_batas_waktu-div">
-                            <label for="" class="text-uppercase form-label">Batas Waktu</label>
+                        <div class="mb-1 edit_bahan-div">
+                            <label for="" class="text-uppercase form-label">Bahan</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
-                                <input type="text" name="edit_batas_waktu" class="dateselect form-control"
-                                    id="edit_batas_waktu">
+                                <input type="text" name="edit_bahan" class="form-control" id="edit_bahan"
+                                    placeholder="Masukkan Nama Bahan">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="edit_disetujui-div">
-                            <div class="mb-1">
-                                <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
-                                <div class="input-set">
-                                    <i class='bx bx-user-check'></i>
-                                    <select name="edit_disetujui" class="form-select" id="edit_disetujui">
-                                        <option value="1">Ya</option>
-                                        <option value="0">Tidak</option>
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab_edit">
-                        <div class="mb-1 edit_no_spk-div">
-                            <label for="" class="text-uppercase form-label">No. Pembebanan</label>
-                            <div class="input-set">
-                                <i class='bx bx-list-ol'></i>
-                                <input type="text" name="edit_no_spk" class="form-control" id="edit_no_spk" disabled>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 edit_jml_satuan-div">
-                            <label for="" class="text-uppercase form-label">Jumlah/Satuan</label>
-                            <div class="input-set">
-                                <i class='bx bx-basket'></i>
-                                <input type="number" name="edit_jml_satuan" class="form-control" id="edit_jml_satuan"
-                                    min="0">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 edit_nama_barang-div">
-                            <label for="" class="text-uppercase form-label">Nama Barang</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="edit_nama_barang" class="form-control" id="edit_nama_barang">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 edit_uraian-div">
-                            <label for="" class="text-uppercase form-label">Uraian</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="edit_uraian" class="form-control" id="edit_uraian"
-                                    placeholder="Masukkan Uraian Barang">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 edit_ukuran-div">
-                            <label for="" class="text-uppercase form-label">Ukuran (PxLxT)</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="edit_ukuran" class="form-control" id="edit_ukuran"
-                                    placeholder="Masukkan Ukuran Barang">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab_edit">
-                        <div class="mb-1 edit_no_barang-div">
-                            <label for="" class="text-uppercase form-label">No.Barang</label>
-                            <div class="input-set">
-                                <i class='bx bx-tag-alt'></i>
-                                <input type="text" class="form-control" name="edit_no_barang" id="edit_no_barang">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 edit_no_gambar-div">
-                            <label for="" class="text-uppercase form-label">No.Gambar</label>
-                            <div class="input-set">
-                                <i class='bx bx-photo-album'></i>
-                                <input type="text" class="form-control" name="edit_no_gambar" id="edit_no_gambar">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 edit_tgl_penerima-div">
-                            <label for="" class="text-uppercase form-label">Tanggal Penerima</label>
+                        <div class="mb-1 edit_total_kirim-div">
+                            <label for="" class="text-uppercase form-label">Total Kirim</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
-                                <input type="text" name="edit_tgl_penerima" class="dateselect form-control"
-                                    id="edit_tgl_penerima">
+                                <input type="text" name="edit_total_kirim" class="form-control" id="edit_total_kirim"
+                                    placeholder="Masukkan Total Kirim">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1 edit_nama_penerima-div">
-                            <label for="" class="text-uppercase form-label">Nama & Paraf Penerima</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="edit_nama_penerima" class="form-control"
-                                    id="edit_nama_penerima">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab_edit">
-                        <div class="mb-1 edit_berat_barang-div">
-                            <label for="" class="text-uppercase form-label">Berat (Kg)</label>
-                            <div class="input-set">
-                                <i class='bx bx-package'></i>
-                                <input type="number" name="edit_berat_barang" class="form-control"
-                                    id="edit_berat_barang" min="0">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 edit_tgl_pembelian-div">
-                            <label for="" class="text-uppercase form-label">Tanggal Pelaporan/Pembelian</label>
+                        <div class="mb-1 edit_sisa_kirim-div">
+                            <label for="" class="text-uppercase form-label">Sisa Kirim</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
-                                <input type="text" name="edit_tgl_pembelian" class="dateselect form-control"
-                                    id="edit_tgl_pembelian">
+                                <input type="text" name="edit_sisa_kirim" class="form-control" id="edit_sisa_kirim"
+                                    placeholder="Masukkan Sisa Kirim">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="mb-1 edit_tgl_pesanan-div">
-                            <label for="" class="text-uppercase form-label">Tanggal Pelaksana Pesanan</label>
+                        <div class="mb-1 edit_keterangan-div">
+                            <label for="" class="text-uppercase form-label">Keterangan</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
-                                <input type="text" name="edit_tgl_pesanan" class="dateselect form-control"
-                                    id="edit_tgl_pesanan" placeholder="Masukkan Tanggal Pelaksana Pesanan">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="mb-1 edit_nama_pelaksana-div">
-                            <label for="" class="text-uppercase form-label">Nama & Paraf Pelaksana
-                                Pesanan</label>
-                            <div class="input-set">
-                                <i class='bx bx-rename'></i>
-                                <input type="text" name="edit_nama_pelaksana" class="form-control"
-                                    id="edit_nama_pelaksana">
+                                <input type="text" name="edit_keterangan" class="form-control" id="edit_keterangan"
+                                    placeholder="Masukkan Nama Keterangan">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="mb-1 edit_catatan-div">
                             <label for="" class="text-uppercase form-label">Catatan</label>
-                            <textarea class="form-control" name="edit_catatan" id="edit_catatan"
-                                placeholder="Tuliskan Catatan (Jika Diperlukan)"></textarea>
-                            <div class="invalid-feedback"></div>
+                            <div class="input-set">
+                                <i class='bx bx-calendar'></i>
+                                <input type="text" name="edit_catatan" class="form-control" id="edit_catatan"
+                                    placeholder="Masukkan Catatan">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="mb-1 edit_status_persetujuan-div">
+                            <label for="edit_disetujui" class="text-uppercase form-label">Disetujui</label>
+                            <div class="input-set">
+                                <i class='bx bx-user-check'></i>
+                                <select name="edit_disetujui" class="form-select" id="edit_disetujui">
+                                    <option value="approved">Approved</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
