@@ -15,44 +15,21 @@ $this->section('content');
                         </div>
                         <div class="d-flex">
                             <h3 class="text-dark lh-1 ms-3 my-auto">Delivery Order<br>
-                                <span class="text-sm lh-1 text-dark text-start"> No. Order :
-                                    <?= $getDeliverOrder[0]->no_order ?>
-                                </span><br>
-                                <span class="text-sm lh-1 text-dark text-start"> Nama Barang :
-                                    <?= $getDeliverOrder[0]->nama_barang_jadi ?>
-                                </span>
+                                <span class="text-sm lh-1 text-dark text-start"> No. Order : 123456 </span><br>
+                                <span class="text-sm lh-1 text-dark text-start"> Nama Barang : Example Product </span>
                             </h3>
                         </div>
                     </div>
                     <div class="col-auto pe-0 my-auto">
                         <div class="row">
                             <div class="text-end text-lg-center">
-                                <?php 
-                                if(isset($getSPK[0]->gbr_kerja)) { 
-                                    $valid = $getSPK[0]->gbr_kerja;
-                                } else {
-                                    $valid = "";
-                                }
-                                
-                                if(!isset($getSPK[0]->gbr_kerja)) { 
-                                    echo '<a id="btn-validate" class="text-sm text-wrap my-auto w-100 py-2 btn btn-info" href="#"
-                                    data-bs-toggle="modal" data-bs-target="#validation_modal"
-                                    data-href="'.base_url().'Order/validateSPK/'.$getSPK[0]->id_spk.'"
-                                    data-valid="'.$valid.'">Validasi</a>';
-                                } 
-                                else {
-                                    echo '<a id="btn-validate" class="text-sm text-wrap my-auto w-100 py-2 btn btn-success"
-                                    href="#" data-bs-toggle="modal"
-                                    data-bs-target="#validation_modal"
-                                    data-href="'.base_url().'Order/validateSPK/'.$getSPK[0]->id_spk.'" 
-                                    data-valid="'.$valid.'">Info Validasi</a>';
-                                }?>
+                                <a id="btn-validate" class="text-sm text-wrap my-auto w-100 py-2 btn btn-info" href="#" data-bs-toggle="modal" data-bs-target="#validation_modal" data-href="#" data-valid="">Validasi</a>
                             </div>
                         </div>
                         <div class="row">
                             <div class="text-end text-lg-center mt-3">
-                                <div data-valid="<?=$valid?>" class="text-wrap status_validate">
-                                    <span class="py-2 h-100 badge badge-sm"></span>
+                                <div data-valid="" class="text-wrap status_validate">
+                                    <span class="py-2 h-100 badge badge-sm bg-gradient-secondary">STATUS : BELUM TERVALIDASI</span>
                                 </div>
                             </div>
                         </div>
@@ -60,57 +37,12 @@ $this->section('content');
                 </div>
             </div>
             <div class="card-body p-3">
-
             </div>
         </div>
     </div>
     <!-- CARD ORDER END -->
-
-    <!-- CARD BATAS WAKTU START -->
-    <!-- <div class="col-lg-5 mt-4 mt-lg-0">
-        <?php 
-        
-        $epoch = time();
-        $currentdate = date_create("@$epoch", new DateTimeZone("UTC"))
-        ->setTimezone(new DateTimeZone("Asia/Jakarta"))->format("Y-m-d");
-        $date_batas = $getSPK[0]->tgl_selesai;
-        date_create($currentdate) > date_create($date_batas) ? $punc = "+" : $punc = '-';
-        $diff = date_diff(date_create($currentdate),date_create($date_batas));
-
-        ?>
-        <div class="card waktu h-100 <?php 
-                if($punc == "+" && $diff->format("%a") > 0) {
-                    echo "bg-gradient-danger";
-                } else if ($punc == '-' && $diff->format("%a") > 7) {
-                    echo "bg-gradient-success";
-                } else if ($punc == '-' && $diff->format("%a") <= 7) { 
-                    echo 'bg-gradient-warning';
-                } ?>
-                
-                py-auto z-index-2">
-            <div class="card-header <?php 
-                if($punc == "+" && $diff->format("%a") > 0) {
-                    echo "bg-gradient-danger";
-                } else if ($punc == '-' && $diff->format("%a") > 7) {
-                    echo "bg-gradient-success";
-                } else if ($punc == '-' && $diff->format("%a") <= 7) { 
-                    echo 'bg-gradient-warning';
-                } 
-                ?> ">
-                <div class="my-auto text-center py-auto">
-                    <h5 class="text-white fw-bolder letter-spacing-2 text-center">BATAS WAKTU</h5>
-                </div>
-                <h4 class="text-white text-center fw-light"><?=$getSPK[0]->tgl_selesai?> |
-                    <?="H".$punc.$diff->format("%a")?>
-                </h4>
-            </div>
-            <div class="card-body p-1">
-
-            </div>
-        </div>
-    </div> -->
-    <!-- CARD BATAS WAKTU END -->
 </div>
+
 
 <!-- TABEL DATA ORDER START -->
 <div class="card mt-4">
@@ -227,7 +159,7 @@ $this->section('content');
                     <tr>
                         <td data-label="Select Data" class="sticky-left stext-dark text-center check-td d-none">
                             <div class="checkbox-wrapper-46">
-                                <input class="shadow inp-cbx" id="cbx-46-<?=$dataOrder['id_do']?>" type="checkbox"
+                                <input class="shadow inp-cbx" id="cbx-46-<?=$dataDeliverOrder['id_do']?>" type="checkbox"
                                     value="<?=$dataDeliverOrder['id_do']?>">
                                 <label class="cbx" for="cbx-46-<?=$dataDeliverOrder['id_do']?>"><span>
                                         <svg width="12px" height="10px" viewbox="0 0 12 10">
@@ -239,7 +171,7 @@ $this->section('content');
                         <td data-label="no" class="text-dark text-center"><?= $no;?></td>
                         <td data-label="no_order" class="text-dark text-center"><?= $dataDeliverOrder['no_order'] ?></td>
                         <td data-label="tangal_kirim" class="sticky-left text-dark text-center">
-                            <?= $dataDeliverOrder['nama_barang'] ?></td>
+                            <?= $dataDeliverOrder['tanggal_kirim'] ?></td>
                         <td data-label="nama_barang_jadi" class="text-dark text-center">
                             <?= $dataDeliverOrder['nama_barang_jadi'] ?></td>
                         <td data-label="bahan" class="text-dark text-center">
@@ -268,7 +200,7 @@ $this->section('content');
                                             data-bahan="<?=$dataDeliverOrder['bahan']?>"
                                             data-total_kirim="<?=$dataDeliverOrder['total_kirim']?>"
                                             data-sisa_kirim="<?=$dataDeliverOrder['sisa_kirim']?>"
-                                            data-keteranganan="<?=$dataDeliverOrder['keteranganan']?>"
+                                            data-keterangan="<?=$dataDeliverOrder['keterangan']?>"
                                             data-catatan="<?=$dataDeliverOrder['catatan']?>"
                                             data-status_persetujuan="<?=$dataDeliverOrder['status_persetujuan']?>"
 
@@ -709,7 +641,7 @@ include "footerjs.php"
             const bahan = $(this).data('bahan');
             const total_kirim = $(this).data('total_kirim');
             const sisa_kirim = $(this).data('sisa_kirim');
-            const keteranganan = $(this).data('keteranganan');
+            const keterangan = $(this).data('keterangan');
             const catatan = $(this).data('catatan');
             const status_persetujuan = $(this).data('status_persetujuan');
 
@@ -720,7 +652,7 @@ include "footerjs.php"
             $('#edit_bahan').val(bahan);
             $('#edit_total_kirim').val(total_kirim);
             $('#edit_sisa_kirim').val(sisa_kirim);
-            $('#edit_keteranganan').val(keteranganan);
+            $('#edit_keterangan').val(keterangan);
             $('#edit_catatan').val(catatan);
             $('#edit_status_persetujuan').val(status_persetujuan);
 

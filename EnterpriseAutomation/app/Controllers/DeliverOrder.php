@@ -28,7 +28,7 @@ class DeliverOrder extends BaseController
            'current_page' => $currentPage,
            'entries' => $perPage,
        ];
-       return view("/pages/deliverOrder", $this->dataDeliverOrder);
+       return view("/pages/delivery-order", $this->dataDeliverOrder);
    }
 
    // METHOD CREATE
@@ -69,7 +69,7 @@ class DeliverOrder extends BaseController
                    'required' => 'Sisa Kirim wajib diisi',
                ]
            ],
-           'keteranganan' => [
+           'keterangan' => [
                'label' => 'Keterangan',
                'rules' => 'required',
                'errors' => [
@@ -100,7 +100,7 @@ class DeliverOrder extends BaseController
                "bahan" => ucwords(strtolower((string)$this->request->getPost('bahan'))),
                "total_kirim" => $this->request->getPost('total_kirim'),
                "sisa_kirim" => $this->request->getPost('sisa_kirim'),
-               "keteranganan" => ucwords(strtolower((string)$this->request->getPost('keteranganan'))),
+               "keterangan" => ucwords(strtolower((string)$this->request->getPost('keterangan'))),
                "catatan" => ucwords(strtolower((string)$this->request->getPost('catatan'))),
                "status_persetujuan" => ucwords(strtolower((string)$this->request->getPost('status_persetujuan'))),
            ]);
@@ -175,7 +175,7 @@ class DeliverOrder extends BaseController
                 'required' => 'Sisa Kirim wajib diisi',
             ]
         ],
-        'edit_keteranganan' => [
+        'edit_keterangan' => [
             'label' => 'Edit Keterangan',
             'rules' => 'required',
             'errors' => [
@@ -206,7 +206,7 @@ class DeliverOrder extends BaseController
             "bahan" => ucwords(strtolower((string)$this->request->getPost('edit_bahan'))),
             "total_kirim" => $this->request->getPost('edit_total_kirim'),
             "sisa_kirim" => $this->request->getPost('edit_sisa_kirim'),
-            "keteranganan" => ucwords(strtolower((string)$this->request->getPost('edit_keteranganan'))),
+            "keterangan" => ucwords(strtolower((string)$this->request->getPost('edit_keterangan'))),
             "catatan" => ucwords(strtolower((string)$this->request->getPost('edit_catatan'))),
             "status_persetujuan" => ucwords(strtolower((string)$this->request->getPost('edit_status_persetujuan'))),
         ]);

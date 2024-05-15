@@ -20,7 +20,7 @@ class DoModel extends Model
         'bahan',
         'total_kirim',
         'sisa_kirim',
-        'keteranganan',
+        'keterangan',
         'catatan',
         'status_persetujuan',
     ];
@@ -30,7 +30,7 @@ class DoModel extends Model
     // terlalu dipikirin
     public function getLastId() {
         $db = db_connect();
-        $query = $db->query('SELECT MAX(id_do) AS lastid FROM spk LIMIT 1;');
+        $query = $db->query('SELECT MAX(id_do) AS lastid FROM do LIMIT 1;');
         $row = $query->getLastRow();
         if (isset($row)) {
             return $row->lastid;
@@ -86,7 +86,7 @@ class DoModel extends Model
             ->orlike('bahan', $keyword)
             ->orlike('total_kirim', $keyword)
             ->orlike('sisa_kirim', $keyword)
-            ->orlike('keteranganan', $keyword)
+            ->orlike('keterangan', $keyword)
             ->orlike('catatan', $keyword)
             ->orlike('status_persetujuan', $keyword);
         } else {
