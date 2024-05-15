@@ -250,7 +250,7 @@ $this->section('content');
                         <div class="mb-1 no_order-div">
                             <label for="" class="text-uppercase form-label">No Order</label>
                             <div class="input-set">
-                                <i class='bx bx-user'></i>
+                                <i class='bx bx-list-ol'></i>
                                 <input type="text" name="no_order" class="form-control" id="no_order"
                                     placeholder="Masukan No Order">
                                 <div class="invalid-feedback"></div>
@@ -268,7 +268,7 @@ $this->section('content');
                         <div class="mb-1 nama_barang_jadi-div">
                             <label for="" class="text-uppercase form-label">Nama Barang Jadi</label>
                             <div class="input-set">
-                                <i class='bx bx-hard-hat'></i>
+                                <i class='bx bxs-package'></i>
                                 <input type="text" name="nama_barang_jadi" class="form-control" id="nama_barang_jadi"
                                     placeholder="Masukkan Nama Barang Jadi">
                                 <div class="invalid-feedback"></div>
@@ -277,7 +277,7 @@ $this->section('content');
                         <div class="mb-1 bahan-div">
                             <label for="" class="text-uppercase form-label">Bahan</label>
                             <div class="input-set">
-                                <i class='bx bx-calendar'></i>
+                                <i class='bx bx-cylinder'></i>
                                 <input type="text" name="bahan" class="form-control" id="bahan"
                                     placeholder="Masukkan Nama Bahan">
                                 <div class="invalid-feedback"></div>
@@ -286,7 +286,7 @@ $this->section('content');
                         <div class="mb-1 total_kirim-div">
                             <label for="" class="text-uppercase form-label">Total Kirim</label>
                             <div class="input-set">
-                                <i class='bx bx-calendar'></i>
+                                <i class='bx bx-package' ></i>
                                 <input type="text" name="total_kirim" class="form-control" id="total_kirim"
                                     placeholder="Masukkan Total Kirim">
                                 <div class="invalid-feedback"></div>
@@ -295,7 +295,7 @@ $this->section('content');
                         <div class="mb-1 sisa_kirim-div">
                             <label for="" class="text-uppercase form-label">Sisa Kirim</label>
                             <div class="input-set">
-                                <i class='bx bx-calendar'></i>
+                                <i class='bx bxs-component' ></i>
                                 <input type="text" name="sisa_kirim" class="form-control" id="sisa_kirim"
                                     placeholder="Masukkan Sisa Kirim">
                                 <div class="invalid-feedback"></div>
@@ -304,7 +304,7 @@ $this->section('content');
                         <div class="mb-1 keterangan-div">
                             <label for="" class="text-uppercase form-label">Keterangan</label>
                             <div class="input-set">
-                                <i class='bx bx-calendar'></i>
+                                <i class='bx bx-notepad' ></i>
                                 <input type="text" name="keterangan" class="form-control" id="keterangan"
                                     placeholder="Masukkan Nama Keterangan">
                                 <div class="invalid-feedback"></div>
@@ -313,7 +313,7 @@ $this->section('content');
                         <div class="mb-1 catatan-div">
                             <label for="" class="text-uppercase form-label">Catatan</label>
                             <div class="input-set">
-                                <i class='bx bx-calendar'></i>
+                                <i class='bx bxs-edit' ></i>
                                 <input type="text" name="catatan" class="form-control" id="catatan"
                                     placeholder="Masukkan Catatan">
                                 <div class="invalid-feedback"></div>
