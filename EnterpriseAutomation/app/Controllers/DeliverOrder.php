@@ -5,14 +5,14 @@ use App\Models\DoModel;
 
 class DeliverOrder extends BaseController
 {
-   protected $deliverOrder;
-   protected $dataDeliverOrder;
-   protected $validation;
+protected $deliverOrder;
+    protected $dataDeliverOrder;
+    protected $validation;
 
-   public function __construct() {
+    public function __construct() {
     $this->deliverOrder = new DoModel();
-       $this->validation = \Config\Services::validation();
-   }
+    $this->validation = \Config\Services::validation();
+    }
 
    public function index() {
        $keyword = $this->request->getVar('keyword') ? $this->request->getVar('keyword') : "";
@@ -28,7 +28,7 @@ class DeliverOrder extends BaseController
            'current_page' => $currentPage,
            'entries' => $perPage,
        ];
-       return view("/pages/delivery-order", $this->dataDeliverOrder);
+       return view("/pages/deliverOrder", $this->dataDeliverOrder);
    }
 
    // METHOD CREATE
@@ -121,7 +121,7 @@ class DeliverOrder extends BaseController
    private function generateNoOrder() {
     // Logic to generate no_order from spk table
     $db = db_connect();
-    $query = $db->query('SELECT MAX(no_order) AS last_order FROM spk LIMIT 1;');
+    $query = $db->query('SELECT MAX(no_order) AS last_order FROM do  LIMIT 1;');
     $row = $query->getLastRow();
     if (isset($row->last_order)) {
         return $row->last_order + 1; 

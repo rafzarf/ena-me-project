@@ -365,7 +365,7 @@ $this->section('content');
             <?=csrf_field()?>
             <div class="modal-content p-3">
                 <div class="modal-header">
-                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Order</h5>
+                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel"> Order</h5>
                     <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
                         <i class='text-dark fs-4 bx bx-x'></i>
                     </button>

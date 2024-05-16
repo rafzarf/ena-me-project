@@ -85,9 +85,6 @@ $this->section('content');
             <table class="table table-hover align-items-center">
                 <thead class="text-xs">
                     <tr>
-                        <th
-                            class="sticky-left check-th d-none text-uppercase text-center text-dark font-weight-bolder opacity-10">
-                        </th>
                         <th class="text-uppercase text-wrap text-center text-dark font-weight-bolder opacity-10">
                             No. 
                         </th>
@@ -114,13 +111,13 @@ $this->section('content');
                     </tr>
                 </thead>
                 <tbody class="text-sm">
-                    <?php $no = 1 + ($entries * ($current_page - 1)); foreach($getDeliverOrder as $dataDeliverOrder){?>
+                    <?php $no = 1 + ($entries * ($current_page - 1)); foreach($getDeliverOrder as $data){?>
                     <tr>
                         <td data-label="Select Data" class="sticky-left stext-dark text-center check-td d-none">
                             <div class="checkbox-wrapper-46">
-                                <input class="shadow inp-cbx" id="cbx-46-<?=$dataDeliverOrder['id_do']?>" type="checkbox"
-                                    value="<?=$dataDeliverOrder['id_do']?>">
-                                <label class="cbx" for="cbx-46-<?=$dataDeliverOrder['id_do']?>"><span>
+                                <input class="shadow inp-cbx" id="cbx-46-<?=$data['id_do']?>" type="checkbox"
+                                    value="<?=$data['id_do']?>">
+                                <label class="cbx" for="cbx-46-<?=$data['id_do']?>"><span>
                                         <svg width="12px" height="10px" viewbox="0 0 12 10">
                                             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                         </svg></span><span class="ps-0"></span>
@@ -128,20 +125,20 @@ $this->section('content');
                             </div>
                         </td>
                         <td data-label="no" class="text-dark text-center"><?= $no;?></td>
-                        <td data-label="no_order" class="text-dark text-center"><?= $dataDeliverOrder['no_order'] ?></td>
+                        <td data-label="no_order" class="text-dark text-center"><?= $data['no_order'] ?></td>
                         <td data-label="tangal_kirim" class="sticky-left text-dark text-center">
-                            <?= $dataDeliverOrder['tanggal_kirim'] ?></td>
+                            <?= $data['tanggal_kirim'] ?></td>
                         <td data-label="nama_barang_jadi" class="text-dark text-center">
-                            <?= $dataDeliverOrder['nama_barang_jadi'] ?></td>
+                            <?= $data['nama_barang_jadi'] ?></td>
                         <td data-label="bahan" class="text-dark text-center">
-                            <?= $dataDeliverOrder['bahan'] ?></td>
-                        <td data-label="total_kirim" class="text-dark text-center"><?= $dataDeliverOrder['total_kirim'] ?></td>
-                        <td data-label="sisa_kirim" class="text-dark text-center"><?= $dataDeliverOrder['sisa_kirim'] ?></td>
+                            <?= $data['bahan'] ?></td>
+                        <td data-label="total_kirim" class="text-dark text-center"><?= $data['total_kirim'] ?></td>
+                        <td data-label="sisa_kirim" class="text-dark text-center"><?= $data['sisa_kirim'] ?></td>
                         <td data-label="keterangan" class="text-dark text-center">
-                            <?= $dataDeliverOrder['keterangan'] ?></td>
-                        <td data-label="catatan" class="text-dark text-center"><?= $dataDeliverOrder['catatan'] ?>
+                            <?= $data['keterangan'] ?></td>
+                        <td data-label="catatan" class="text-dark text-center"><?= $data['catatan'] ?>
                         </td>
-                        <td data-label="Berat(kg)" class="text-dark text-center"><?= $dataDeliverOrder['status_persetujuan'] ?></td>
+                        <td data-label="status_persetujuan" class="text-dark text-center"><?= $data['status_persetujuan'] ?></td>
                         <td data-label="Option" class="text-dark text-center">
                             <div class="btn-group dropstart">
                                 <button class="btn btn-mesin mb-0" type="button" data-bs-toggle="dropdown"
@@ -152,16 +149,16 @@ $this->section('content');
                                     <li class="mb-0">
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal_info"
                                             class="btn-edit dropdown-item"
-                                            data-id_do="<?=$dataDeliverOrder['id_do']?>"
-                                            data-no_order="<?=$dataDeliverOrder['no_order']?>"
-                                            data-tanggal_kirim="<?=$dataDeliverOrder['tanggal_kirim']?>"
-                                            data-nama_barang_jadi="<?=$dataDeliverOrder['nama_barang_jadi']?>"
-                                            data-bahan="<?=$dataDeliverOrder['bahan']?>"
-                                            data-total_kirim="<?=$dataDeliverOrder['total_kirim']?>"
-                                            data-sisa_kirim="<?=$dataDeliverOrder['sisa_kirim']?>"
-                                            data-keterangan="<?=$dataDeliverOrder['keterangan']?>"
-                                            data-catatan="<?=$dataDeliverOrder['catatan']?>"
-                                            data-status_persetujuan="<?=$dataDeliverOrder['status_persetujuan']?>">
+                                            data-id_do="<?=$data['id_do']?>"
+                                            data-no_order="<?=$data['no_order']?>"
+                                            data-tanggal_kirim="<?=$data['tanggal_kirim']?>"
+                                            data-nama_barang_jadi="<?=$data['nama_barang_jadi']?>"
+                                            data-bahan="<?=$data['bahan']?>"
+                                            data-total_kirim="<?=$data['total_kirim']?>"
+                                            data-sisa_kirim="<?=$data['sisa_kirim']?>"
+                                            data-keterangan="<?=$data['keterangan']?>"
+                                            data-catatan="<?=$data['catatan']?>"
+                                            data-status_persetujuan="<?=$data['status_persetujuan']?>">
                                             <div class="row mt-2">
                                                 <div class="col-auto">
                                                     <i class='fs-4 text-center bx bxs-info-circle 
@@ -181,7 +178,7 @@ $this->section('content');
                                         </a>
                                     </li>
                                     <li class="mb-0">
-                                        <a href="#" data-href="/DeliverOrder/deleteDeliverOrder/<?= $dataDeliverOrder['id_do']?>"
+                                        <a href="#" data-href="/DeliverOrder/deleteDeliverOrder/<?= $data['id_do']?>"
                                             data-bs-toggle="modal" data-bs-target="#confirm-delete"
                                             class="dropdown-item">
                                             <div class="row mt-2">
@@ -323,10 +320,10 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 status_persetujuan-div">
-                            <label for="disetujui" class="text-uppercase form-label">Disetujui</label>
+                            <label for="status_persetujuan" class="text-uppercase form-label">Disetujui</label>
                             <div class="input-set">
                                 <i class='bx bx-user-check'></i>
-                                <select name="disetujui" class="form-select" id="disetujui">
+                                <select name="status_persetujuan" class="form-select" id="status_persetujuan">
                                 <option value="approved">Approved</option>
                                 <option value="pending">Pending</option>
                                 <option value="rejected">Rejected</option>
@@ -568,7 +565,7 @@ $this->section('content');
 
 <div class="modal fade" id="validation_modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST" id="validate-form" data-url="<?=base_url().'Spk/validateSPK'?>">
+        <form method="POST" id="validate-form" data-url="<?=base_url().'DeliverOrder/validateDeliverOrder'?>">
         <?=csrf_field()?>
             <div class="modal-content p-3">
                 <div class="modal-header">
