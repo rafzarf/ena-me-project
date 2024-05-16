@@ -303,12 +303,9 @@ $this->section('content');
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
+                        <input type="hidden" name="curr_tab" class="curr_tab">
+                        <input type="hidden" name="end_tab" class="end_tab">
                     </div>
-                    <!-- verification untuk submit only ketika sudah mencapai tab akhir, perlu buat
-                        form input yg non mandatory -->
-                    <input type="hidden" name="curr_tab" class="curr_tab">
-                    <input type="hidden" name="end_tab" class="end_tab">
-
                 </div>
                 <div class="modal-footer">
                     <div class="row w-100 m-0">
@@ -328,8 +325,10 @@ $this->section('content');
                         </div>
                     </div>
                 </div>
-        </form>
+            </div>
     </div>
+    </form>
+</div>
 </div>
 <!-- CREATE MODAL END -->
 
