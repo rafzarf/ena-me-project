@@ -1,23 +1,27 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\OrderModel;
 use App\Models\SpkModel;
 use Dompdf\Dompdf;
 
-class Order extends BaseController {
+class Order extends BaseController
+{
     protected $order;
     protected $dataOrder;
     protected $spk;
     protected $validation;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->order = new OrderModel();
         $this->spk = new SpkModel();
         $this->validation = \Config\Services::validation();
     }
 
-    public function index($id) {
+    public function index($id)
+    {
         $keyword = $this->request->getVar('keyword') ? $this->request->getVar('keyword') : "";
         $currentPage = $this->request->getVar('page') ? $this->request->getVar('page') : 1;
         $perPage = $this->request->getVar('entries') ? $this->request->getVar('entries') : 5;
@@ -25,7 +29,7 @@ class Order extends BaseController {
         $dataOrder = [
             'title' => 'Order',
             'nav_active' => 2,
-            'getOrder' => $this->order->search($keyword,$no_spk)->paginate($perPage),
+            'getOrder' => $this->order->search($keyword, $no_spk)->paginate($perPage),
             'pager' => $this->order->pager,
             'current_page' => $currentPage,
             'entries' => $perPage,
@@ -34,7 +38,8 @@ class Order extends BaseController {
         return view("/pages/order", $dataOrder);
     }
 
-    public function createOrder() {
+    public function createOrder()
+    {
         $this->validation->setRules([
             'pengorder' => [
                 'label' => 'Pemesan',
@@ -162,14 +167,14 @@ class Order extends BaseController {
                     'required' => 'Nomor SPK wajib diisi',
                 ]
             ],
-             // verification submit only pada tab terakhir
+            // verification submit only pada tab terakhir
             'curr_tab' => [
                 'label' => 'Tab Validation',
                 'rules' => 'matches[end_tab]',
             ],
-        ]); 
-        $isDataValid = $this->validation->withRequest($this->request)->run(); 
-        if($isDataValid){
+        ]);
+        $isDataValid = $this->validation->withRequest($this->request)->run();
+        if ($isDataValid) {
             $this->order->insert([
                 'pemesan' => ucwords(strtolower((string)$this->request->getPost('pengorder'))),
                 'tanggal_created' => $this->request->getPost('tgl_created'),
@@ -191,15 +196,16 @@ class Order extends BaseController {
                 'record_order' => $this->request->getPost('record_order'),
                 'catatan' => ucfirst(strtolower((string)$this->request->getPost('catatan'))),
                 'no_spk' => $this->request->getPost('no_spk')
-            ]); 
+            ]);
             $data = ['success' => true];
             return $this->response->setJSON($data);
         } else {
-            return $this->response->setJSON($this->validation->getErrors()); 
+            return $this->response->setJSON($this->validation->getErrors());
         }
     }
 
-    public function editOrder() {
+    public function editOrder()
+    {
         $id = $this->request->getPost('edit_id_orderlog');
         $this->validation->setRules([
             'edit_pengorder' => [
@@ -323,7 +329,7 @@ class Order extends BaseController {
             // ],
         ]);
         $isDataValid = $this->validation->withRequest($this->request)->run();
-        if($isDataValid){
+        if ($isDataValid) {
             $this->order->update($id, [
                 'pemesan' => ucwords(strtolower((string)$this->request->getPost('edit_pengorder'))),
                 'tanggal_created' => $this->request->getPost('edit_tgl_created'),
@@ -348,26 +354,29 @@ class Order extends BaseController {
             $data = ['success' => true];
             return $this->response->setJSON($data);
         } else {
-            return $this->response->setJSON($this->validation->getErrors()); 
+            return $this->response->setJSON($this->validation->getErrors());
         }
     }
 
     //METHOD DELETE & MULTIPLE DELETE
-    public function deleteOrder($id) {
+    public function deleteOrder($id)
+    {
         $this->order->delete($id);
-        session()->setFlashdata('del_msg','success');
+        session()->setFlashdata('del_msg', 'success');
         return redirect()->back();
     }
 
-    public function bulkDelOrder($id) {
+    public function bulkDelOrder($id)
+    {
         $arrIds = explode(",", $id);
         $this->order->multipleDelete($arrIds);
-        session()->setFlashdata('del_msg','success');
+        session()->setFlashdata('del_msg', 'success');
         return redirect()->back();
     }
 
     //METHOD VALIDATE
-    public function validateSPK($id) {
+    public function validateSPK($id)
+    {
         $this->validation->setRules([
             'validation' => [
                 'label' => 'Validasi',
@@ -379,20 +388,20 @@ class Order extends BaseController {
             ],
         ]);
         $isDataValid = $this->validation->withRequest($this->request)->run();
-        if($isDataValid){
+        if ($isDataValid) {
             $this->spk->update($id, [
                 'gbr_kerja' => $this->request->getPost('validation'),
             ]);
             $data = ['success' => true];
             return $this->response->setJSON($data);
         } else {
-            return $this->response->setJSON($this->validation->getErrors()); 
+            return $this->response->setJSON($this->validation->getErrors());
         }
     }
 
     public function GeneratePdfOrder()
     {
-        $filename = date('y-m-d-H-i-s'). '-Form_Order_ME';
+        $filename = date('y-m-d-H-i-s') . '-Form_Order_ME';
 
         $HTML = "";
 
