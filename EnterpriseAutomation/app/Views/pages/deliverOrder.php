@@ -215,11 +215,11 @@ $this->section('content');
 <!-- MODAL CREATE START -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" id="create-form" data-url="<?= base_url() . 'Order/createOrder' ?>">
+        <form method="post" id="create-form" data-url="<?= base_url() . 'DeliverOrder/createDeliverOrder' ?>">
             <?= csrf_field() ?>
             <div class="modal-content p-3">
                 <div class="modal-header">
-                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Order</h5>
+                    <h5 class="text-dark fw-bolder modal-title" id="exampleModalLabel">Tambah Delivery Order</h5>
                     <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
                         <i class='text-dark fs-4 bx bx-x'></i>
                     </button>
