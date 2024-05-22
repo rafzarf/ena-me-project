@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\DoModel;
+use function ucwords;
 
 class DeliverOrder extends BaseController
 {
@@ -137,15 +138,15 @@ class DeliverOrder extends BaseController
 
     public function editDeliverOrder()
     {
-        $id = $this->request->getPost('id');
+        $id = $this->request->getPost('id_do');
         $this->validation->setRules([
-            'id' => [
-                'label' => 'ID',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'ID wajib diisi',
-                ]
-            ],
+            // 'id_do' => [
+            //     'label' => 'ID DO',
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'ID DO wajib diisi',
+            //     ]
+            // ],
             'edit_no_order' => [
                 'label' => 'Edit Nomor Order',
                 'rules' => 'required',
@@ -247,27 +248,27 @@ class DeliverOrder extends BaseController
         return redirect()->back();
     }
 
-    // METHOD VALIDATE
-    public function validateDeliverOrder($id)
-    {
-        $this->validation->setRules([
-            'status_persetujuan' => [
-                'label' => 'Status Persetujuan',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Status Persetujuan wajib diisi',
-                ]
-            ],
-        ]);
-        $isDataValid = $this->validation->withRequest($this->request)->run();
-        if ($isDataValid) {
-            $this->deliverOrder->update($id, [
-                'status_persetujuan' => ucwords(strtolower((string)$this->request->getPost('status_persetujuan'))),
-            ]);
-            $data = ['success' => true];
-            return $this->response->setJSON($data);
-        } else {
-            return $this->response->setJSON($this->validation->getErrors());
-        }
-    }
+    // // METHOD VALIDATE
+    // public function validateDeliverOrder($id)
+    // {
+    //     $this->validation->setRules([
+    //         'status_persetujuan' => [
+    //             'label' => 'Status Persetujuan',
+    //             'rules' => 'required',
+    //             'errors' => [
+    //                 'required' => 'Status Persetujuan wajib diisi',
+    //             ]
+    //         ],
+    //     ]);
+    //     $isDataValid = $this->validation->withRequest($this->request)->run();
+    //     if ($isDataValid) {
+    //         $this->deliverOrder->update($id, [
+    //             'status_persetujuan' => ucwords(strtolower((string)$this->request->getPost('status_persetujuan'))),
+    //         ]);
+    //         $data = ['success' => true];
+    //         return $this->response->setJSON($data);
+    //     } else {
+    //         return $this->response->setJSON($this->validation->getErrors());
+    //     }
+    // }
 }

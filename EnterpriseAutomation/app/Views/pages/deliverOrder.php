@@ -161,7 +161,7 @@ $this->section('content');
                                             </a>
                                         </li>
                                         <li class="mb-0">
-                                            <a href="#" data-href="/DeliverOrder/deleteDeliverOrder/<?= $data['id_do'] ?>" data-bs-toggle="modal" data-bs-target="#confirm-delete" class="dropdown-item">
+                                            <a href="#" data-href="/DeliverOrder/deleteDeliverOrder/<?= $data['no_order'] ?>" data-bs-toggle="modal" data-bs-target="#confirm-delete" class="dropdown-item">
                                                 <div class="row mt-2">
                                                     <div class="col-auto">
                                                         <i class='fs-4 bx bxs-trash px-2 py-1 btn bg-gradient-danger'></i>
@@ -227,7 +227,7 @@ $this->section('content');
                 <div class="modal-body">
                     <div class="tab">
                         <div class="mb-1 no_order-div">
-                            <label for="" class="text-uppercase form-label">No Order</label>
+                            <label for="no_order" class="text-uppercase form-label">No Order</label>
                             <div class="input-set">
                                 <i class='bx bx-list-ol'></i>
                                 <input type="text" name="no_order" class="form-control" id="no_order" placeholder="Masukan No Order">
@@ -235,7 +235,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 tanggal_kirim-div">
-                            <label for="" class="text-uppercase form-label">Tanggal Kirim</label>
+                            <label for="tanggal_kirim" class="text-uppercase form-label">Tanggal Kirim</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
                                 <input type="text" name="tanggal_kirim" class="dateselect form-control" id="tanggal_kirim" placeholder="Masukkan Tanggal (YYYY/MM/DD)">
@@ -243,7 +243,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 nama_barang_jadi-div">
-                            <label for="" class="text-uppercase form-label">Nama Barang Jadi</label>
+                            <label for="nama_barang_jadi" class="text-uppercase form-label">Nama Barang Jadi</label>
                             <div class="input-set">
                                 <i class='bx bxs-package'></i>
                                 <input type="text" name="nama_barang_jadi" class="form-control" id="nama_barang_jadi" placeholder="Masukkan Nama Barang Jadi">
@@ -251,7 +251,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 bahan-div">
-                            <label for="" class="text-uppercase form-label">Bahan</label>
+                            <label for="bahan" class="text-uppercase form-label">Bahan</label>
                             <div class="input-set">
                                 <i class='bx bx-cylinder'></i>
                                 <input type="text" name="bahan" class="form-control" id="bahan" placeholder="Masukkan Nama Bahan">
@@ -259,7 +259,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 total_kirim-div">
-                            <label for="" class="text-uppercase form-label">Total Kirim</label>
+                            <label for="total_kirim" class="text-uppercase form-label">Total Kirim</label>
                             <div class="input-set">
                                 <i class='bx bx-package'></i>
                                 <input type="text" name="total_kirim" class="form-control" id="total_kirim" placeholder="Masukkan Total Kirim">
@@ -269,7 +269,7 @@ $this->section('content');
                     </div>
                     <div class="tab">
                         <div class="mb-1 sisa_kirim-div">
-                            <label for="" class="text-uppercase form-label">Sisa Kirim</label>
+                            <label for="sisa_kirim" class="text-uppercase form-label">Sisa Kirim</label>
                             <div class="input-set">
                                 <i class='bx bxs-component'></i>
                                 <input type="text" name="sisa_kirim" class="form-control" id="sisa_kirim" placeholder="Masukkan Sisa Kirim">
@@ -277,7 +277,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 keterangan-div">
-                            <label for="" class="text-uppercase form-label">Keterangan</label>
+                            <label for="keterangan" class="text-uppercase form-label">Keterangan</label>
                             <div class="input-set">
                                 <i class='bx bx-notepad'></i>
                                 <input type="text" name="keterangan" class="form-control" id="keterangan" placeholder="Masukkan Nama Keterangan">
@@ -285,7 +285,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 catatan-div">
-                            <label for="" class="text-uppercase form-label">Catatan</label>
+                            <label for="catatan" class="text-uppercase form-label">Catatan</label>
                             <div class="input-set">
                                 <i class='bx bxs-edit'></i>
                                 <input type="text" name="catatan" class="form-control" id="catatan" placeholder="Masukkan Catatan">
@@ -333,48 +333,7 @@ $this->section('content');
 <!-- CREATE MODAL END -->
 
 <!-- MODAL VALIDATION START -->
-<div class="modal fade" id="validation_modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <form method="POST" id="validate-form" data-url="<?= base_url() . 'DeliverOrder/validateDeliverOrder' ?>">
-            <?= csrf_field() ?>
-            <div class=" modal-content p-3">
-                <div class="modal-header">
-                    <h5 class="modal-title text-dark fw-bolder" id="myModalLabel">Validasi</h5>
-                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
-                        <i class='text-dark fs-4 bx bx-x'></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="bg-polman text-white p-3 rounded-2 text-sm">Validasi diperlukan untuk melakukan ACC pada
-                        Project,
-                        silahkan lampirkan link gambar kerja. Link dapat berupa link google drive.</p>
-                    <div class="tab_valid">
-                        <div class="mb-1 validation-div">
-                            <label for="" class="text-uppercase form-label">Link Gambar Kerja</label>
-                            <div class="input-set">
-                                <i class='bx bx-link'></i>
-                                <a anim="ripple" target="_blank" type="button" class="arrowicon btn m-0">
-                                    <i class='text-white fs-6 bx bx-link-external'></i>
-                                </a>
-                                <input type="text" id="validation" class="form-control" placeholder="Masukkan Link Gambar Kerja Disini" name="validation">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="row w-100">
-                            <div class="col text-start">
-                            </div>
-                            <div class="col pe-0 text-end">
-                                <button anim="ripple" type="button" class="btn btn-secondary m-0 me-2" id="prevBtn_valid">Previous</button>
-                                <button anim="ripple" type="button" class="btn btn-info m-0" id="nextBtn_valid">Next</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </form>
-    </div>
-</div>
+
 
 <!-- MODAL VALIDATION END -->
 
@@ -408,7 +367,7 @@ $this->section('content');
             <?= csrf_field() ?>
             <div class="modal-content p-3">
                 <div class="modal-header">
-                    <h5 class="modal-title text-dark fw-bolder" id="">Info Delivery Order</h5>
+                    <h5 class="modal-title text-dark fw-bolder" id="">Info Deliver Order</h5>
                     <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
                         <i class='text-dark fs-4 bx bx-x'></i>
                     </button>
@@ -416,15 +375,15 @@ $this->section('content');
                 <div class="modal-body">
                     <div class="tab_edit">
                         <div class="mb-1 edit_no_order-div">
-                            <label for="" class="text-uppercase form-label">No Order</label>
+                            <label for="edit_no_order" class="text-uppercase form-label">No Order</label>
                             <div class="input-set">
                                 <i class='bx bx-user'></i>
-                                <input type="text" name="edit_no_order" class="form-control" id="edit_no_order" placeholder="Masukan No Order">
+                                <input type="text" name="edit_no_order" class="form-control" id="edit_no_order" placeholder="Masukan No Order" readonly>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="mb-1 edit_tanggal_kirim-div">
-                            <label for="" class="text-uppercase form-label">Tanggal Kirim</label>
+                            <label for="edit_tanggal_kirim" class="text-uppercase form-label">Tanggal Kirim</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
                                 <input type="text" name="edit_tanggal_kirim" class="dateselect form-control" id="edit_tanggal_kirim" placeholder="Masukkan Tanggal (YYYY/MM/DD)">
@@ -432,7 +391,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 edit_nama_barang_jadi-div">
-                            <label for="" class="text-uppercase form-label">Nama Barang Jadi</label>
+                            <label for="edit_nama_barang_jadi" class="text-uppercase form-label">Nama Barang Jadi</label>
                             <div class="input-set">
                                 <i class='bx bx-hard-hat'></i>
                                 <input type="text" name="edit_nama_barang_jadi" class="form-control" id="edit_nama_barang_jadi" placeholder="Masukkan Nama Barang Jadi">
@@ -440,17 +399,18 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 edit_bahan-div">
-                            <label for="" class="text-uppercase form-label">Bahan</label>
+                            <label for="edit_bahan" class="text-uppercase form-label">Bahan</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
                                 <input type="text" name="edit_bahan" class="form-control" id="edit_bahan" placeholder="Masukkan Nama Bahan">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
+                        <input type="hidden" name="id_do" id="id_do">
                     </div>
                     <div class="tab_edit">
                         <div class="mb-1 edit_total_kirim-div">
-                            <label for="" class="text-uppercase form-label">Total Kirim</label>
+                            <label for="edit_total_kirim" class="text-uppercase form-label">Total Kirim</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
                                 <input type="text" name="edit_total_kirim" class="form-control" id="edit_total_kirim" placeholder="Masukkan Total Kirim">
@@ -458,7 +418,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 edit_sisa_kirim-div">
-                            <label for="" class="text-uppercase form-label">Sisa Kirim</label>
+                            <label for="edit_sisa_kirim" class="text-uppercase form-label">Sisa Kirim</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
                                 <input type="text" name="edit_sisa_kirim" class="form-control" id="edit_sisa_kirim" placeholder="Masukkan Sisa Kirim">
@@ -466,7 +426,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 edit_keterangan-div">
-                            <label for="" class="text-uppercase form-label">Keterangan</label>
+                            <label for="edit_keterangan" class="text-uppercase form-label">Keterangan</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
                                 <input type="text" name="edit_keterangan" class="form-control" id="edit_keterangan" placeholder="Masukkan Nama Keterangan">
@@ -474,7 +434,7 @@ $this->section('content');
                             </div>
                         </div>
                         <div class="mb-1 edit_catatan-div">
-                            <label for="" class="text-uppercase form-label">Catatan</label>
+                            <label for="edit_catatan" class="text-uppercase form-label">Catatan</label>
                             <div class="input-set">
                                 <i class='bx bx-calendar'></i>
                                 <input type="text" name="edit_catatan" class="form-control" id="edit_catatan" placeholder="Masukkan Catatan">
@@ -502,14 +462,14 @@ $this->section('content');
                                 <p class="d-flex fw-bold my-auto ">1/</p>
                                 <span class="d-flex fw-bold mt-2 my-auto text-xs">
                                     <script type="text/javascript">
-                                        document.write(document.querySelectorAll(".tab").length)
+                                        document.write(document.querySelectorAll(".tab_edit").length)
                                     </script>
                                 </span>
                             </div>
                         </div>
                         <div class="col p-0 text-end">
-                            <button anim="ripple" type="button" class="btn m-0 btn-light text-sm me-2" id="prevBtn">Back</button>
-                            <button anim="ripple" type="button" class="btn m-0 btn-info" id="nextBtn">Next</button>
+                            <button anim="ripple" type="button" class="btn m-0 btn-light text-sm me-2" id="prevBtn_edit">Back</button>
+                            <button anim="ripple" type="button" class="btn m-0 btn-info" id="nextBtn_edit">Next</button>
                         </div>
                     </div>
                 </div>
@@ -519,7 +479,12 @@ $this->section('content');
 </div>
 
 
+
+
+
 <!-- call generic js file -->
+
+
 
 <?php
 
@@ -528,13 +493,6 @@ include "footerjs.php"
 ?>
 
 <script>
-    let arrlength = $(".status_validate").data('valid').length;
-    if (arrlength > 0) {
-        $(".status_validate span").html("STATUS : TERVALIDASI").addClass('bg-gradient-success');
-    } else {
-        $(".status_validate span").html("STATUS : BELUM TERVALIDASI").addClass('bg-gradient-secondary');
-    }
-
     $(document).ready(function() {
         //modal validation
         $('#validation_modal').on('show.bs.modal', function(e) {
@@ -551,6 +509,7 @@ include "footerjs.php"
         });
 
         $('.btn-edit').on('click', function() {
+            const id = $(this).data('id_do');
             const no_order = $(this).data('no_order');
             const tanggal_kirim = $(this).data('tanggal_kirim');
             const nama_barang_jadi = $(this).data('nama_barang_jadi');
@@ -562,6 +521,7 @@ include "footerjs.php"
             const status_persetujuan = $(this).data('status_persetujuan');
 
             // Set data to Form Edit
+            $('#edit_id_do').val(id);
             $('#edit_no_order').val(no_order);
             $('#edit_tanggal_kirim').val(tanggal_kirim);
             $('#edit_nama_barang_jadi').val(nama_barang_jadi);

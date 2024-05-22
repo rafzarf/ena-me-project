@@ -54,15 +54,15 @@ class DoModel extends Model
     public function getDetailbyDo($do)
     {
         return $this->table('$this->table')
-            ->where('no_do', $do)
+            ->where('no_order', $do)
             ->get()->getResult();
     }
 
-    public function getID($no_do)
+    public function getID($no_order)
     {
         return $this->table('$this->table')
             ->select('id_do')
-            ->where('no_do', $no_do)
+            ->where('no_order', $no_order)
             ->get()->getResult();
     }
 
@@ -73,7 +73,7 @@ class DoModel extends Model
     public function getUniqueKeyDo()
     {
         return $this->table('$this->table')
-            ->select('no_do')
+            ->select('no_order')
             ->get()->getResult();
     }
 

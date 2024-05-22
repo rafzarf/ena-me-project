@@ -302,7 +302,7 @@ INSERT INTO `worker` (`id_worker`, `Username`, `Password`, `Name`, `Role`, `prof
 --
 ALTER TABLE `do`
   ADD PRIMARY KEY (`id_do`),
-  ADD KEY `no_order` (`no_order`);
+  ADD UNIQUE KEY `no_order` (`no_order`);
 
 --
 -- Indeks untuk tabel `form_order_logistik`
@@ -378,7 +378,7 @@ ALTER TABLE `worker`
 -- AUTO_INCREMENT untuk tabel `do`
 --
 ALTER TABLE `do`
-  MODIFY `id_do` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_do` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT untuk tabel `form_order_logistik`
