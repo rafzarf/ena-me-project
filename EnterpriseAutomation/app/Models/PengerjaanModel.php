@@ -21,6 +21,7 @@ class PengerjaanModel extends Model
         'jml_barang',
         'wkt_pengerjaan',
         'pelaksana',
+        'qc_img',
     ];
 
     public function getIDbyProses($id) {
@@ -87,4 +88,11 @@ class PengerjaanModel extends Model
         ->get()->getResult();
     }
 
+    public function hasQC($spk) {
+        return $this->table('$this->table')
+        ->select()
+        ->where('no_spk' , $spk)
+        ->where('qc_img !=', NULL)
+        ->get()->getResult();
+    }
 }

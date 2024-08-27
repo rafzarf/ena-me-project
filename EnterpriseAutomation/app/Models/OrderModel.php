@@ -66,4 +66,10 @@ class OrderModel extends Model {
         ->whereIn($this->primaryKey, $id)
         ->delete();
     }
+
+    public function countOrder() {
+        return $this->table('$this->table')
+        ->where('tgl_penerima AND nama_penerima !=', NULL)
+        ->countAllResults();
+    }
 }

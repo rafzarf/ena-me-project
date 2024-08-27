@@ -125,8 +125,9 @@ class Permesinan extends BaseController
             ],
             'edit_gambar_mesin' => [
                 'label' => 'Edit Gambar Mesin',
-                'rules' => 'max_size[edit_gambar_mesin,1024]|is_image[edit_gambar_mesin]|mime_in[edit_gambar_mesin,image/jpg,image/jpeg,image/png]',
+                'rules' => 'uploaded[edit_gambar_mesin]max_size[edit_gambar_mesin,1024]|is_image[edit_gambar_mesin]|mime_in[edit_gambar_mesin,image/jpg,image/jpeg,image/png]',
                 'errors' => [
+                    'uploaded' => 'Wajib mengupload file gambar mesin',
                     'max_size' => 'Ukuran Gambar tidak boleh lebih besar dari 1MB',
                     'is_image' => 'File tidak valid. File bukan merupakan File img / gambar',
                     'mime_in' => 'Format file tidak valid. File harus berformat .jpg, .jpeg, dan .png,',
@@ -228,32 +229,60 @@ class Permesinan extends BaseController
         $mesin = $this->request->getPost('nama_mesin');
         $start = $this->pengerjaan->getStartHour($id_proses);
         $startHour = $start[0]->tgl_mulai;
-
-        $datetime1 = new \DateTime((string)$startHour);
-        $datetime2 = new \DateTime((string)$this->datenow->format('Y-m-d H:i:s'));
-        $difference = $datetime1->diff($datetime2); 
-        $timestr = $difference->format('%h:%i:%s'); 
-        $parts = explode(':', $timestr);
-        $seconds = ($parts[0] * 60 * 60) + ($parts[1] * 60) + $parts[2];
-        $hour = $seconds / 3600;
-
+        $datetime1 = strtotime((string)$startHour);
+        $datetime2 = strtotime((string)$this->datenow->format('Y-m-d H:i:s'));
+        $difference = abs($datetime2 - $datetime1) / 3600;
         $dataHour = [
-            'total_jam' => $hour,
+            'total_jam' => $difference,
         ];
 
-        $this->mesin->saveHour($mesin, $dataHour);
-
-        $this->pengerjaan->update($id_pengerjaan, [
-            'tgl_selesai' => $this->datenow->format('Y-m-d H:i:s'),
-            'status' => ucwords(strtolower((string)$status)),
-        ]);
-
-        $this->proses->update($id_proses, [
-            'status' => ucwords(strtolower((string)$status)),
-        ]);
+        if($mesin === "Quality Control") {
+            $this->validation->setRules([
+                'gambar_qc' => [
+                    'label' => 'Gambar Quality Control',
+                    'rules' => 'uploaded[gambar_qc]|max_size[gambar_qc,1024]|is_image[gambar_qc]|mime_in[gambar_qc,image/jpg,image/jpeg,image/png]',
+                    'errors' => [
+                        'uploaded' => 'Gambar Qualitiy Control Harus Diisi !',
+                        'max_size' => 'Ukuran Gambar tidak boleh lebih besar dari 1MB',
+                        'is_image' => 'File tidak valid. File bukan merupakan File img / gambar',
+                        'mime_in' => 'Format file tidak valid. File harus berformat .jpg, .jpeg, dan .png,',
+                    ]
+                ],
+            ]);
+            $isDataValid = $this->validation->withRequest($this->request)->run();
+            if($isDataValid){
+                $getqcimg = $this->request->getFile('gambar_qc');
+                $getqcimg->move('assets/img');
+                $this->mesin->saveHour($mesin, $dataHour);
+                $this->pengerjaan->update($id_pengerjaan, [
+                    'tgl_selesai' => $this->datenow->format('Y-m-d H:i:s'),
+                    'status' => ucwords(strtolower((string)$status)),
+                    'qc_img' => $getqcimg->getName(),
+                ]);
+                $this->proses->update($id_proses, [
+                    'status' => ucwords(strtolower((string)$status)),
+                ]);
+                $data = ['success' => true];
+                return $this->response->setJSON($data);
+            } else {
+                return $this->response->setJSON($this->validation->getErrors()); 
+            }
+        } else {
+            $this->mesin->saveHour($mesin, $dataHour);
+            $this->pengerjaan->update($id_pengerjaan, [
+                'tgl_selesai' => $this->datenow->format('Y-m-d H:i:s'),
+                'status' => ucwords(strtolower((string)$status)),
+            ]);
+            $this->proses->update($id_proses, [
+                'status' => ucwords(strtolower((string)$status)),
+            ]);
+            $data = ['success' => true];
+            return $this->response->setJSON($data);
+        }
         
-        session()->setFlashdata('stop_msg','success');
-        return redirect()->back();
+        
+        // session()->setFlashdata('stop_msg','success');
+        // return redirect()->back();
     }
 
     public function SaveWorker() {

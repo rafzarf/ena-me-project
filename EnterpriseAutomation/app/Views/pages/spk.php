@@ -191,7 +191,7 @@ $this->section('content');
                                             <div class="row mt-2">
                                                 <div class="col-auto">
                                                     <i class='fs-4 text-center bx bxs-info-circle 
-                                            btn bg-gradient-info px-2 py-1'></i>
+                                            btn bg-gradient-info px-2 py-1 fw-lighter'></i>
                                                 </div>
                                                 <div class="col-8 ps-0 text-wrap">
                                                     <div class="d-flex flex-column justify-content-center">
@@ -211,7 +211,7 @@ $this->section('content');
                                             <div class="row mt-2">
                                                 <div class="col-auto">
                                                     <i
-                                                        class='fs-4 bx bxs-cart-alt btn bg-gradient-info px-2 py-1 text-center'></i>
+                                                        class='fs-4 fw-lighter bx bxs-cart-alt btn bg-gradient-info px-2 py-1 text-center'></i>
                                                 </div>
                                                 <div class="col-8 ps-0 text-wrap">
                                                     <div class="d-flex flex-column justify-content-center">
@@ -230,7 +230,7 @@ $this->section('content');
                                         <a href="/proses/<?=$dataSPK['id_spk']?>" class="dropdown-item">
                                             <div class="row mt-2">
                                                 <div class="col-auto">
-                                                    <i class='fs-4 bx bxs-pie-chart-alt-2 text-center 
+                                                    <i class='fs-4 bx bxs-pie-chart-alt-2 fw-lighter text-center 
                                                     btn bg-gradient-warning py-1 px-2'></i>
                                                 </div>
                                                 <div class="col-8 ps-0 text-wrap">
@@ -247,12 +247,32 @@ $this->section('content');
                                         </a>
                                     </li>
                                     <li class="mb-0">
+                                        <a href="/DeliveryOrder/<?=$dataSPK['id_spk']?>" class="dropdown-item">
+                                            <div class="row mt-2">
+                                                <div class="col-auto">
+                                                    <i class='fs-4 bx bxs-truck text-center 
+                                                    btn bg-gradient-polman text-white fw-lighter py-1 px-2'></i>
+                                                </div>
+                                                <div class="col-8 ps-0 text-wrap">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm text-dark fw-bold mb-1">
+                                                            Delivery Order
+                                                        </h6>
+                                                        <p class="text-xs text-wob text-dark mb-0 ">
+                                                            Tampilkan DO
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mb-0">
                                         <a href="#" data-href="/Spk/deleteSPK/<?=$dataSPK['id_spk']?>"
                                             data-bs-toggle="modal" data-bs-target="#confirm-delete"
                                             class="dropdown-item">
                                             <div class="row mt-2">
                                                 <div class="col-auto">
-                                                    <i class='fs-4 bx bxs-trash px-2 py-1 btn bg-gradient-danger'></i>
+                                                    <i class='fs-4 bx bxs-trash px-2 py-1 btn fw-lighter bg-gradient-danger'></i>
                                                 </div>
                                                 <div class="col-8 ps-0 text-wrap">
                                                     <div class="d-flex flex-column justify-content-center">

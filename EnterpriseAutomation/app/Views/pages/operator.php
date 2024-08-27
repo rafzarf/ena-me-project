@@ -153,6 +153,7 @@ foreach($getPengerjaan as $dataPengerjaan){
                                 if($dataPengerjaan['status'] == "Menunggu") { echo 'btn-info';} else if($dataPengerjaan['status'] == "Diproses") { echo "btn-warning";} 
                                 else if($dataPengerjaan['status'] == "Selesai") { echo "btn-success";}
                                 echo '">'.$dataPengerjaan['status'].'</button></li>
+                                
                                 <form method="post" id="start_machining_form" action="'.base_url()."Permesinan/StartMachining".'">
                                 <?=csrf_field()?>
                                 <input type="hidden" name="id_start" id="id_start" value="'.$dataPengerjaan['id_pengerjaan'].'">
@@ -160,19 +161,29 @@ foreach($getPengerjaan as $dataPengerjaan){
                                 <input type="hidden" name="id_proses_start" id="id_proses_start" value="'.$dataPengerjaan['id_prosesstart'].'">
                                 <input type="hidden" name="status" id="status" value="Diproses">
                                 <li><button type="submit" class="text-uppercase my-2 w-100 btn btn-polman btn-start ';
-                                if($dataPengerjaan['status'] == "Diproses" || $dataPengerjaan['status'] == "Selesai" || !$dataPengerjaan['pelaksana']) { echo 'disabled';} 
-                                echo '">Mulai</button></li>
+                                if($dataPengerjaan['status'] == "Diproses" || $dataPengerjaan['status']=="Selesai" ||
+                                !$dataPengerjaan['pelaksana']) { echo 'disabled' ;} echo '">Mulai</button></li>
                                 </form>
-
-                                <form method="post" id="stop_machining_form" action="'.base_url()." Permesinan/StopMachining".'">
-                                <?=csrf_field()?> 
+                                
+                                <form method="post" enctype="multipart/form-data" class="stop_form" id="stop_machining_form" data-url="'.base_url()."Permesinan/StopMachining".'">
+                                <?=csrf_field()?>
                                 <input type="hidden" name="id_stop" id="id_stop" value="'.$dataPengerjaan['id_pengerjaan'].'">
                                 <input type="hidden" name="id_proses_stop" id="id_proses_stop" value="'.$dataPengerjaan['id_prosesstart'].'">
                                 <input type="hidden" name="status" id="status" value="Selesai">
-                                <input type="hidden" name="nama_mesin" id="nama_mesin" value="'.$dataPengerjaan['nama_mesin'].'">
-                                <li><button type="submit" class="text-uppercase my-2 w-100 btn btn-danger btn-stop ';
-                                if($dataPengerjaan['status'] == "Menunggu" || $dataPengerjaan['status'] == "Selesai") { echo 'disabled';} 
-                                echo '">Stop</button></li>
+                                <input type="hidden" name="nama_mesin" id="nama_mesin" value="'.$dataPengerjaan['nama_mesin'].'">';
+                                if ($dataPengerjaan['nama_mesin'] == "Quality Control") {
+                                echo '<li><label for="gambar_qc-'.$dataPengerjaan['id_pengerjaan'].'" class="m-0 text-uppercase text-wrap w-100 btn-secondary my-2 btn ';
+                                if($dataPengerjaan['status'] == "Menunggu" || $dataPengerjaan['status'] == "Selesai" ) {
+                                    echo 'disabled' ;} echo'">Upload QC img</label>                               
+                                <input style="width: 110px; height:0;"
+                                class="border-0 btn-secondary form-control m-0 p-0" type="file" id="gambar_qc-'.$dataPengerjaan['id_pengerjaan'].'" name="gambar_qc"></li>';
+                                }
+                                if($dataPengerjaan['qc_img'] != NULL ) {
+                                    echo '<a class="btn btn-polman my-2 text-uppercase w-100" href="'.base_url(). "assets/img/".$dataPengerjaan['qc_img'].'">Lihat QC Image</a>';
+                                } else { echo null;}
+                                echo '<li><button type="button" class="text-uppercase my-2 w-100 btn btn-danger btn-stop ';
+                                if($dataPengerjaan['status'] == "Menunggu" || $dataPengerjaan['status'] == "Selesai" ) {
+                                    echo 'disabled' ;} echo '">Stop</button></li>
                                 </form>
                             </ul>
                         </div>
@@ -181,9 +192,9 @@ foreach($getPengerjaan as $dataPengerjaan){
             </div>
         </div>
     </td>' ; } while ($i++ % 2 !=0) { echo "<td></td>\n" ; } echo "</tr>\n" ; echo "</table>\n" ; echo "</div>\n" ; ?>
-                    <div class="mt-4">
-                        <?= $pager->links() ?>
-                    </div>
+                <div class="mt-4">
+                    <?= $pager->links() ?>
+                </div>
     </div>
 </div>
 
@@ -208,5 +219,39 @@ include "footerjs.php"
     response(start, "Proses Machining Dimulai", "Proses Machining Gagal");
     const stop = $('.data-stop');
     response(stop, "Proses Machining Selesai", "Proses Machining Gagal");
+
+    $(".btn-stop").each(function() {
+        $(this).on("click" , function () {
+        var formElement = $(this.form);
+        var link = $(this.form).data('url');
+        var data = new FormData(formElement[0]);
+        // for (var pair of data.entries()) {
+        //     console.log(pair[0]+ ' - ' + pair[1]); 
+        // }
+        // console.log(data.get('gambar_qc'));
+        $.ajax({
+            type: 'POST',
+            url: link,
+            data: data,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.success) {
+                    swaltoast("Proses Machining Selesai", 'success');
+                    location.reload();
+                    console.log(data);
+                } else {
+                    swaltoast(data.gambar_qc, 'warning');
+                    console.log(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                swaltoast(thrownError, 'error');
+            }
+        });
+    });
+        
+    });
 </script>
 <?=$this->endSection();?>

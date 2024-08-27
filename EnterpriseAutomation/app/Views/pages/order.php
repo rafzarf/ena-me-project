@@ -339,7 +339,7 @@ $this->section('content');
         </div>
     </div>
 </div>
-<!-- TABEL DATA ORDER START -->
+<!-- TABEL DATA ORDER END -->
 
 <!-- FLOATING ACTION BUTTON START -->
 <div class="fixed-plugin">

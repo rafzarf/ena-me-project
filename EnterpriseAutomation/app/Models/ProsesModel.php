@@ -55,4 +55,11 @@ class ProsesModel extends Model
         ->where('status' , "Selesai")
         ->countAllResults();
     }
+
+    public function countProses() {
+        return $this->table('$this->table')
+        ->where('status' , "Diproses")
+        ->orWhere('status' , "Menunggu")
+        ->countAllResults();
+    }
 }

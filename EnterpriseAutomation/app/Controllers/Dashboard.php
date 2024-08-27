@@ -4,6 +4,8 @@ namespace App\Controllers;
 use App\Models\GCalendarModel;
 use App\Models\SpkModel;
 use App\Models\MesinModel;
+use App\Models\ProsesModel;
+use App\Models\OrderModel;
 
 class Dashboard extends BaseController {
 
@@ -11,12 +13,16 @@ class Dashboard extends BaseController {
     protected $gcal;
     protected $mesin;
     protected $validation;
+    protected $proses;
+    protected $order;
 
     public function __construct() {
         $this->spk = new SpkModel();
         $this->gcal = new GCalendarModel();
         $this->mesin = new MesinModel();
+        $this->proses = new ProsesModel();
         $this->validation = \Config\Services::validation();
+        $this->order = new OrderModel();
     }
 
     public function index() {
@@ -25,7 +31,11 @@ class Dashboard extends BaseController {
             'title' => 'Dashboard',
             'nav_active' => 1,
             'dataGrafik' => $this->mesin->getDataMesin(),
-            'gcalData' => $this->gcal->findAll()
+            'gcalData' => $this->gcal->findAll(),
+            'sedang_diproses' => $this->spk->countDiproses(),
+            'selesai' => $this->spk->countSelesai(),
+            'proses_keseluruhan' => $this->proses->countProses(),
+            'progress_order' => $this->order->countOrder(),
         ];
 
         return view("pages/dashboard", $data);

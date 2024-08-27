@@ -36,7 +36,7 @@ foreach($dataGrafik as $data) {
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize fw-bold">Jumlah SPK Aktif</p>
-                                <h5 class="text-dark poppins-bold mb-0">50 </h5>
+                                <h5 class="text-dark poppins-bold mb-0"><?=$sedang_diproses?></h5>
                             </div>
                         </div>
                         <div class="col-4 d-lg-block d-flex my-auto justify-content-end text-end">
@@ -54,7 +54,7 @@ foreach($dataGrafik as $data) {
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Jumlah SPK Selesai</p>
-                                <h5 class="text-dark poppins-bold mb-0">20</h5>
+                                <h5 class="text-dark poppins-bold mb-0"><?= $selesai ?></h5>
                             </div>
                         </div>
                         <div class="col-4 d-lg-block d-flex my-auto justify-content-end text-end">
@@ -72,7 +72,7 @@ foreach($dataGrafik as $data) {
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Progress <br>Order</p>
-                                <h5 class="text-dark poppins-bold mb-0">30</h5>
+                                <h5 class="text-dark poppins-bold mb-0"><?=$progress_order?></h5>
                             </div>
                         </div>
                         <div class="col-4 d-lg-block d-flex my-auto justify-content-end text-end">
@@ -90,7 +90,7 @@ foreach($dataGrafik as $data) {
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Proses Keseluruhan</p>
-                                <h5 class="text-dark poppins-bold mb-0">100 </h5>
+                                <h5 class="text-dark poppins-bold mb-0"><?=$proses_keseluruhan?> </h5>
                             </div>
                         </div>
                         <div class="col-4 d-lg-block d-flex my-auto justify-content-end text-end">

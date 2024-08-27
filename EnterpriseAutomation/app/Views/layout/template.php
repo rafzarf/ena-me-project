@@ -213,11 +213,11 @@ $currentRole = session()->get('Role');
                                     </div>
                                 </label>
                             </span>
-                            <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
+                            <!-- <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class='fs-5 bx bxs-bell' data-bs-toggle="tooltip" data-bs-placement="left"
                                     data-bs-title="Lihat Notifikasi" data-bs-custom-class="mytooltip"></i>
-                            </a>
+                            </a> -->
                             <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
                                 aria-labelledby="dropdownMenuButton">
                                 <li>

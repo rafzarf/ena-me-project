@@ -96,4 +96,17 @@ class SpkModel extends Model
 
         return $spkdata;
     }
+
+    public function countDiproses() {
+        return $this->table('$this->table')
+        ->where('status' , 'Diproses')
+        ->countAllResults();
+    }
+    
+    public function countSelesai() {
+        return $this->table('$this->table')
+        ->where('status' , 'Selesai')
+        ->countAllResults();
+    }
+
 }
