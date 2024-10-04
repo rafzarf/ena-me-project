@@ -1,128 +1,202 @@
-## How to Git
+# Enterprise Automation ME Project Guide
+
+The `ena-me-project` is a system for managing SPK (Sistem Pengelolaan SPK) and the main focus of enterprise automation implementation in the manufacturing engineering department. This project aims to digitalize the manual processes and improve efficiency through enterprise automation. The project will enhance performance, scalability, and maintainability.
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Development Workflow](#development-workflow)
+- [Notes for Development](#notes-for-development)
+
+---
 
 ## Getting Started
 
-```
+To get started with the ena-me-project, follow these steps:
+
+```bash
 git clone https://github.com/rafzarf/ena-me-project.git
-git cd ena-me-project
-git checkout [working branch]
+cd ena-me-project
+git checkout [working-branch]
 ```
 
-Untuk working branch sendiri, silahkan pilih sesuai fitur yang ingin dikerjakan
-Kita akan menggunakan git flow, jadi ada 2 branch penting yaitu: `trunk` dan `development`
-`trunk` adalah branch utama atau production release, sedangkan `development` adalah branch branch pengembangan atau "next release"
-Git flow sendiri mempunyai beberapa branch prefix, yaitu `feature`, `bugfix`, `release`, `hotfix`, dan `support`.
+- **Working branch**: Select a feature-specific working branch, depending on what part of the project you are working on. We follow the Git flow branching model:
+  - `trunk`: The production release branch
+  - `development`: The next release or development branch
 
-## Alur kerja
-
-Sebelum mulai bekerja
-
-```
-git fetch -> untuk memeriksa apakah ada update terkini
-git pull origin [working branch] -> untuk mengambil updatean terbaru dari repo sesuai working branch
-[optional] jika ingin mengambil seluruh updatean, gunakan git pull saja
-```
+Git flow uses several branch prefixes:
+- `feature/`
+- `bugfix/`
+- `release/`
+- `hotfix/`
+- `support/`
 
 ---
 
-Setelah selesai bekerja
+## Introduction
 
-```
-git add . -> untuk memasukan semua perubahan ke stagging
-git commit -m "[pesan commit]" -> masuk ke commit, dan memberi nama perubahannya
-```
-
-Aturan pesan commit:
-
-- Jelas, sesuai dengan perubahan yang dilakukan. Contoh: `menambahkan button login di landing page` jangan hanya `menambahkan button` atau `mengubah button.kt` saja. Aturannya *perubahan + fitur + spesifik*
-- Ringkas, tidak terbelit-belit dan langsung to the point, sehingga orang yang melihat pesannya bisa langsung paham
-- (Opsional) Deskripsi, tapi ini sulit dilakukan dan ada trik tertentu jika menggunakan Bash, strukturnya `git commit -m "(judul commit)" -m "(deskripsi commit)"`
-
-Ketika sudah yakin dengan perubahan yang dilakukan
-
-```
-git push origin [working branch] -> mengirim perubahan ke repo sesuai working branch
-```
+The Manufacturing Engineering (ME) department does not currently have an implemented ERP system. The goal of the ena-me-project is to digitalize manual processes and streamline work by developing an SPK (Work Order Management System). This system aims to improve efficiency and ensure accurate management of tasks.
 
 ---
 
-Beres, jika ingin bekerja lagi, ulangi langkah-langkahnya dari awal.
+## Features
 
-## Catatan
-
-Struktur branch sendiri, untuk fitur adalah `feature/(spesifik)`. Kita tidak menggunakan branch per-path karena menggunakan git flow, jadi ketika selesai, semua perubahan fitur akan dikirim ke branch develop
-Sehingga perlu mengontak masing-masing reviewer sebelum mulai bekerja di salah satu fitur untuk dibuatkan branch fiturnya
+- **Dashboard**: Provides an overview or summary of key metrics and information.
+- **SPK (Work Order Management)**: Manages work orders, including creation, assignment, tracking, and updates.
+- **Order Management**: Handles customer orders, including order creation, tracking, and fulfillment.
+- **Process Management**: Manages the manufacturing processes, including planning, optimization, and monitoring.
+- **Machinery Management**: Manages machine operations, including scheduling, tool management, and process control.
+- **Warehouse Management (Gudang)**: Manages inventory tracking, stock levels, and order fulfillment.
+- **Login Gateway**: Secure authentication, user role management, and access control.
 
 ---
 
-# Enterprise ME
+## Installation
 
-```
-backend : code igniter 4 latest ver
-frontend : bootstrap 5 latest ver
-composer latest version
-```
+Follow these steps to install CodeIgniter 4, XAMPP, and Composer:
 
-## NOTE MINGGU KE - 4 dst (pls update this ASAP)
+1. **Install XAMPP** from the [XAMPP website](https://www.apachefriends.org/index.html).
+2. **Set up environment**: Add PHP 8 to your PATH by modifying the `~/.bashrc` or `~/.zshrc` file:
+   ```bash
+   export PATH="/opt/lampp/bin:$PATH"
+   ```
+   Then apply changes:
+   ```bash
+   source ~/.bashrc
+   ```
+3. **Install Composer**:
+   ```bash
+   ./xampp/php/php composer-setup.php --install-dir=./xampp/php --filename=composer
+   ```
+4. **Install CodeIgniter 4**:
+   ```bash
+   ./xampp/php/composer create-project codeigniter4/framework
+   ```
+5. **Clone the project**:
+   ```bash
+   cd /opt/lampp/htdocs/
+   git clone https://github.com/rafzarf/ena-me-project.git
+   ```
 
-1. wajib benerin ERD Sampai tuntas,
-   kolom kolom yang ada di databse itu tulisan2 / item yang kita isi pada form fisik (yang penting aja dan wajib ada) , ini semua harus ada di database soalnya kalau gak lengkap jadi bolak balik lagi, harus lengkap soalnya biar bisa export pdf dengan layout sama persis kaya form fisik. diusahakan minggu ke - 4 beres.
-2. tiap minggu usahakan 1 backend form beres (optional buat minggu ke-4 ) kalau mau beresin ERD sampai tuntas gkpp kalau gak ke backend , tapi gathering info nya harus tuntas, sama gathering info printilan yang ada di logbook.
-3. **Usahain Komunikasi berpusat ke Mas / Pak Yogi**, yang hadir ke sidang kan beliau, jadi cukup beliau aja biar gak pusing ada 2 pendapat, soalnya kalau ngikutin mas/pak andri nanti keteter pas di mas/pak yogi nya.
-4. animasi mesin diganti visualisasi tracking SPK / Proses produksi di workshop ME, **gathering info tata letak mesin di workshop ME**, buat top view workshop ME gausah detail cukup kotak2 aja kasih nama2 mesin.
-5. Gathering info yg ada di logbook info lengkap kontak hapis (untuk minggu ke - 4)
-6. **kalau ada penulisan script yang berulang & kurang efektif silahkan dibuat function**
+---
 
-## NOTE FEATURE : 18/04/2024
+## Usage
 
-1. dashboard
+To run the project:
 
-```
-a. grafik jam permesinan harus include sleuruh mesin , pakai properti select option contoh mesin cnc , mesin bor dst
-b. pertimbangkan info lain yang diperlukan ditampilkan di dashboard
-```
+1. Navigate to the `htdocs` directory:
+   ```bash
+   cd /opt/lampp/htdocs/
+   ```
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/rafzarf/ena-me-project.git
+   ```
+3. Start XAMPP:
+   ```bash
+   sudo /opt/lampp/lampp start
+   ```
+4. In the project folder, use CodeIgniter's CLI tool:
+   ```bash
+   php spark serve
+   ```
+5. Access the application at `http://localhost:8080`
+6. Use phpMyAdmin to manage the database at `http://localhost/phpmyadmin/`
 
-3. spk
+---
 
-```
-done
-```
+## Contributing
 
-4. Order
+We welcome contributions! To contribute:
 
-```
-done
-```
+1. Fork the repository.
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m 'Add your commit message'
+   ```
+4. Push your branch:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+5. Submit a pull request.
 
-5. Proses
+---
 
-```
-done
-```
+## License
 
-4. Permesinan
+This project is licensed under the [MIT License](LICENSE).
 
-```
-a. untuk input mesin & tipe mesin, serta penulisan mesin yg efektif done. 
-b. tinggal buat fitur yang operator.
-```
+---
 
-5. Gudang
+## Development Workflow
 
-```
-done
-```
+### Before Starting Work:
 
-6. login & hierarcy sistem
+1. **Fetch latest changes**:
+   ```bash
+   git fetch
+   git pull origin [working branch]
+   ```
+   If you want to pull all updates, simply use:
+   ```bash
+   git pull
+   ```
 
-```
-done
-```
+### After Completing Work:
 
-7. Visualization
+1. **Stage your changes**:
+   ```bash
+   git add .
+   ```
+2. **Commit your changes** with a clear message:
+   ```bash
+   git commit -m "[commit message]"
+   ```
+   Commit message guidelines:
+   - Be specific and concise, e.g., `Added login button to landing page`.
+   - Optionally, you can add a description:
+   ```bash
+   git commit -m "(commit title)" -m "(description)"
+   ```
+3. **Push changes**:
+   ```bash
+   git push origin [working branch]
+   ```
 
-```
-a. belum kebayang kaya gimana, tapi perlu cari info tataletak secepatnya
-```
+Repeat the steps as necessary.
 
-untuk relational yang memakai id__worker ditidiakan dulu di db, mengingat kita baru bikin hierarcy sistem di akhir. Biar gak error dan gak ribet aja.
+---
+
+## Notes for Development
+
+### Week 4 Notes:
+
+1. **ERD Completion**: Ensure that all important fields in the database match the items in the physical forms. This is crucial for generating PDFs that match the physical layout. Aim for completion by the fourth week.
+2. **Backend Form**: Try to complete at least one backend form each week, but ERD completion takes priority.
+3. **Communication**: Centralize communication through Mas/Pak Yogi to avoid conflicting opinions and streamline decision-making.
+4. **Machine Animation**: The machine animation will be replaced by a visual tracking of the SPK process in the workshop. Gather layout info for a top-view of the workshop, showing machine positions.
+5. **Logbook Info**: Gather complete logbook information (contact Hapis for week 4 tasks).
+6. **Code Efficiency**: If there is repetitive code, consider refactoring it into functions.
+
+### Feature Update (as of 18/04/2024):
+
+- **Dashboard**:
+  - Include all machines in the machine operation hours graph with a select option for each machine (e.g., CNC, drill, etc.).
+  - Consider displaying other relevant info on the dashboard.
+- **SPK, Order, Process, Gudang, Login System**:
+  - All completed.
+- **Machinery**:
+  - The input for machines and machine types is done.
+  - The operator feature remains to be implemented.
+- **Visualization**:
+  - No clear idea yet; gather machine layout information as soon as possible.
